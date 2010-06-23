@@ -98,10 +98,10 @@ public final class mudclient extends GameWindowMiddleMan {
                     }
 
                     super.streamClass.createPacket(70);
-                    super.streamClass.addByte(tradeMyItemCount);
+                    super.streamClass.writeByte(tradeMyItemCount);
                     for (int c = 0; c < tradeMyItemCount; c++) {
-                        super.streamClass.add2ByteInt(tradeMyItems[c]);
-                        super.streamClass.add4ByteInt(tradeMyItemsCount[c]);
+                        super.streamClass.writeShort(tradeMyItems[c]);
+                        super.streamClass.writeInt(tradeMyItemsCount[c]);
                     }
                     super.streamClass.formatPacket();
 
@@ -142,10 +142,10 @@ public final class mudclient extends GameWindowMiddleMan {
                     }
 
                     super.streamClass.createPacket(123);
-                    super.streamClass.addByte(duelMyItemCount);
+                    super.streamClass.writeByte(duelMyItemCount);
                     for (int c = 0; c < duelMyItemCount; c++) {
-                        super.streamClass.add2ByteInt(duelMyItems[c]);
-                        super.streamClass.add4ByteInt(duelMyItemsCount[c]);
+                        super.streamClass.writeShort(duelMyItems[c]);
+                        super.streamClass.writeInt(duelMyItemsCount[c]);
                     }
                     super.streamClass.formatPacket();
 
@@ -349,14 +349,14 @@ public final class mudclient extends GameWindowMiddleMan {
         }
         if (characterDesignMenu.hasActivated(characterDesignAcceptButton)) {
             super.streamClass.createPacket(218);
-            super.streamClass.addByte(characterHeadGender);
-            super.streamClass.addByte(characterHeadType);
-            super.streamClass.addByte(characterBodyGender);
-            super.streamClass.addByte(character2Colour);
-            super.streamClass.addByte(characterHairColour);
-            super.streamClass.addByte(characterTopColour);
-            super.streamClass.addByte(characterBottomColour);
-            super.streamClass.addByte(characterSkinColour);
+            super.streamClass.writeByte(characterHeadGender);
+            super.streamClass.writeByte(characterHeadType);
+            super.streamClass.writeByte(characterBodyGender);
+            super.streamClass.writeByte(character2Colour);
+            super.streamClass.writeByte(characterHairColour);
+            super.streamClass.writeByte(characterTopColour);
+            super.streamClass.writeByte(characterBottomColour);
+            super.streamClass.writeByte(characterSkinColour);
             super.streamClass.formatPacket();
             gameGraphics.method211();
             showCharacterLookScreen = false;
@@ -973,75 +973,75 @@ public final class mudclient extends GameWindowMiddleMan {
 //                        j1 = 1;
                     if (j1 >= 1 && super.mouseX >= i + 220 && super.mouseY >= k + 238 && super.mouseX < i + 250 && super.mouseY <= k + 249) {
                         super.streamClass.createPacket(183);
-                        super.streamClass.add2ByteInt(k2);
-                        super.streamClass.add4ByteInt(1);
+                        super.streamClass.writeShort(k2);
+                        super.streamClass.writeInt(1);
                         super.streamClass.formatPacket();
                     }
                     if (j1 >= 10 && super.mouseX >= i + 250 && super.mouseY >= k + 238 && super.mouseX < i + 280 && super.mouseY <= k + 249) {
                         super.streamClass.createPacket(183);
-                        super.streamClass.add2ByteInt(k2);
-                        super.streamClass.add4ByteInt(10);
+                        super.streamClass.writeShort(k2);
+                        super.streamClass.writeInt(10);
                         super.streamClass.formatPacket();
                     }
                     if (j1 >= 100 && super.mouseX >= i + 280 && super.mouseY >= k + 238 && super.mouseX < i + 305 && super.mouseY <= k + 249) {
                         super.streamClass.createPacket(183);
-                        super.streamClass.add2ByteInt(k2);
-                        super.streamClass.add4ByteInt(100);
+                        super.streamClass.writeShort(k2);
+                        super.streamClass.writeInt(100);
                         super.streamClass.formatPacket();
                     }
                     if (j1 >= 1000 && super.mouseX >= i + 305 && super.mouseY >= k + 238 && super.mouseX < i + 335 && super.mouseY <= k + 249) {
                         super.streamClass.createPacket(183);
-                        super.streamClass.add2ByteInt(k2);
-                        super.streamClass.add4ByteInt(1000);
+                        super.streamClass.writeShort(k2);
+                        super.streamClass.writeInt(1000);
                         super.streamClass.formatPacket();
                     }
                     if (j1 >= 10000 && super.mouseX >= i + 335 && super.mouseY >= k + 238 && super.mouseX < i + 368 && super.mouseY <= k + 249) {
                         super.streamClass.createPacket(183);
-                        super.streamClass.add2ByteInt(k2);
-                        super.streamClass.add4ByteInt(10000);
+                        super.streamClass.writeShort(k2);
+                        super.streamClass.writeInt(10000);
                         super.streamClass.formatPacket();
                     }
                     if (super.mouseX >= i + 370 && super.mouseY >= k + 238 && super.mouseX < i + 400 && super.mouseY <= k + 249) {
                         super.streamClass.createPacket(183);
-                        super.streamClass.add2ByteInt(k2);
-                        super.streamClass.add4ByteInt(j1);
+                        super.streamClass.writeShort(k2);
+                        super.streamClass.writeInt(j1);
                         super.streamClass.formatPacket();
                     }
 
                     if (inventoryCount(k2) >= 1 && super.mouseX >= i + 220 && super.mouseY >= k + 263 && super.mouseX < i + 250 && super.mouseY <= k + 274) {
                         super.streamClass.createPacket(198);
-                        super.streamClass.add2ByteInt(k2);
-                        super.streamClass.add4ByteInt(1);
+                        super.streamClass.writeShort(k2);
+                        super.streamClass.writeInt(1);
                         super.streamClass.formatPacket();
                     }
                     if (inventoryCount(k2) >= 10 && super.mouseX >= i + 250 && super.mouseY >= k + 263 && super.mouseX < i + 280 && super.mouseY <= k + 274) {
                         super.streamClass.createPacket(198);
-                        super.streamClass.add2ByteInt(k2);
-                        super.streamClass.add4ByteInt(10);
+                        super.streamClass.writeShort(k2);
+                        super.streamClass.writeInt(10);
                         super.streamClass.formatPacket();
                     }
                     if (inventoryCount(k2) >= 100 && super.mouseX >= i + 280 && super.mouseY >= k + 263 && super.mouseX < i + 305 && super.mouseY <= k + 274) {
                         super.streamClass.createPacket(198);
-                        super.streamClass.add2ByteInt(k2);
-                        super.streamClass.add4ByteInt(100);
+                        super.streamClass.writeShort(k2);
+                        super.streamClass.writeInt(100);
                         super.streamClass.formatPacket();
                     }
                     if (inventoryCount(k2) >= 1000 && super.mouseX >= i + 305 && super.mouseY >= k + 263 && super.mouseX < i + 335 && super.mouseY <= k + 274) {
                         super.streamClass.createPacket(198);
-                        super.streamClass.add2ByteInt(k2);
-                        super.streamClass.add4ByteInt(1000);
+                        super.streamClass.writeShort(k2);
+                        super.streamClass.writeInt(1000);
                         super.streamClass.formatPacket();
                     }
                     if (inventoryCount(k2) >= 10000 && super.mouseX >= i + 335 && super.mouseY >= k + 263 && super.mouseX < i + 368 && super.mouseY <= k + 274) {
                         super.streamClass.createPacket(198);
-                        super.streamClass.add2ByteInt(k2);
-                        super.streamClass.add4ByteInt(10000);
+                        super.streamClass.writeShort(k2);
+                        super.streamClass.writeInt(10000);
                         super.streamClass.formatPacket();
                     }
                     if (super.mouseX >= i + 370 && super.mouseY >= k + 263 && super.mouseX < i + 400 && super.mouseY <= k + 274) {
                         super.streamClass.createPacket(198);
-                        super.streamClass.add2ByteInt(k2);
-                        super.streamClass.add4ByteInt(inventoryCount(k2));
+                        super.streamClass.writeShort(k2);
+                        super.streamClass.writeInt(inventoryCount(k2));
                         super.streamClass.formatPacket();
                     }
                 }
@@ -1756,30 +1756,30 @@ public final class mudclient extends GameWindowMiddleMan {
         if (currentMenuID == 200) {
             walkToGroundItem(sectionX, sectionY, actionX, actionY, true);
             super.streamClass.createPacket(104);
-            super.streamClass.add2ByteInt(actionVariable);
-            super.streamClass.add2ByteInt(actionX + areaX);
-            super.streamClass.add2ByteInt(actionY + areaY);
-            super.streamClass.add2ByteInt(actionType);
+            super.streamClass.writeShort(actionVariable);
+            super.streamClass.writeShort(actionX + areaX);
+            super.streamClass.writeShort(actionY + areaY);
+            super.streamClass.writeShort(actionType);
             super.streamClass.formatPacket();
             selectedSpell = -1;
         }
         if (currentMenuID == 210) {
             walkToGroundItem(sectionX, sectionY, actionX, actionY, true);
             super.streamClass.createPacket(34);
-            super.streamClass.add2ByteInt(actionX + areaX);
-            super.streamClass.add2ByteInt(actionY + areaY);
-            super.streamClass.add2ByteInt(actionType);
-            super.streamClass.add2ByteInt(actionVariable);
+            super.streamClass.writeShort(actionX + areaX);
+            super.streamClass.writeShort(actionY + areaY);
+            super.streamClass.writeShort(actionType);
+            super.streamClass.writeShort(actionVariable);
             super.streamClass.formatPacket();
             selectedItem = -1;
         }
         if (currentMenuID == 220) {
             walkToGroundItem(sectionX, sectionY, actionX, actionY, true);
             super.streamClass.createPacket(245);
-            super.streamClass.add2ByteInt(actionX + areaX);
-            super.streamClass.add2ByteInt(actionY + areaY);
-            super.streamClass.add2ByteInt(actionType);
-            super.streamClass.add2ByteInt(actionVariable);
+            super.streamClass.writeShort(actionX + areaX);
+            super.streamClass.writeShort(actionY + areaY);
+            super.streamClass.writeShort(actionType);
+            super.streamClass.writeShort(actionVariable);
             super.streamClass.formatPacket();
         }
         if (currentMenuID == 3200) {
@@ -1788,37 +1788,37 @@ public final class mudclient extends GameWindowMiddleMan {
         if (currentMenuID == 300) {
             walkToAction(actionX, actionY, actionType);
             super.streamClass.createPacket(67);
-            super.streamClass.add2ByteInt(actionVariable);
-            super.streamClass.add2ByteInt(actionX + areaX);
-            super.streamClass.add2ByteInt(actionY + areaY);
-            super.streamClass.addByte(actionType);
+            super.streamClass.writeShort(actionVariable);
+            super.streamClass.writeShort(actionX + areaX);
+            super.streamClass.writeShort(actionY + areaY);
+            super.streamClass.writeByte(actionType);
             super.streamClass.formatPacket();
             selectedSpell = -1;
         }
         if (currentMenuID == 310) {
             walkToAction(actionX, actionY, actionType);
             super.streamClass.createPacket(36);
-            super.streamClass.add2ByteInt(actionX + areaX);
-            super.streamClass.add2ByteInt(actionY + areaY);
-            super.streamClass.addByte(actionType);
-            super.streamClass.add2ByteInt(actionVariable);
+            super.streamClass.writeShort(actionX + areaX);
+            super.streamClass.writeShort(actionY + areaY);
+            super.streamClass.writeByte(actionType);
+            super.streamClass.writeShort(actionVariable);
             super.streamClass.formatPacket();
             selectedItem = -1;
         }
         if (currentMenuID == 320) {
             walkToAction(actionX, actionY, actionType);
             super.streamClass.createPacket(126);
-            super.streamClass.add2ByteInt(actionX + areaX);
-            super.streamClass.add2ByteInt(actionY + areaY);
-            super.streamClass.addByte(actionType);
+            super.streamClass.writeShort(actionX + areaX);
+            super.streamClass.writeShort(actionY + areaY);
+            super.streamClass.writeByte(actionType);
             super.streamClass.formatPacket();
         }
         if (currentMenuID == 2300) {
             walkToAction(actionX, actionY, actionType);
             super.streamClass.createPacket(235);
-            super.streamClass.add2ByteInt(actionX + areaX);
-            super.streamClass.add2ByteInt(actionY + areaY);
-            super.streamClass.addByte(actionType);
+            super.streamClass.writeShort(actionX + areaX);
+            super.streamClass.writeShort(actionY + areaY);
+            super.streamClass.writeByte(actionType);
             super.streamClass.formatPacket();
         }
         if (currentMenuID == 3300) {
@@ -1827,33 +1827,33 @@ public final class mudclient extends GameWindowMiddleMan {
         if (currentMenuID == 400) {
             walkToObject(actionX, actionY, actionType, actionVariable);
             super.streamClass.createPacket(17);
-            super.streamClass.add2ByteInt(actionVariable2);
-            super.streamClass.add2ByteInt(actionX + areaX);
-            super.streamClass.add2ByteInt(actionY + areaY);
+            super.streamClass.writeShort(actionVariable2);
+            super.streamClass.writeShort(actionX + areaX);
+            super.streamClass.writeShort(actionY + areaY);
             super.streamClass.formatPacket();
             selectedSpell = -1;
         }
         if (currentMenuID == 410) {
             walkToObject(actionX, actionY, actionType, actionVariable);
             super.streamClass.createPacket(94);
-            super.streamClass.add2ByteInt(actionX + areaX);
-            super.streamClass.add2ByteInt(actionY + areaY);
-            super.streamClass.add2ByteInt(actionVariable2);
+            super.streamClass.writeShort(actionX + areaX);
+            super.streamClass.writeShort(actionY + areaY);
+            super.streamClass.writeShort(actionVariable2);
             super.streamClass.formatPacket();
             selectedItem = -1;
         }
         if (currentMenuID == 420) {
             walkToObject(actionX, actionY, actionType, actionVariable);
             super.streamClass.createPacket(51);
-            super.streamClass.add2ByteInt(actionX + areaX);
-            super.streamClass.add2ByteInt(actionY + areaY);
+            super.streamClass.writeShort(actionX + areaX);
+            super.streamClass.writeShort(actionY + areaY);
             super.streamClass.formatPacket();
         }
         if (currentMenuID == 2400) {
             walkToObject(actionX, actionY, actionType, actionVariable);
             super.streamClass.createPacket(40);
-            super.streamClass.add2ByteInt(actionX + areaX);
-            super.streamClass.add2ByteInt(actionY + areaY);
+            super.streamClass.writeShort(actionX + areaX);
+            super.streamClass.writeShort(actionY + areaY);
             super.streamClass.formatPacket();
         }
         if (currentMenuID == 3400) {
@@ -1861,31 +1861,31 @@ public final class mudclient extends GameWindowMiddleMan {
         }
         if (currentMenuID == 600) {
             super.streamClass.createPacket(49);
-            super.streamClass.add2ByteInt(actionVariable);
-            super.streamClass.add2ByteInt(actionType);
+            super.streamClass.writeShort(actionVariable);
+            super.streamClass.writeShort(actionType);
             super.streamClass.formatPacket();
             selectedSpell = -1;
         }
         if (currentMenuID == 610) {
             super.streamClass.createPacket(27);
-            super.streamClass.add2ByteInt(actionType);
-            super.streamClass.add2ByteInt(actionVariable);
+            super.streamClass.writeShort(actionType);
+            super.streamClass.writeShort(actionVariable);
             super.streamClass.formatPacket();
             selectedItem = -1;
         }
         if (currentMenuID == 620) {
             super.streamClass.createPacket(92);
-            super.streamClass.add2ByteInt(actionType);
+            super.streamClass.writeShort(actionType);
             super.streamClass.formatPacket();
         }
         if (currentMenuID == 630) {
             super.streamClass.createPacket(181);
-            super.streamClass.add2ByteInt(actionType);
+            super.streamClass.writeShort(actionType);
             super.streamClass.formatPacket();
         }
         if (currentMenuID == 640) {
             super.streamClass.createPacket(89);
-            super.streamClass.add2ByteInt(actionType);
+            super.streamClass.writeShort(actionType);
             super.streamClass.formatPacket();
         }
         if (currentMenuID == 650) {
@@ -1895,7 +1895,7 @@ public final class mudclient extends GameWindowMiddleMan {
         }
         if (currentMenuID == 660) {
             super.streamClass.createPacket(147);
-            super.streamClass.add2ByteInt(actionType);
+            super.streamClass.writeShort(actionType);
             super.streamClass.formatPacket();
             selectedItem = -1;
             mouseOverMenu = 0;
@@ -1909,8 +1909,8 @@ public final class mudclient extends GameWindowMiddleMan {
             int l3 = (actionY - 64) / magicLoc;
             method112(sectionX, sectionY, l1, l3, true);
             super.streamClass.createPacket(71);
-            super.streamClass.add2ByteInt(actionVariable);
-            super.streamClass.add2ByteInt(actionType);
+            super.streamClass.writeShort(actionVariable);
+            super.streamClass.writeShort(actionType);
             super.streamClass.formatPacket();
             selectedSpell = -1;
         }
@@ -1919,8 +1919,8 @@ public final class mudclient extends GameWindowMiddleMan {
             int i4 = (actionY - 64) / magicLoc;
             method112(sectionX, sectionY, i2, i4, true);
             super.streamClass.createPacket(142);
-            super.streamClass.add2ByteInt(actionType);
-            super.streamClass.add2ByteInt(actionVariable);
+            super.streamClass.writeShort(actionType);
+            super.streamClass.writeShort(actionVariable);
             super.streamClass.formatPacket();
             selectedItem = -1;
         }
@@ -1929,7 +1929,7 @@ public final class mudclient extends GameWindowMiddleMan {
             int j4 = (actionY - 64) / magicLoc;
             method112(sectionX, sectionY, j2, j4, true);
             super.streamClass.createPacket(177);
-            super.streamClass.add2ByteInt(actionType);
+            super.streamClass.writeShort(actionType);
             super.streamClass.formatPacket();
         }
         if (currentMenuID == 725) {
@@ -1937,7 +1937,7 @@ public final class mudclient extends GameWindowMiddleMan {
             int k4 = (actionY - 64) / magicLoc;
             method112(sectionX, sectionY, k2, k4, true);
             super.streamClass.createPacket(74);
-            super.streamClass.add2ByteInt(actionType);
+            super.streamClass.writeShort(actionType);
             super.streamClass.formatPacket();
         }
         if (currentMenuID == 715 || currentMenuID == 2715) {
@@ -1945,7 +1945,7 @@ public final class mudclient extends GameWindowMiddleMan {
             int l4 = (actionY - 64) / magicLoc;
             method112(sectionX, sectionY, l2, l4, true);
             super.streamClass.createPacket(73);
-            super.streamClass.add2ByteInt(actionType);
+            super.streamClass.writeShort(actionType);
             super.streamClass.formatPacket();
         }
         if (currentMenuID == 3700) {
@@ -1956,8 +1956,8 @@ public final class mudclient extends GameWindowMiddleMan {
             int i5 = (actionY - 64) / magicLoc;
             method112(sectionX, sectionY, i3, i5, true);
             super.streamClass.createPacket(55);
-            super.streamClass.add2ByteInt(actionVariable);
-            super.streamClass.add2ByteInt(actionType);
+            super.streamClass.writeShort(actionVariable);
+            super.streamClass.writeShort(actionType);
             super.streamClass.formatPacket();
             selectedSpell = -1;
         }
@@ -1966,8 +1966,8 @@ public final class mudclient extends GameWindowMiddleMan {
             int j5 = (actionY - 64) / magicLoc;
             method112(sectionX, sectionY, j3, j5, true);
             super.streamClass.createPacket(16);
-            super.streamClass.add2ByteInt(actionType);
-            super.streamClass.add2ByteInt(actionVariable);
+            super.streamClass.writeShort(actionType);
+            super.streamClass.writeShort(actionVariable);
             super.streamClass.formatPacket();
             selectedItem = -1;
         }
@@ -1976,30 +1976,30 @@ public final class mudclient extends GameWindowMiddleMan {
             int k5 = (actionY - 64) / magicLoc;
             method112(sectionX, sectionY, k3, k5, true);
             super.streamClass.createPacket(57);
-            super.streamClass.add2ByteInt(actionType);
+            super.streamClass.writeShort(actionType);
             super.streamClass.formatPacket();
         }
         if (currentMenuID == 2806) {
             super.streamClass.createPacket(222);
-            super.streamClass.add2ByteInt(actionType);
+            super.streamClass.writeShort(actionType);
             super.streamClass.formatPacket();
         }
         if (currentMenuID == 2810) {
             super.streamClass.createPacket(166);
-            super.streamClass.add2ByteInt(actionType);
+            super.streamClass.writeShort(actionType);
             super.streamClass.formatPacket();
         }
         if (currentMenuID == 2820) {
             super.streamClass.createPacket(68);
-            super.streamClass.add2ByteInt(actionType);
+            super.streamClass.writeShort(actionType);
             super.streamClass.formatPacket();
         }
         if (currentMenuID == 900) {
             method112(sectionX, sectionY, actionX, actionY, true);
             super.streamClass.createPacket(232);
-            super.streamClass.add2ByteInt(actionType);
-            super.streamClass.add2ByteInt(actionX + areaX);
-            super.streamClass.add2ByteInt(actionY + areaY);
+            super.streamClass.writeShort(actionType);
+            super.streamClass.writeShort(actionX + areaX);
+            super.streamClass.writeShort(actionY + areaY);
             super.streamClass.formatPacket();
             selectedSpell = -1;
         }
@@ -2011,7 +2011,7 @@ public final class mudclient extends GameWindowMiddleMan {
         }
         if (currentMenuID == 1000) {
             super.streamClass.createPacket(206);
-            super.streamClass.add2ByteInt(actionType);
+            super.streamClass.writeShort(actionType);
             super.streamClass.formatPacket();
             selectedSpell = -1;
         }
@@ -2492,7 +2492,7 @@ public final class mudclient extends GameWindowMiddleMan {
                     continue;
                 }
                 super.streamClass.createPacket(154);
-                super.streamClass.addByte(i);
+                super.streamClass.writeByte(i);
                 super.streamClass.formatPacket();
                 break;
             }
@@ -3621,12 +3621,12 @@ public final class mudclient extends GameWindowMiddleMan {
                         displayMessage("You have run out of prayer points. Return to a church to recharge", 3, 0);
                     } else if (prayerOn[l1]) {
                         super.streamClass.createPacket(248);
-                        super.streamClass.addByte(l1);
+                        super.streamClass.writeByte(l1);
                         super.streamClass.formatPacket();
                         prayerOn[l1] = false;
                     } else {
                         super.streamClass.createPacket(56);
-                        super.streamClass.addByte(l1);
+                        super.streamClass.writeByte(l1);
                         super.streamClass.formatPacket();
                         prayerOn[l1] = true;
                     }
@@ -3696,15 +3696,15 @@ public final class mudclient extends GameWindowMiddleMan {
                         if (shopItemCount[selectedShopItemIndex] > 0 && i > 298 && j >= 204 && i < 408 && j <= 215) {
                             int i4 = (shopItemBuyPriceModifier * EntityHandler.getItemDef(j2).getBasePrice()) / 100;
                             super.streamClass.createPacket(128);
-                            super.streamClass.add2ByteInt(shopItems[selectedShopItemIndex]);
-                            super.streamClass.add4ByteInt(i4);
+                            super.streamClass.writeShort(shopItems[selectedShopItemIndex]);
+                            super.streamClass.writeInt(i4);
                             super.streamClass.formatPacket();
                         }
                         if (inventoryCount(j2) > 0 && i > 2 && j >= 229 && i < 112 && j <= 240) {
                             int j4 = (shopItemSellPriceModifier * EntityHandler.getItemDef(j2).getBasePrice()) / 100;
                             super.streamClass.createPacket(255);
-                            super.streamClass.add2ByteInt(shopItems[selectedShopItemIndex]);
-                            super.streamClass.add4ByteInt(j4);
+                            super.streamClass.writeShort(shopItems[selectedShopItemIndex]);
+                            super.streamClass.writeInt(j4);
                             super.streamClass.formatPacket();
                         }
                     }
@@ -3902,24 +3902,24 @@ public final class mudclient extends GameWindowMiddleMan {
             if (super.mouseX > l && super.mouseX < l + c1 && super.mouseY > j1 - 12 && super.mouseY < j1 + 4 && mouseButtonClick == 1) {
                 configAutoCameraAngle = !configAutoCameraAngle;
                 super.streamClass.createPacket(157);
-                super.streamClass.addByte(0);
-                super.streamClass.addByte(configAutoCameraAngle ? 1 : 0);
+                super.streamClass.writeByte(0);
+                super.streamClass.writeByte(configAutoCameraAngle ? 1 : 0);
                 super.streamClass.formatPacket();
             }
             j1 += 15;
             if (super.mouseX > l && super.mouseX < l + c1 && super.mouseY > j1 - 12 && super.mouseY < j1 + 4 && mouseButtonClick == 1) {
                 configMouseButtons = !configMouseButtons;
                 super.streamClass.createPacket(157);
-                super.streamClass.addByte(2);
-                super.streamClass.addByte(configMouseButtons ? 1 : 0);
+                super.streamClass.writeByte(2);
+                super.streamClass.writeByte(configMouseButtons ? 1 : 0);
                 super.streamClass.formatPacket();
             }
             j1 += 15;
             if (super.mouseX > l && super.mouseX < l + c1 && super.mouseY > j1 - 12 && super.mouseY < j1 + 4 && mouseButtonClick == 1) {
                 configSoundEffects = !configSoundEffects;
                 super.streamClass.createPacket(157);
-                super.streamClass.addByte(3);
-                super.streamClass.addByte(configSoundEffects ? 1 : 0);
+                super.streamClass.writeByte(3);
+                super.streamClass.writeByte(configSoundEffects ? 1 : 0);
                 super.streamClass.formatPacket();
             }
             j1 += 15;
@@ -3927,24 +3927,24 @@ public final class mudclient extends GameWindowMiddleMan {
             if (super.mouseX > l && super.mouseX < l + c1 && super.mouseY > j1 - 12 && super.mouseY < j1 + 4 && mouseButtonClick == 1) {
                 showRoof = !showRoof;
                 super.streamClass.createPacket(157);
-                super.streamClass.addByte(4);
-                super.streamClass.addByte(showRoof ? 1 : 0);
+                super.streamClass.writeByte(4);
+                super.streamClass.writeByte(showRoof ? 1 : 0);
                 super.streamClass.formatPacket();
             }
             j1 += 15;
             if (super.mouseX > l && super.mouseX < l + c1 && super.mouseY > j1 - 12 && super.mouseY < j1 + 4 && mouseButtonClick == 1) {
                 autoScreenshot = !autoScreenshot;
                 super.streamClass.createPacket(157);
-                super.streamClass.addByte(5);
-                super.streamClass.addByte(autoScreenshot ? 1 : 0);
+                super.streamClass.writeByte(5);
+                super.streamClass.writeByte(autoScreenshot ? 1 : 0);
                 super.streamClass.formatPacket();
             }
             j1 += 15;
             if (super.mouseX > l && super.mouseX < l + c1 && super.mouseY > j1 - 12 && super.mouseY < j1 + 4 && mouseButtonClick == 1) {
                 combatWindow = !combatWindow;
                 super.streamClass.createPacket(157);
-                super.streamClass.addByte(6);
-                super.streamClass.addByte(combatWindow ? 1 : 0);
+                super.streamClass.writeByte(6);
+                super.streamClass.writeByte(combatWindow ? 1 : 0);
                 super.streamClass.formatPacket();
             }
             j1 += 15;
@@ -4410,7 +4410,7 @@ public final class mudclient extends GameWindowMiddleMan {
                 combatStyle = i - 1;
                 mouseButtonClick = 0;
                 super.streamClass.createPacket(42);
-                super.streamClass.addByte(combatStyle);
+                super.streamClass.writeByte(combatStyle);
                 super.streamClass.formatPacket();
                 break;
             }
@@ -4611,8 +4611,8 @@ public final class mudclient extends GameWindowMiddleMan {
             if (s.length() > 0) {
                 long l = DataOperations.stringLength12ToLong(s);
                 super.streamClass.createPacket(7);
-                super.streamClass.addTwo4ByteInts(l);
-                super.streamClass.addByte(abuseSelectedType);
+                super.streamClass.writeLong(l);
+                super.streamClass.writeByte(abuseSelectedType);
                 super.streamClass.formatPacket();
             }
             showAbuseWindow = 0;
@@ -4834,10 +4834,10 @@ public final class mudclient extends GameWindowMiddleMan {
                         }
                         if (flag) {
                             super.streamClass.createPacket(70);
-                            super.streamClass.addByte(tradeMyItemCount);
+                            super.streamClass.writeByte(tradeMyItemCount);
                             for (int j4 = 0; j4 < tradeMyItemCount; j4++) {
-                                super.streamClass.add2ByteInt(tradeMyItems[j4]);
-                                super.streamClass.add4ByteInt(tradeMyItemsCount[j4]);
+                                super.streamClass.writeShort(tradeMyItems[j4]);
+                                super.streamClass.writeInt(tradeMyItemsCount[j4]);
                             }
                             super.streamClass.formatPacket();
                             tradeOtherAccepted = false;
@@ -4865,10 +4865,10 @@ public final class mudclient extends GameWindowMiddleMan {
                         }
 
                         super.streamClass.createPacket(70);
-                        super.streamClass.addByte(tradeMyItemCount);
+                        super.streamClass.writeByte(tradeMyItemCount);
                         for (int i3 = 0; i3 < tradeMyItemCount; i3++) {
-                            super.streamClass.add2ByteInt(tradeMyItems[i3]);
-                            super.streamClass.add4ByteInt(tradeMyItemsCount[i3]);
+                            super.streamClass.writeShort(tradeMyItems[i3]);
+                            super.streamClass.writeInt(tradeMyItemsCount[i3]);
                         }
 
                         super.streamClass.formatPacket();
@@ -5038,12 +5038,14 @@ public final class mudclient extends GameWindowMiddleMan {
 
     protected final void handleIncomingPacket(int command, int length, byte data[]) {
         try {
+            int packetOffset = 1;
             int mobCount = 0;
             int idx = 0;
             int currentExp = 0;
             switch (command) {
+                //Show trade window
                 case 4:
-                    int currentMob = DataOperations.getUnsigned2Bytes(data, 1);
+                    int currentMob = DataOperations.getUnsigned2Bytes(data, packetOffset);
                     if (mobArray[currentMob] != null) // todo: check what that mobArray is
                     {
                         tradeOtherPlayerName = mobArray[currentMob].name;
@@ -5056,8 +5058,8 @@ public final class mudclient extends GameWindowMiddleMan {
                     return;
 
                 case 18:
-                    tradeWeAccepted = data[1] == 1;
-
+                    tradeWeAccepted = (data[packetOffset] == 1);
+                    return;
                 case 23:
                     if (anInt892 < 50) {
                         int j7 = data[1] & 0xff;
@@ -5070,7 +5072,7 @@ public final class mudclient extends GameWindowMiddleMan {
                         anInt892++;
                     }
                     return;
-
+                //Game object position update
                 case 27:
                     for (int i1 = 1; i1 < length;) {
                         if (DataOperations.getUnsignedByte(data[i1]) == 255) {
@@ -5318,7 +5320,6 @@ public final class mudclient extends GameWindowMiddleMan {
                             if (i32 == 0) {
                                 int nextSprite = DataOperations.getIntFromByteArray(data, newNpcOffset, 3);
                                 newNpcOffset += 3;
-                                System.out.println("Test");
                                 int waypointCurrent = newNPC.waypointCurrent;
                                 int waypointX = newNPC.waypointsX[waypointCurrent];
                                 int waypointY = newNPC.waypointsY[waypointCurrent];
@@ -5765,11 +5766,11 @@ public final class mudclient extends GameWindowMiddleMan {
                     }
                     if (mobCount > 0) {
                         super.streamClass.createPacket(83);
-                        super.streamClass.add2ByteInt(mobCount);
+                        super.streamClass.writeShort(mobCount);
                         for (int mobCounter = 0; mobCounter < mobCount; mobCounter++) {
                             Mob dummyMob = mobArray[mobArrayIndexes[mobCounter]];
-                            super.streamClass.add2ByteInt(dummyMob.serverIndex);
-                            super.streamClass.add2ByteInt(dummyMob.mobIntUnknown);
+                            super.streamClass.writeShort(dummyMob.serverIndex);
+                            super.streamClass.writeShort(dummyMob.mobIntUnknown);
                         }
 
                         super.streamClass.formatPacket();
@@ -6125,7 +6126,7 @@ public final class mudclient extends GameWindowMiddleMan {
             runtimeexception.printStackTrace();
             if (handlePacketErrorCount < 3) {
                 super.streamClass.createPacket(156);
-                super.streamClass.addString(runtimeexception.toString());
+                super.streamClass.writeString(runtimeexception.toString());
                 super.streamClass.formatPacket();
                 handlePacketErrorCount++;
             }
@@ -6162,14 +6163,14 @@ public final class mudclient extends GameWindowMiddleMan {
         } else {
             super.streamClass.createPacket(132);
         }
-        super.streamClass.add2ByteInt(walkSectionX + areaX);
-        super.streamClass.add2ByteInt(walkSectionY + areaY);
+        super.streamClass.writeShort(walkSectionX + areaX);
+        super.streamClass.writeShort(walkSectionY + areaY);
         if (coordsEqual && stepCount == -1 && (walkSectionX + areaX) % 5 == 0) {
             stepCount = 0;
         }
         for (int currentStep = stepCount; currentStep >= 0 && currentStep > stepCount - 25; currentStep--) {
-            super.streamClass.addByte(sectionXArray[currentStep] - walkSectionX);
-            super.streamClass.addByte(sectionYArray[currentStep] - walkSectionY);
+            super.streamClass.writeByte(sectionXArray[currentStep] - walkSectionX);
+            super.streamClass.writeByte(sectionYArray[currentStep] - walkSectionY);
         }
 
         super.streamClass.formatPacket();
@@ -6193,14 +6194,14 @@ public final class mudclient extends GameWindowMiddleMan {
         } else {
             super.streamClass.createPacket(132);
         }
-        super.streamClass.add2ByteInt(walkSectionX + areaX);
-        super.streamClass.add2ByteInt(walkSectionY + areaY);
+        super.streamClass.writeShort(walkSectionX + areaX);
+        super.streamClass.writeShort(walkSectionY + areaY);
         if (coordsEqual && stepCount == -1 && (walkSectionX + areaX) % 5 == 0) {
             stepCount = 0;
         }
         for (int currentStep = stepCount; currentStep >= 0 && currentStep > stepCount - 25; currentStep--) {
-            super.streamClass.addByte(sectionXArray[currentStep] - walkSectionX);
-            super.streamClass.addByte(sectionYArray[currentStep] - walkSectionY);
+            super.streamClass.writeByte(sectionXArray[currentStep] - walkSectionX);
+            super.streamClass.writeByte(sectionYArray[currentStep] - walkSectionY);
         }
 
         super.streamClass.formatPacket();
@@ -6365,10 +6366,10 @@ public final class mudclient extends GameWindowMiddleMan {
                         }
                         if (flag1) {
                             super.streamClass.createPacket(123);
-                            super.streamClass.addByte(duelMyItemCount);
+                            super.streamClass.writeByte(duelMyItemCount);
                             for (int duelItem = 0; duelItem < duelMyItemCount; duelItem++) {
-                                super.streamClass.add2ByteInt(duelMyItems[duelItem]);
-                                super.streamClass.add4ByteInt(duelMyItemsCount[duelItem]);
+                                super.streamClass.writeShort(duelMyItems[duelItem]);
+                                super.streamClass.writeInt(duelMyItemsCount[duelItem]);
                             }
 
                             super.streamClass.formatPacket();
@@ -6397,10 +6398,10 @@ public final class mudclient extends GameWindowMiddleMan {
                         }
 
                         super.streamClass.createPacket(123);
-                        super.streamClass.addByte(duelMyItemCount);
+                        super.streamClass.writeByte(duelMyItemCount);
                         for (int i3 = 0; i3 < duelMyItemCount; i3++) {
-                            super.streamClass.add2ByteInt(duelMyItems[i3]);
-                            super.streamClass.add4ByteInt(duelMyItemsCount[i3]);
+                            super.streamClass.writeShort(duelMyItems[i3]);
+                            super.streamClass.writeInt(duelMyItemsCount[i3]);
                         }
 
                         super.streamClass.formatPacket();
@@ -6427,10 +6428,10 @@ public final class mudclient extends GameWindowMiddleMan {
                 }
                 if (flag) {
                     super.streamClass.createPacket(225);
-                    super.streamClass.addByte(duelNoRetreating ? 1 : 0);
-                    super.streamClass.addByte(duelNoMagic ? 1 : 0);
-                    super.streamClass.addByte(duelNoPrayer ? 1 : 0);
-                    super.streamClass.addByte(duelNoWeapons ? 1 : 0);
+                    super.streamClass.writeByte(duelNoRetreating ? 1 : 0);
+                    super.streamClass.writeByte(duelNoMagic ? 1 : 0);
+                    super.streamClass.writeByte(duelNoPrayer ? 1 : 0);
+                    super.streamClass.writeByte(duelNoWeapons ? 1 : 0);
                     super.streamClass.formatPacket();
                     duelOpponentAccepted = false;
                     duelMyAccepted = false;
