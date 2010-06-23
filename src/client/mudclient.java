@@ -5318,6 +5318,7 @@ public final class mudclient extends GameWindowMiddleMan {
                             if (i32 == 0) {
                                 int nextSprite = DataOperations.getIntFromByteArray(data, newNpcOffset, 3);
                                 newNpcOffset += 3;
+                                System.out.println("Test");
                                 int waypointCurrent = newNPC.waypointCurrent;
                                 int waypointX = newNPC.waypointsX[waypointCurrent];
                                 int waypointY = newNPC.waypointsY[waypointCurrent];
