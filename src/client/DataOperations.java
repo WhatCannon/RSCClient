@@ -19,20 +19,20 @@ public class DataOperations {
         datainputstream.close();
     }
 
-    public static int getUnsignedByte(byte byte0) {
-        return byte0 & 0xff;
+    public static int getUnsignedByte(byte byteToUnsign) {
+        return (byteToUnsign & 0xff);
     }
 
-    public static int getUnsigned2Bytes(byte abyte0[], int i) {
-        return ((abyte0[i] & 0xff) << 8) + (abyte0[i + 1] & 0xff);
+    public static int getUnsignedShort(byte data[], int offset) {
+        return ((data[offset] & 0xff) << 8) + (data[offset + 1] & 0xff);
     }
 
-    public static int getUnsigned4Bytes(byte abyte0[], int i) {
+    public static int getUnsignedInt(byte abyte0[], int i) {
         return ((abyte0[i] & 0xff) << 24) + ((abyte0[i + 1] & 0xff) << 16) + ((abyte0[i + 2] & 0xff) << 8) + (abyte0[i + 3] & 0xff);
     }
 
-    public static long getUnsigned8Bytes(byte abyte0[], int i) {
-        return (((long) getUnsigned4Bytes(abyte0, i) & 0xffffffffL) << 32) + ((long) getUnsigned4Bytes(abyte0, i + 4) & 0xffffffffL);
+    public static long getUnsignedLong(byte abyte0[], int i) {
+        return (((long) getUnsignedInt(abyte0, i) & 0xffffffffL) << 32) + ((long) getUnsignedInt(abyte0, i + 4) & 0xffffffffL);
     }
 
     public static int readInt(byte abyte0[], int i) {
@@ -143,7 +143,7 @@ public class DataOperations {
     }
 
     public static int method358(String s, byte abyte0[]) {
-        int i = getUnsigned2Bytes(abyte0, 0);
+        int i = getUnsignedShort(abyte0, 0);
         int j = 0;
         s = s.toUpperCase();
         for (int k = 0; k < s.length(); k++)
@@ -162,7 +162,7 @@ public class DataOperations {
     }
 
     public static int method359(String s, byte abyte0[]) {
-        int i = getUnsigned2Bytes(abyte0, 0);
+        int i = getUnsignedShort(abyte0, 0);
         int j = 0;
         s = s.toUpperCase();
         for (int k = 0; k < s.length(); k++)

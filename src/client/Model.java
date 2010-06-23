@@ -159,9 +159,9 @@ public class Model {
         anInt306 = 256;
         anInt307 = 512;
         anInt308 = 32;
-        int j = DataOperations.getUnsigned2Bytes(abyte0, i);
+        int j = DataOperations.getUnsignedShort(abyte0, i);
         i += 2;
-        int k = DataOperations.getUnsigned2Bytes(abyte0, i);
+        int k = DataOperations.getUnsignedShort(abyte0, i);
         i += 2;
         method174(j, k);
         anIntArrayArray279 = new int[k][1];
@@ -212,7 +212,7 @@ public class Model {
                 if (j < 256) {
                     anIntArrayArray236[l2][i3] = abyte0[i++] & 0xff;
                 } else {
-                    anIntArrayArray236[l2][i3] = DataOperations.getUnsigned2Bytes(abyte0, i);
+                    anIntArrayArray236[l2][i3] = DataOperations.getUnsignedShort(abyte0, i);
                     i += 2;
                 }
 

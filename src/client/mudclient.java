@@ -97,13 +97,13 @@ public final class mudclient extends GameWindowMiddleMan {
                         tradeMyItemCount++;
                     }
 
-                    super.streamClass.createPacket(70);
-                    super.streamClass.writeByte(tradeMyItemCount);
+                    PacketBuilder currentPacket = new PacketBuilder(70);
+                    currentPacket.writeByte(tradeMyItemCount);
                     for (int c = 0; c < tradeMyItemCount; c++) {
-                        super.streamClass.writeShort(tradeMyItems[c]);
-                        super.streamClass.writeInt(tradeMyItemsCount[c]);
+                        currentPacket.writeShort(tradeMyItems[c]);
+                        currentPacket.writeInt(tradeMyItemsCount[c]);
                     }
-                    super.streamClass.formatPacket();
+                    super.streamClass.writePacket(currentPacket.toByteArray());
 
                     tradeOtherAccepted = false;
                     tradeWeAccepted = false;
@@ -141,13 +141,13 @@ public final class mudclient extends GameWindowMiddleMan {
                         duelMyItemCount++;
                     }
 
-                    super.streamClass.createPacket(123);
-                    super.streamClass.writeByte(duelMyItemCount);
+                    PacketBuilder currentPacket = new PacketBuilder(123);
+                    currentPacket.writeByte(duelMyItemCount);
                     for (int c = 0; c < duelMyItemCount; c++) {
-                        super.streamClass.writeShort(duelMyItems[c]);
-                        super.streamClass.writeInt(duelMyItemsCount[c]);
+                        currentPacket.writeShort(duelMyItems[c]);
+                        currentPacket.writeInt(duelMyItemsCount[c]);
                     }
-                    super.streamClass.formatPacket();
+                    super.streamClass.writePacket(currentPacket.toByteArray());
 
                     duelOpponentAccepted = false;
                     duelMyAccepted = false;
@@ -348,16 +348,16 @@ public final class mudclient extends GameWindowMiddleMan {
             characterBottomColour = (characterBottomColour + 1) % characterTopBottomColours.length;
         }
         if (characterDesignMenu.hasActivated(characterDesignAcceptButton)) {
-            super.streamClass.createPacket(218);
-            super.streamClass.writeByte(characterHeadGender);
-            super.streamClass.writeByte(characterHeadType);
-            super.streamClass.writeByte(characterBodyGender);
-            super.streamClass.writeByte(character2Colour);
-            super.streamClass.writeByte(characterHairColour);
-            super.streamClass.writeByte(characterTopColour);
-            super.streamClass.writeByte(characterBottomColour);
-            super.streamClass.writeByte(characterSkinColour);
-            super.streamClass.formatPacket();
+            PacketBuilder currentPacket = new PacketBuilder(218);
+            currentPacket.writeByte(characterHeadGender);
+            currentPacket.writeByte(characterHeadType);
+            currentPacket.writeByte(characterBodyGender);
+            currentPacket.writeByte(character2Colour);
+            currentPacket.writeByte(characterHairColour);
+            currentPacket.writeByte(characterTopColour);
+            currentPacket.writeByte(characterBottomColour);
+            currentPacket.writeByte(characterSkinColour);
+            super.streamClass.writePacket(currentPacket.toByteArray());
             gameGraphics.method211();
             showCharacterLookScreen = false;
         }
@@ -972,77 +972,77 @@ public final class mudclient extends GameWindowMiddleMan {
 //                    if (!EntityHandler.getItemDef(k2).isStackable() && j1 > 1)
 //                        j1 = 1;
                     if (j1 >= 1 && super.mouseX >= i + 220 && super.mouseY >= k + 238 && super.mouseX < i + 250 && super.mouseY <= k + 249) {
-                        super.streamClass.createPacket(183);
-                        super.streamClass.writeShort(k2);
-                        super.streamClass.writeInt(1);
-                        super.streamClass.formatPacket();
+                        PacketBuilder currentPacket = new PacketBuilder(183);
+                        currentPacket.writeShort(k2);
+                        currentPacket.writeInt(1);
+                        super.streamClass.writePacket(currentPacket.toByteArray());
                     }
                     if (j1 >= 10 && super.mouseX >= i + 250 && super.mouseY >= k + 238 && super.mouseX < i + 280 && super.mouseY <= k + 249) {
-                        super.streamClass.createPacket(183);
-                        super.streamClass.writeShort(k2);
-                        super.streamClass.writeInt(10);
-                        super.streamClass.formatPacket();
+                        PacketBuilder currentPacket = new PacketBuilder(183);
+                        currentPacket.writeShort(k2);
+                        currentPacket.writeInt(10);
+                        super.streamClass.writePacket(currentPacket.toByteArray());
                     }
                     if (j1 >= 100 && super.mouseX >= i + 280 && super.mouseY >= k + 238 && super.mouseX < i + 305 && super.mouseY <= k + 249) {
-                        super.streamClass.createPacket(183);
-                        super.streamClass.writeShort(k2);
-                        super.streamClass.writeInt(100);
-                        super.streamClass.formatPacket();
+                        PacketBuilder currentPacket = new PacketBuilder(183);
+                        currentPacket.writeShort(k2);
+                        currentPacket.writeInt(100);
+                        super.streamClass.writePacket(currentPacket.toByteArray());
                     }
                     if (j1 >= 1000 && super.mouseX >= i + 305 && super.mouseY >= k + 238 && super.mouseX < i + 335 && super.mouseY <= k + 249) {
-                        super.streamClass.createPacket(183);
-                        super.streamClass.writeShort(k2);
-                        super.streamClass.writeInt(1000);
-                        super.streamClass.formatPacket();
+                        PacketBuilder currentPacket = new PacketBuilder(183);
+                        currentPacket.writeShort(k2);
+                        currentPacket.writeInt(1000);
+                        super.streamClass.writePacket(currentPacket.toByteArray());
                     }
                     if (j1 >= 10000 && super.mouseX >= i + 335 && super.mouseY >= k + 238 && super.mouseX < i + 368 && super.mouseY <= k + 249) {
-                        super.streamClass.createPacket(183);
-                        super.streamClass.writeShort(k2);
-                        super.streamClass.writeInt(10000);
-                        super.streamClass.formatPacket();
+                        PacketBuilder currentPacket = new PacketBuilder(183);
+                        currentPacket.writeShort(k2);
+                        currentPacket.writeInt(10000);
+                        super.streamClass.writePacket(currentPacket.toByteArray());
                     }
                     if (super.mouseX >= i + 370 && super.mouseY >= k + 238 && super.mouseX < i + 400 && super.mouseY <= k + 249) {
-                        super.streamClass.createPacket(183);
-                        super.streamClass.writeShort(k2);
-                        super.streamClass.writeInt(j1);
-                        super.streamClass.formatPacket();
+                        PacketBuilder currentPacket = new PacketBuilder(183);
+                        currentPacket.writeShort(k2);
+                        currentPacket.writeInt(j1);
+                        super.streamClass.writePacket(currentPacket.toByteArray());
                     }
 
                     if (inventoryCount(k2) >= 1 && super.mouseX >= i + 220 && super.mouseY >= k + 263 && super.mouseX < i + 250 && super.mouseY <= k + 274) {
-                        super.streamClass.createPacket(198);
-                        super.streamClass.writeShort(k2);
-                        super.streamClass.writeInt(1);
-                        super.streamClass.formatPacket();
+                        PacketBuilder currentPacket = new PacketBuilder(198);
+                        currentPacket.writeShort(k2);
+                        currentPacket.writeInt(1);
+                        super.streamClass.writePacket(currentPacket.toByteArray());
                     }
                     if (inventoryCount(k2) >= 10 && super.mouseX >= i + 250 && super.mouseY >= k + 263 && super.mouseX < i + 280 && super.mouseY <= k + 274) {
-                        super.streamClass.createPacket(198);
-                        super.streamClass.writeShort(k2);
-                        super.streamClass.writeInt(10);
-                        super.streamClass.formatPacket();
+                        PacketBuilder currentPacket = new PacketBuilder(198);
+                        currentPacket.writeShort(k2);
+                        currentPacket.writeInt(10);
+                        super.streamClass.writePacket(currentPacket.toByteArray());
                     }
                     if (inventoryCount(k2) >= 100 && super.mouseX >= i + 280 && super.mouseY >= k + 263 && super.mouseX < i + 305 && super.mouseY <= k + 274) {
-                        super.streamClass.createPacket(198);
-                        super.streamClass.writeShort(k2);
-                        super.streamClass.writeInt(100);
-                        super.streamClass.formatPacket();
+                        PacketBuilder currentPacket = new PacketBuilder(198);
+                        currentPacket.writeShort(k2);
+                        currentPacket.writeInt(100);
+                        super.streamClass.writePacket(currentPacket.toByteArray());
                     }
                     if (inventoryCount(k2) >= 1000 && super.mouseX >= i + 305 && super.mouseY >= k + 263 && super.mouseX < i + 335 && super.mouseY <= k + 274) {
-                        super.streamClass.createPacket(198);
-                        super.streamClass.writeShort(k2);
-                        super.streamClass.writeInt(1000);
-                        super.streamClass.formatPacket();
+                        PacketBuilder currentPacket = new PacketBuilder(198);
+                        currentPacket.writeShort(k2);
+                        currentPacket.writeInt(1000);
+                        super.streamClass.writePacket(currentPacket.toByteArray());
                     }
                     if (inventoryCount(k2) >= 10000 && super.mouseX >= i + 335 && super.mouseY >= k + 263 && super.mouseX < i + 368 && super.mouseY <= k + 274) {
-                        super.streamClass.createPacket(198);
-                        super.streamClass.writeShort(k2);
-                        super.streamClass.writeInt(10000);
-                        super.streamClass.formatPacket();
+                        PacketBuilder currentPacket = new PacketBuilder(198);
+                        currentPacket.writeShort(k2);
+                        currentPacket.writeInt(10000);
+                        super.streamClass.writePacket(currentPacket.toByteArray());
                     }
                     if (super.mouseX >= i + 370 && super.mouseY >= k + 263 && super.mouseX < i + 400 && super.mouseY <= k + 274) {
-                        super.streamClass.createPacket(198);
-                        super.streamClass.writeShort(k2);
-                        super.streamClass.writeInt(inventoryCount(k2));
-                        super.streamClass.formatPacket();
+                        PacketBuilder currentPacket = new PacketBuilder(198);
+                        currentPacket.writeShort(k2);
+                        currentPacket.writeInt(inventoryCount(k2));
+                        super.streamClass.writePacket(currentPacket.toByteArray());
                     }
                 }
             } else if (bankItemCount > 48 && i >= 50 && i <= 115 && k <= 12) {
@@ -1054,8 +1054,8 @@ public final class mudclient extends GameWindowMiddleMan {
             } else if (bankItemCount > 144 && i >= 245 && i <= 310 && k <= 12) {
                 mouseOverBankPageText = 3;
             } else {
-                super.streamClass.createPacket(48);
-                super.streamClass.formatPacket();
+                PacketBuilder currentPacket = new PacketBuilder(48);
+                super.streamClass.writePacket(currentPacket.toByteArray());
                 showBank = false;
                 return;
             }
@@ -1495,8 +1495,8 @@ public final class mudclient extends GameWindowMiddleMan {
             displayMessage("@cya@You can't logout for 10 seconds after combat", 3, 0);
             return;
         }
-        super.streamClass.createPacket(129);
-        super.streamClass.formatPacket();
+        PacketBuilder currentPacket = new PacketBuilder(129);
+        super.streamClass.writePacket(currentPacket.toByteArray());
         logoutTimeout = 1000;
     }
 
@@ -1755,138 +1755,138 @@ public final class mudclient extends GameWindowMiddleMan {
         int currentMenuID = menuID[index];
         if (currentMenuID == 200) {
             walkToGroundItem(sectionX, sectionY, actionX, actionY, true);
-            super.streamClass.createPacket(104);
-            super.streamClass.writeShort(actionVariable);
-            super.streamClass.writeShort(actionX + areaX);
-            super.streamClass.writeShort(actionY + areaY);
-            super.streamClass.writeShort(actionType);
-            super.streamClass.formatPacket();
+            PacketBuilder currentPacket = new PacketBuilder(104);
+            currentPacket.writeShort(actionVariable);
+            currentPacket.writeShort(actionX + areaX);
+            currentPacket.writeShort(actionY + areaY);
+            currentPacket.writeShort(actionType);
+            super.streamClass.writePacket(currentPacket.toByteArray());
             selectedSpell = -1;
         }
         if (currentMenuID == 210) {
             walkToGroundItem(sectionX, sectionY, actionX, actionY, true);
-            super.streamClass.createPacket(34);
-            super.streamClass.writeShort(actionX + areaX);
-            super.streamClass.writeShort(actionY + areaY);
-            super.streamClass.writeShort(actionType);
-            super.streamClass.writeShort(actionVariable);
-            super.streamClass.formatPacket();
+            PacketBuilder currentPacket = new PacketBuilder(34);
+            currentPacket.writeShort(actionX + areaX);
+            currentPacket.writeShort(actionY + areaY);
+            currentPacket.writeShort(actionType);
+            currentPacket.writeShort(actionVariable);
+            super.streamClass.writePacket(currentPacket.toByteArray());
             selectedItem = -1;
         }
         if (currentMenuID == 220) {
             walkToGroundItem(sectionX, sectionY, actionX, actionY, true);
-            super.streamClass.createPacket(245);
-            super.streamClass.writeShort(actionX + areaX);
-            super.streamClass.writeShort(actionY + areaY);
-            super.streamClass.writeShort(actionType);
-            super.streamClass.writeShort(actionVariable);
-            super.streamClass.formatPacket();
+            PacketBuilder currentPacket = new PacketBuilder(245);
+            currentPacket.writeShort(actionX + areaX);
+            currentPacket.writeShort(actionY + areaY);
+            currentPacket.writeShort(actionType);
+            currentPacket.writeShort(actionVariable);
+            super.streamClass.writePacket(currentPacket.toByteArray());
         }
         if (currentMenuID == 3200) {
             displayMessage(EntityHandler.getItemDef(actionType).getDescription(), 3, 0);
         }
         if (currentMenuID == 300) {
             walkToAction(actionX, actionY, actionType);
-            super.streamClass.createPacket(67);
-            super.streamClass.writeShort(actionVariable);
-            super.streamClass.writeShort(actionX + areaX);
-            super.streamClass.writeShort(actionY + areaY);
-            super.streamClass.writeByte(actionType);
-            super.streamClass.formatPacket();
+            PacketBuilder currentPacket = new PacketBuilder(67);
+            currentPacket.writeShort(actionVariable);
+            currentPacket.writeShort(actionX + areaX);
+            currentPacket.writeShort(actionY + areaY);
+            currentPacket.writeByte(actionType);
+            super.streamClass.writePacket(currentPacket.toByteArray());
             selectedSpell = -1;
         }
         if (currentMenuID == 310) {
             walkToAction(actionX, actionY, actionType);
-            super.streamClass.createPacket(36);
-            super.streamClass.writeShort(actionX + areaX);
-            super.streamClass.writeShort(actionY + areaY);
-            super.streamClass.writeByte(actionType);
-            super.streamClass.writeShort(actionVariable);
-            super.streamClass.formatPacket();
+            PacketBuilder currentPacket = new PacketBuilder(36);
+            currentPacket.writeShort(actionX + areaX);
+            currentPacket.writeShort(actionY + areaY);
+            currentPacket.writeByte(actionType);
+            currentPacket.writeShort(actionVariable);
+            super.streamClass.writePacket(currentPacket.toByteArray());
             selectedItem = -1;
         }
         if (currentMenuID == 320) {
             walkToAction(actionX, actionY, actionType);
-            super.streamClass.createPacket(126);
-            super.streamClass.writeShort(actionX + areaX);
-            super.streamClass.writeShort(actionY + areaY);
-            super.streamClass.writeByte(actionType);
-            super.streamClass.formatPacket();
+            PacketBuilder currentPacket = new PacketBuilder(126);
+            currentPacket.writeShort(actionX + areaX);
+            currentPacket.writeShort(actionY + areaY);
+            currentPacket.writeByte(actionType);
+            super.streamClass.writePacket(currentPacket.toByteArray());
         }
         if (currentMenuID == 2300) {
             walkToAction(actionX, actionY, actionType);
-            super.streamClass.createPacket(235);
-            super.streamClass.writeShort(actionX + areaX);
-            super.streamClass.writeShort(actionY + areaY);
-            super.streamClass.writeByte(actionType);
-            super.streamClass.formatPacket();
+            PacketBuilder currentPacket = new PacketBuilder(235);
+            currentPacket.writeShort(actionX + areaX);
+            currentPacket.writeShort(actionY + areaY);
+            currentPacket.writeByte(actionType);
+            super.streamClass.writePacket(currentPacket.toByteArray());
         }
         if (currentMenuID == 3300) {
             displayMessage(EntityHandler.getDoorDef(actionType).getDescription(), 3, 0);
         }
         if (currentMenuID == 400) {
             walkToObject(actionX, actionY, actionType, actionVariable);
-            super.streamClass.createPacket(17);
-            super.streamClass.writeShort(actionVariable2);
-            super.streamClass.writeShort(actionX + areaX);
-            super.streamClass.writeShort(actionY + areaY);
-            super.streamClass.formatPacket();
+            PacketBuilder currentPacket = new PacketBuilder(17);
+            currentPacket.writeShort(actionVariable2);
+            currentPacket.writeShort(actionX + areaX);
+            currentPacket.writeShort(actionY + areaY);
+            super.streamClass.writePacket(currentPacket.toByteArray());
             selectedSpell = -1;
         }
         if (currentMenuID == 410) {
             walkToObject(actionX, actionY, actionType, actionVariable);
-            super.streamClass.createPacket(94);
-            super.streamClass.writeShort(actionX + areaX);
-            super.streamClass.writeShort(actionY + areaY);
-            super.streamClass.writeShort(actionVariable2);
-            super.streamClass.formatPacket();
+            PacketBuilder currentPacket = new PacketBuilder(94);
+            currentPacket.writeShort(actionX + areaX);
+            currentPacket.writeShort(actionY + areaY);
+            currentPacket.writeShort(actionVariable2);
+            super.streamClass.writePacket(currentPacket.toByteArray());
             selectedItem = -1;
         }
         if (currentMenuID == 420) {
             walkToObject(actionX, actionY, actionType, actionVariable);
-            super.streamClass.createPacket(51);
-            super.streamClass.writeShort(actionX + areaX);
-            super.streamClass.writeShort(actionY + areaY);
-            super.streamClass.formatPacket();
+            PacketBuilder currentPacket = new PacketBuilder(51);
+            currentPacket.writeShort(actionX + areaX);
+            currentPacket.writeShort(actionY + areaY);
+            super.streamClass.writePacket(currentPacket.toByteArray());
         }
         if (currentMenuID == 2400) {
             walkToObject(actionX, actionY, actionType, actionVariable);
-            super.streamClass.createPacket(40);
-            super.streamClass.writeShort(actionX + areaX);
-            super.streamClass.writeShort(actionY + areaY);
-            super.streamClass.formatPacket();
+            PacketBuilder currentPacket = new PacketBuilder(40);
+            currentPacket.writeShort(actionX + areaX);
+            currentPacket.writeShort(actionY + areaY);
+            super.streamClass.writePacket(currentPacket.toByteArray());
         }
         if (currentMenuID == 3400) {
             displayMessage(EntityHandler.getObjectDef(actionType).getDescription(), 3, 0);
         }
         if (currentMenuID == 600) {
-            super.streamClass.createPacket(49);
-            super.streamClass.writeShort(actionVariable);
-            super.streamClass.writeShort(actionType);
-            super.streamClass.formatPacket();
+            PacketBuilder currentPacket = new PacketBuilder(49);
+            currentPacket.writeShort(actionVariable);
+            currentPacket.writeShort(actionType);
+            super.streamClass.writePacket(currentPacket.toByteArray());
             selectedSpell = -1;
         }
         if (currentMenuID == 610) {
-            super.streamClass.createPacket(27);
-            super.streamClass.writeShort(actionType);
-            super.streamClass.writeShort(actionVariable);
-            super.streamClass.formatPacket();
+            PacketBuilder currentPacket = new PacketBuilder(27);
+            currentPacket.writeShort(actionType);
+            currentPacket.writeShort(actionVariable);
+            super.streamClass.writePacket(currentPacket.toByteArray());
             selectedItem = -1;
         }
         if (currentMenuID == 620) {
-            super.streamClass.createPacket(92);
-            super.streamClass.writeShort(actionType);
-            super.streamClass.formatPacket();
+            PacketBuilder currentPacket = new PacketBuilder(92);
+            currentPacket.writeShort(actionType);
+            super.streamClass.writePacket(currentPacket.toByteArray());
         }
         if (currentMenuID == 630) {
-            super.streamClass.createPacket(181);
-            super.streamClass.writeShort(actionType);
-            super.streamClass.formatPacket();
+            PacketBuilder currentPacket = new PacketBuilder(181);
+            currentPacket.writeShort(actionType);
+            super.streamClass.writePacket(currentPacket.toByteArray());
         }
         if (currentMenuID == 640) {
-            super.streamClass.createPacket(89);
-            super.streamClass.writeShort(actionType);
-            super.streamClass.formatPacket();
+            PacketBuilder currentPacket = new PacketBuilder(89);
+            currentPacket.writeShort(actionType);
+            super.streamClass.writePacket(currentPacket.toByteArray());
         }
         if (currentMenuID == 650) {
             selectedItem = actionType;
@@ -1894,9 +1894,9 @@ public final class mudclient extends GameWindowMiddleMan {
             selectedItemName = EntityHandler.getItemDef(inventoryItems[selectedItem]).getName();
         }
         if (currentMenuID == 660) {
-            super.streamClass.createPacket(147);
-            super.streamClass.writeShort(actionType);
-            super.streamClass.formatPacket();
+            PacketBuilder currentPacket = new PacketBuilder(147);
+            currentPacket.writeShort(actionType);
+            super.streamClass.writePacket(currentPacket.toByteArray());
             selectedItem = -1;
             mouseOverMenu = 0;
             displayMessage("Dropping " + EntityHandler.getItemDef(inventoryItems[actionType]).getName(), 4, 0);
@@ -1908,45 +1908,45 @@ public final class mudclient extends GameWindowMiddleMan {
             int l1 = (actionX - 64) / magicLoc;
             int l3 = (actionY - 64) / magicLoc;
             method112(sectionX, sectionY, l1, l3, true);
-            super.streamClass.createPacket(71);
-            super.streamClass.writeShort(actionVariable);
-            super.streamClass.writeShort(actionType);
-            super.streamClass.formatPacket();
+            PacketBuilder currentPacket = new PacketBuilder(71);
+            currentPacket.writeShort(actionVariable);
+            currentPacket.writeShort(actionType);
+            super.streamClass.writePacket(currentPacket.toByteArray());
             selectedSpell = -1;
         }
         if (currentMenuID == 710) {
             int i2 = (actionX - 64) / magicLoc;
             int i4 = (actionY - 64) / magicLoc;
             method112(sectionX, sectionY, i2, i4, true);
-            super.streamClass.createPacket(142);
-            super.streamClass.writeShort(actionType);
-            super.streamClass.writeShort(actionVariable);
-            super.streamClass.formatPacket();
+            PacketBuilder currentPacket = new PacketBuilder(142);
+            currentPacket.writeShort(actionType);
+            currentPacket.writeShort(actionVariable);
+            super.streamClass.writePacket(currentPacket.toByteArray());
             selectedItem = -1;
         }
         if (currentMenuID == 720) {
             int j2 = (actionX - 64) / magicLoc;
             int j4 = (actionY - 64) / magicLoc;
             method112(sectionX, sectionY, j2, j4, true);
-            super.streamClass.createPacket(177);
-            super.streamClass.writeShort(actionType);
-            super.streamClass.formatPacket();
+            PacketBuilder currentPacket = new PacketBuilder(177);
+            currentPacket.writeShort(actionType);
+            super.streamClass.writePacket(currentPacket.toByteArray());
         }
         if (currentMenuID == 725) {
             int k2 = (actionX - 64) / magicLoc;
             int k4 = (actionY - 64) / magicLoc;
             method112(sectionX, sectionY, k2, k4, true);
-            super.streamClass.createPacket(74);
-            super.streamClass.writeShort(actionType);
-            super.streamClass.formatPacket();
+            PacketBuilder currentPacket = new PacketBuilder(74);
+            currentPacket.writeShort(actionType);
+            super.streamClass.writePacket(currentPacket.toByteArray());
         }
         if (currentMenuID == 715 || currentMenuID == 2715) {
             int l2 = (actionX - 64) / magicLoc;
             int l4 = (actionY - 64) / magicLoc;
             method112(sectionX, sectionY, l2, l4, true);
-            super.streamClass.createPacket(73);
-            super.streamClass.writeShort(actionType);
-            super.streamClass.formatPacket();
+            PacketBuilder currentPacket = new PacketBuilder(73);
+            currentPacket.writeShort(actionType);
+            super.streamClass.writePacket(currentPacket.toByteArray());
         }
         if (currentMenuID == 3700) {
             displayMessage(EntityHandler.getNpcDef(actionType).getDescription(), 3, 0);
@@ -1955,52 +1955,52 @@ public final class mudclient extends GameWindowMiddleMan {
             int i3 = (actionX - 64) / magicLoc;
             int i5 = (actionY - 64) / magicLoc;
             method112(sectionX, sectionY, i3, i5, true);
-            super.streamClass.createPacket(55);
-            super.streamClass.writeShort(actionVariable);
-            super.streamClass.writeShort(actionType);
-            super.streamClass.formatPacket();
+            PacketBuilder currentPacket = new PacketBuilder(55);
+            currentPacket.writeShort(actionVariable);
+            currentPacket.writeShort(actionType);
+            super.streamClass.writePacket(currentPacket.toByteArray());
             selectedSpell = -1;
         }
         if (currentMenuID == 810) {
             int j3 = (actionX - 64) / magicLoc;
             int j5 = (actionY - 64) / magicLoc;
             method112(sectionX, sectionY, j3, j5, true);
-            super.streamClass.createPacket(16);
-            super.streamClass.writeShort(actionType);
-            super.streamClass.writeShort(actionVariable);
-            super.streamClass.formatPacket();
+            PacketBuilder currentPacket = new PacketBuilder(16);
+            currentPacket.writeShort(actionType);
+            currentPacket.writeShort(actionVariable);
+            super.streamClass.writePacket(currentPacket.toByteArray());
             selectedItem = -1;
         }
         if (currentMenuID == 805 || currentMenuID == 2805) {
             int k3 = (actionX - 64) / magicLoc;
             int k5 = (actionY - 64) / magicLoc;
             method112(sectionX, sectionY, k3, k5, true);
-            super.streamClass.createPacket(57);
-            super.streamClass.writeShort(actionType);
-            super.streamClass.formatPacket();
+            PacketBuilder currentPacket = new PacketBuilder(57);
+            currentPacket.writeShort(actionType);
+            super.streamClass.writePacket(currentPacket.toByteArray());
         }
         if (currentMenuID == 2806) {
-            super.streamClass.createPacket(222);
-            super.streamClass.writeShort(actionType);
-            super.streamClass.formatPacket();
+            PacketBuilder currentPacket = new PacketBuilder(222);
+            currentPacket.writeShort(actionType);
+            super.streamClass.writePacket(currentPacket.toByteArray());
         }
         if (currentMenuID == 2810) {
-            super.streamClass.createPacket(166);
-            super.streamClass.writeShort(actionType);
-            super.streamClass.formatPacket();
+            PacketBuilder currentPacket = new PacketBuilder(166);
+            currentPacket.writeShort(actionType);
+            super.streamClass.writePacket(currentPacket.toByteArray());
         }
         if (currentMenuID == 2820) {
-            super.streamClass.createPacket(68);
-            super.streamClass.writeShort(actionType);
-            super.streamClass.formatPacket();
+            PacketBuilder currentPacket = new PacketBuilder(68);
+            currentPacket.writeShort(actionType);
+            super.streamClass.writePacket(currentPacket.toByteArray());
         }
         if (currentMenuID == 900) {
             method112(sectionX, sectionY, actionX, actionY, true);
-            super.streamClass.createPacket(232);
-            super.streamClass.writeShort(actionType);
-            super.streamClass.writeShort(actionX + areaX);
-            super.streamClass.writeShort(actionY + areaY);
-            super.streamClass.formatPacket();
+            PacketBuilder currentPacket = new PacketBuilder(232);
+            currentPacket.writeShort(actionType);
+            currentPacket.writeShort(actionX + areaX);
+            currentPacket.writeShort(actionY + areaY);
+            super.streamClass.writePacket(currentPacket.toByteArray());
             selectedSpell = -1;
         }
         if (currentMenuID == 920) {
@@ -2010,9 +2010,9 @@ public final class mudclient extends GameWindowMiddleMan {
             }
         }
         if (currentMenuID == 1000) {
-            super.streamClass.createPacket(206);
-            super.streamClass.writeShort(actionType);
-            super.streamClass.formatPacket();
+            PacketBuilder currentPacket = new PacketBuilder(206);
+            currentPacket.writeShort(actionType);
+            super.streamClass.writePacket(currentPacket.toByteArray());
             selectedSpell = -1;
         }
         if (currentMenuID == 4000) {
@@ -2162,14 +2162,6 @@ public final class mudclient extends GameWindowMiddleMan {
     }
 
     private final void drawGame() {
-        long now = System.currentTimeMillis();
-        if (now - lastFrame > (1000 / Config.MOVIE_FPS) && recording) {
-            try {
-                lastFrame = now;
-                frames.add(getImage());
-            } catch (Exception e) {
-            }
-        }
         if (playerAliveTimeout != 0) {
             gameGraphics.fadePixels();
             gameGraphics.drawText("Oh dear! You are dead...", windowWidth / 2, windowHeight / 2, 7, 0xff0000);
@@ -2491,9 +2483,9 @@ public final class mudclient extends GameWindowMiddleMan {
                 if (super.mouseX >= gameGraphics.textWidth(questionMenuAnswer[i], 1) || super.mouseY <= i * 12 || super.mouseY >= 12 + i * 12) {
                     continue;
                 }
-                super.streamClass.createPacket(154);
-                super.streamClass.writeByte(i);
-                super.streamClass.formatPacket();
+                PacketBuilder currentPacket = new PacketBuilder(154);
+                currentPacket.writeByte(i);
+                super.streamClass.writePacket(currentPacket.toByteArray());
                 break;
             }
 
@@ -3275,7 +3267,7 @@ public final class mudclient extends GameWindowMiddleMan {
         }
         if (anInt981 == 1) {
             for (int j1 = 0; j1 < super.ignoreListCount; j1++) {
-                friendsMenu.drawMenuListText(friendsMenuHandle, j1, "@yel@" + DataOperations.longToString(super.ignoreListLongs[j1]) + "~439~@whi@Remove         WWWWWWWWWW");
+                friendsMenu.drawMenuListText(friendsMenuHandle, j1, "@yel@" + super.ignoreList[j1] + "~439~@whi@Remove         WWWWWWWWWW");
             }
 
         }
@@ -3307,7 +3299,7 @@ public final class mudclient extends GameWindowMiddleMan {
             int l1 = friendsMenu.selectedListIndex(friendsMenuHandle);
             if (l1 >= 0 && super.mouseX < 489 && super.mouseX > 429) {
                 if (super.mouseX > 429) {
-                    gameGraphics.drawText("Click to remove " + DataOperations.longToString(super.ignoreListLongs[l1]), i + c / 2, j + 35, 1, 0xffffff);
+                    gameGraphics.drawText("Click to remove " + super.ignoreList[l1], i + c / 2, j + 35, 1, 0xffffff);
                 }
             } else {
                 gameGraphics.drawText("Blocking messages from:", i + c / 2, j + 35, 1, 0xffffff);
@@ -3352,7 +3344,7 @@ public final class mudclient extends GameWindowMiddleMan {
             if (mouseButtonClick == 1 && anInt981 == 1) {
                 int j2 = friendsMenu.selectedListIndex(friendsMenuHandle);
                 if (j2 >= 0 && super.mouseX < 489 && super.mouseX > 429) {
-                    removeFromIgnoreList(super.ignoreListLongs[j2]);
+                    removeFromIgnoreList(super.ignoreList[j2]);
                 }
             }
             if (j > 166 && mouseButtonClick == 1 && anInt981 == 0) {
@@ -3620,14 +3612,14 @@ public final class mudclient extends GameWindowMiddleMan {
                     } else if (playerStatCurrent[5] == 0) {
                         displayMessage("You have run out of prayer points. Return to a church to recharge", 3, 0);
                     } else if (prayerOn[l1]) {
-                        super.streamClass.createPacket(248);
-                        super.streamClass.writeByte(l1);
-                        super.streamClass.formatPacket();
+                        PacketBuilder currentPacket = new PacketBuilder(248);
+                        currentPacket.writeByte(l1);
+                        super.streamClass.writePacket(currentPacket.toByteArray());
                         prayerOn[l1] = false;
                     } else {
-                        super.streamClass.createPacket(56);
-                        super.streamClass.writeByte(l1);
-                        super.streamClass.formatPacket();
+                        PacketBuilder currentPacket = new PacketBuilder(56);
+                        currentPacket.writeByte(l1);
+                        super.streamClass.writePacket(currentPacket.toByteArray());
                         prayerOn[l1] = true;
                     }
                 }
@@ -3695,23 +3687,23 @@ public final class mudclient extends GameWindowMiddleMan {
                     if (j2 != -1) {
                         if (shopItemCount[selectedShopItemIndex] > 0 && i > 298 && j >= 204 && i < 408 && j <= 215) {
                             int i4 = (shopItemBuyPriceModifier * EntityHandler.getItemDef(j2).getBasePrice()) / 100;
-                            super.streamClass.createPacket(128);
-                            super.streamClass.writeShort(shopItems[selectedShopItemIndex]);
-                            super.streamClass.writeInt(i4);
-                            super.streamClass.formatPacket();
+                            PacketBuilder currentPacket = new PacketBuilder(128);
+                            currentPacket.writeShort(shopItems[selectedShopItemIndex]);
+                            currentPacket.writeInt(i4);
+                            super.streamClass.writePacket(currentPacket.toByteArray());
                         }
                         if (inventoryCount(j2) > 0 && i > 2 && j >= 229 && i < 112 && j <= 240) {
                             int j4 = (shopItemSellPriceModifier * EntityHandler.getItemDef(j2).getBasePrice()) / 100;
-                            super.streamClass.createPacket(255);
-                            super.streamClass.writeShort(shopItems[selectedShopItemIndex]);
-                            super.streamClass.writeInt(j4);
-                            super.streamClass.formatPacket();
+                            PacketBuilder currentPacket = new PacketBuilder(255);
+                            currentPacket.writeShort(shopItems[selectedShopItemIndex]);
+                            currentPacket.writeInt(j4);
+                            super.streamClass.writePacket(currentPacket.toByteArray());
                         }
                     }
                 }
             } else {
-                super.streamClass.createPacket(253);
-                super.streamClass.formatPacket();
+                PacketBuilder currentPacket = new PacketBuilder(253);
+                super.streamClass.writePacket(currentPacket.toByteArray());
                 showShop = false;
                 return;
             }
@@ -3901,51 +3893,51 @@ public final class mudclient extends GameWindowMiddleMan {
             int j1 = byte0 + 30;
             if (super.mouseX > l && super.mouseX < l + c1 && super.mouseY > j1 - 12 && super.mouseY < j1 + 4 && mouseButtonClick == 1) {
                 configAutoCameraAngle = !configAutoCameraAngle;
-                super.streamClass.createPacket(157);
-                super.streamClass.writeByte(0);
-                super.streamClass.writeByte(configAutoCameraAngle ? 1 : 0);
-                super.streamClass.formatPacket();
+                PacketBuilder currentPacket = new PacketBuilder(157);
+                currentPacket.writeByte(0);
+                currentPacket.writeByte(configAutoCameraAngle ? 1 : 0);
+                super.streamClass.writePacket(currentPacket.toByteArray());
             }
             j1 += 15;
             if (super.mouseX > l && super.mouseX < l + c1 && super.mouseY > j1 - 12 && super.mouseY < j1 + 4 && mouseButtonClick == 1) {
                 configMouseButtons = !configMouseButtons;
-                super.streamClass.createPacket(157);
-                super.streamClass.writeByte(2);
-                super.streamClass.writeByte(configMouseButtons ? 1 : 0);
-                super.streamClass.formatPacket();
+                PacketBuilder currentPacket = new PacketBuilder(157);
+                currentPacket.writeByte(2);
+                currentPacket.writeByte(configMouseButtons ? 1 : 0);
+                super.streamClass.writePacket(currentPacket.toByteArray());
             }
             j1 += 15;
             if (super.mouseX > l && super.mouseX < l + c1 && super.mouseY > j1 - 12 && super.mouseY < j1 + 4 && mouseButtonClick == 1) {
                 configSoundEffects = !configSoundEffects;
-                super.streamClass.createPacket(157);
-                super.streamClass.writeByte(3);
-                super.streamClass.writeByte(configSoundEffects ? 1 : 0);
-                super.streamClass.formatPacket();
+                PacketBuilder currentPacket = new PacketBuilder(157);
+                currentPacket.writeByte(3);
+                currentPacket.writeByte(configSoundEffects ? 1 : 0);
+                super.streamClass.writePacket(currentPacket.toByteArray());
             }
             j1 += 15;
             j1 += 15;
             if (super.mouseX > l && super.mouseX < l + c1 && super.mouseY > j1 - 12 && super.mouseY < j1 + 4 && mouseButtonClick == 1) {
                 showRoof = !showRoof;
-                super.streamClass.createPacket(157);
-                super.streamClass.writeByte(4);
-                super.streamClass.writeByte(showRoof ? 1 : 0);
-                super.streamClass.formatPacket();
+                PacketBuilder currentPacket = new PacketBuilder(157);
+                currentPacket.writeByte(4);
+                currentPacket.writeByte(showRoof ? 1 : 0);
+                super.streamClass.writePacket(currentPacket.toByteArray());
             }
             j1 += 15;
             if (super.mouseX > l && super.mouseX < l + c1 && super.mouseY > j1 - 12 && super.mouseY < j1 + 4 && mouseButtonClick == 1) {
                 autoScreenshot = !autoScreenshot;
-                super.streamClass.createPacket(157);
-                super.streamClass.writeByte(5);
-                super.streamClass.writeByte(autoScreenshot ? 1 : 0);
-                super.streamClass.formatPacket();
+                PacketBuilder currentPacket = new PacketBuilder(157);
+                currentPacket.writeByte(5);
+                currentPacket.writeByte(autoScreenshot ? 1 : 0);
+                super.streamClass.writePacket(currentPacket.toByteArray());
             }
             j1 += 15;
             if (super.mouseX > l && super.mouseX < l + c1 && super.mouseY > j1 - 12 && super.mouseY < j1 + 4 && mouseButtonClick == 1) {
                 combatWindow = !combatWindow;
-                super.streamClass.createPacket(157);
-                super.streamClass.writeByte(6);
-                super.streamClass.writeByte(combatWindow ? 1 : 0);
-                super.streamClass.formatPacket();
+                PacketBuilder currentPacket = new PacketBuilder(157);
+                currentPacket.writeByte(6);
+                currentPacket.writeByte(combatWindow ? 1 : 0);
+                super.streamClass.writePacket(currentPacket.toByteArray());
             }
             j1 += 15;
 
@@ -3986,7 +3978,7 @@ public final class mudclient extends GameWindowMiddleMan {
         if (systemUpdate > 1) {
             systemUpdate--;
         }
-        sendPingPacketReadPacketData();
+        readPacket();
         if (logoutTimeout > 0) {
             logoutTimeout--;
         }
@@ -4409,9 +4401,9 @@ public final class mudclient extends GameWindowMiddleMan {
                 }
                 combatStyle = i - 1;
                 mouseButtonClick = 0;
-                super.streamClass.createPacket(42);
-                super.streamClass.writeByte(combatStyle);
-                super.streamClass.formatPacket();
+                PacketBuilder currentPacket = new PacketBuilder(42);
+                currentPacket.writeByte(combatStyle);
+                super.streamClass.writePacket(currentPacket.toByteArray());
                 break;
             }
 
@@ -4494,18 +4486,18 @@ public final class mudclient extends GameWindowMiddleMan {
         if (mouseButtonClick == 1) {
             if (super.mouseX < byte0 || super.mouseY < byte1 || super.mouseX > byte0 + 468 || super.mouseY > byte1 + 262) {
                 showDuelConfirmWindow = false;
-                super.streamClass.createPacket(35);
-                super.streamClass.formatPacket();
+                PacketBuilder currentPacket = new PacketBuilder(35);
+                super.streamClass.writePacket(currentPacket.toByteArray());
             }
             if (super.mouseX >= (byte0 + 118) - 35 && super.mouseX <= byte0 + 118 + 70 && super.mouseY >= byte1 + 238 && super.mouseY <= byte1 + 238 + 21) {
                 duelWeAccept = true;
-                super.streamClass.createPacket(87);
-                super.streamClass.formatPacket();
+                PacketBuilder currentPacket = new PacketBuilder(87);
+                super.streamClass.writePacket(currentPacket.toByteArray());
             }
             if (super.mouseX >= (byte0 + 352) - 35 && super.mouseX <= byte0 + 353 + 70 && super.mouseY >= byte1 + 238 && super.mouseY <= byte1 + 238 + 21) {
                 showDuelConfirmWindow = false;
-                super.streamClass.createPacket(35);
-                super.streamClass.formatPacket();
+                PacketBuilder currentPacket = new PacketBuilder(35);
+                super.streamClass.writePacket(currentPacket.toByteArray());
             }
             mouseButtonClick = 0;
         }
@@ -4610,10 +4602,10 @@ public final class mudclient extends GameWindowMiddleMan {
             super.enteredText = "";
             if (s.length() > 0) {
                 long l = DataOperations.stringLength12ToLong(s);
-                super.streamClass.createPacket(7);
-                super.streamClass.writeLong(l);
-                super.streamClass.writeByte(abuseSelectedType);
-                super.streamClass.formatPacket();
+                PacketBuilder currentPacket = new PacketBuilder(7);
+                currentPacket.writeLong(l);
+                currentPacket.writeByte(abuseSelectedType);
+                super.streamClass.writePacket(currentPacket.toByteArray());
             }
             showAbuseWindow = 0;
             return;
@@ -4833,13 +4825,13 @@ public final class mudclient extends GameWindowMiddleMan {
                             flag = true;
                         }
                         if (flag) {
-                            super.streamClass.createPacket(70);
-                            super.streamClass.writeByte(tradeMyItemCount);
+                            PacketBuilder currentPacket = new PacketBuilder(70);
+                            currentPacket.writeByte(tradeMyItemCount);
                             for (int j4 = 0; j4 < tradeMyItemCount; j4++) {
-                                super.streamClass.writeShort(tradeMyItems[j4]);
-                                super.streamClass.writeInt(tradeMyItemsCount[j4]);
+                                currentPacket.writeShort(tradeMyItems[j4]);
+                                currentPacket.writeInt(tradeMyItemsCount[j4]);
                             }
-                            super.streamClass.formatPacket();
+                            super.streamClass.writePacket(currentPacket.toByteArray());
                             tradeOtherAccepted = false;
                             tradeWeAccepted = false;
                         }
@@ -4864,32 +4856,32 @@ public final class mudclient extends GameWindowMiddleMan {
                             break;
                         }
 
-                        super.streamClass.createPacket(70);
-                        super.streamClass.writeByte(tradeMyItemCount);
+                        PacketBuilder currentPacket = new PacketBuilder(70);
+                        currentPacket.writeByte(tradeMyItemCount);
                         for (int i3 = 0; i3 < tradeMyItemCount; i3++) {
-                            super.streamClass.writeShort(tradeMyItems[i3]);
-                            super.streamClass.writeInt(tradeMyItemsCount[i3]);
+                            currentPacket.writeShort(tradeMyItems[i3]);
+                            currentPacket.writeInt(tradeMyItemsCount[i3]);
                         }
 
-                        super.streamClass.formatPacket();
+                        super.streamClass.writePacket(currentPacket.toByteArray());
                         tradeOtherAccepted = false;
                         tradeWeAccepted = false;
                     }
                 }
                 if (i >= 217 && j >= 238 && i <= 286 && j <= 259) {
                     tradeWeAccepted = true;
-                    super.streamClass.createPacket(211);
-                    super.streamClass.formatPacket();
+                    PacketBuilder currentPacket = new PacketBuilder(211);
+                    super.streamClass.writePacket(currentPacket.toByteArray());
                 }
                 if (i >= 394 && j >= 238 && i < 463 && j < 259) {
                     showTradeWindow = false;
-                    super.streamClass.createPacket(216);
-                    super.streamClass.formatPacket();
+                    PacketBuilder currentPacket = new PacketBuilder(216);
+                    super.streamClass.writePacket(currentPacket.toByteArray());
                 }
             } else if (mouseButtonClick != 0) {
                 showTradeWindow = false;
-                super.streamClass.createPacket(216);
-                super.streamClass.formatPacket();
+                PacketBuilder currentPacket = new PacketBuilder(216);
+                super.streamClass.writePacket(currentPacket.toByteArray());
             }
             mouseButtonClick = 0;
             itemIncrement = 0;
@@ -5036,16 +5028,16 @@ public final class mudclient extends GameWindowMiddleMan {
         return null;
     }
 
-    protected final void handleIncomingPacket(int command, int length, byte data[]) {
+    protected final void handleIncomingPacket(Packet packetToHandle) {
         try {
-            int packetOffset = 1;
+            int packetOffset = 0;
             int mobCount = 0;
             int idx = 0;
             int currentExp = 0;
-            switch (command) {
+            switch (packetToHandle.getHeader()) {
                 //Show trade window
                 case 4:
-                    int currentMob = DataOperations.getUnsigned2Bytes(data, packetOffset);
+                    int currentMob = PacketOperations.getShort(packetToHandle.getPacketData(), packetOffset);
                     if (mobArray[currentMob] != null) // todo: check what that mobArray is
                     {
                         tradeOtherPlayerName = mobArray[currentMob].name;
@@ -5058,613 +5050,619 @@ public final class mudclient extends GameWindowMiddleMan {
                     return;
 
                 case 18:
-                    tradeWeAccepted = (data[packetOffset] == 1);
+                    tradeWeAccepted = (PacketOperations.getByte(packetToHandle.getPacketData(), 0) == 1);
                     return;
-                case 23:
-                    if (anInt892 < 50) {
-                        int j7 = data[1] & 0xff;
-                        int k13 = data[2] + sectionX;
-                        int k18 = data[3] + sectionY;
-                        anIntArray782[anInt892] = j7;
-                        anIntArray923[anInt892] = 0;
-                        anIntArray944[anInt892] = k13;
-                        anIntArray757[anInt892] = k18;
-                        anInt892++;
-                    }
-                    return;
+//                case 23:
+//                    if (anInt892 < 50) {
+//                        int j7 = data[1] & 0xff;
+//                        int k13 = data[2] + sectionX;
+//                        int k18 = data[3] + sectionY;
+//                        anIntArray782[anInt892] = j7;
+//                        anIntArray923[anInt892] = 0;
+//                        anIntArray944[anInt892] = k13;
+//                        anIntArray757[anInt892] = k18;
+//                        anInt892++;
+//                    }
+//                    return;
                 //Game object position update
-                case 27:
-                    for (int i1 = 1; i1 < length;) {
-                        if (DataOperations.getUnsignedByte(data[i1]) == 255) {
-                            int j8 = 0;
-                            int l14 = sectionX + data[i1 + 1] >> 3;
-                            int k19 = sectionY + data[i1 + 2] >> 3;
-                            i1 += 3;
-                            for (int i24 = 0; i24 < objectCount; i24++) {
-                                int l26 = (objectX[i24] >> 3) - l14;
-                                int k29 = (objectY[i24] >> 3) - k19;
-                                if (l26 != 0 || k29 != 0) {
-                                    if (i24 != j8) {
-                                        objectModelArray[j8] = objectModelArray[i24];
-                                        objectModelArray[j8].anInt257 = j8;
-                                        objectX[j8] = objectX[i24];
-                                        objectY[j8] = objectY[i24];
-                                        objectType[j8] = objectType[i24];
-                                        objectID[j8] = objectID[i24];
-                                    }
-                                    j8++;
-                                } else {
-                                    gameCamera.removeModel(objectModelArray[i24]);
-                                    engineHandle.updateObject(objectX[i24], objectY[i24], objectType[i24], objectID[i24]);
-                                }
-                            }
+//                case 27:
+//                    for (int i1 = 1; i1 < length;) {
+//                        if (DataOperations.getUnsignedByte(data[i1]) == 255) {
+//                            int j8 = 0;
+//                            int l14 = sectionX + data[i1 + 1] >> 3;
+//                            int k19 = sectionY + data[i1 + 2] >> 3;
+//                            i1 += 3;
+//                            for (int i24 = 0; i24 < objectCount; i24++) {
+//                                int l26 = (objectX[i24] >> 3) - l14;
+//                                int k29 = (objectY[i24] >> 3) - k19;
+//                                if (l26 != 0 || k29 != 0) {
+//                                    if (i24 != j8) {
+//                                        objectModelArray[j8] = objectModelArray[i24];
+//                                        objectModelArray[j8].anInt257 = j8;
+//                                        objectX[j8] = objectX[i24];
+//                                        objectY[j8] = objectY[i24];
+//                                        objectType[j8] = objectType[i24];
+//                                        objectID[j8] = objectID[i24];
+//                                    }
+//                                    j8++;
+//                                } else {
+//                                    gameCamera.removeModel(objectModelArray[i24]);
+//                                    engineHandle.updateObject(objectX[i24], objectY[i24], objectType[i24], objectID[i24]);
+//                                }
+//                            }
+//
+//                            objectCount = j8;
+//                        } else {
+//                            int k8 = PacketOperations.getShort(packetToHandle.getPacketData(), i1);
+//                            i1 += 2;
+//                            int i15 = sectionX + data[i1++];
+//                            int l19 = sectionY + data[i1++];
+//                            int l29 = data[i1++];
+//                            int j24 = 0;
+//                            for (int i27 = 0; i27 < objectCount; i27++) {
+//                                if (objectX[i27] != i15 || objectY[i27] != l19 || objectID[i27] != l29) {
+//                                    if (i27 != j24) {
+//                                        objectModelArray[j24] = objectModelArray[i27];
+//                                        objectModelArray[j24].anInt257 = j24;
+//                                        objectX[j24] = objectX[i27];
+//                                        objectY[j24] = objectY[i27];
+//                                        objectType[j24] = objectType[i27];
+//                                        objectID[j24] = objectID[i27];
+//                                    }
+//                                    j24++;
+//                                } else {
+//                                    gameCamera.removeModel(objectModelArray[i27]);
+//                                    engineHandle.updateObject(objectX[i27], objectY[i27], objectType[i27], objectID[i27]);
+//                                }
+//                            }
+//
+//                            objectCount = j24;
+//                            if (k8 != 60000) {
+//                                engineHandle.registerObjectDir(i15, l19, l29);
+//                                int i34;
+//                                int j37;
+//                                if (l29 == 0 || l29 == 4) {
+//                                    i34 = EntityHandler.getObjectDef(k8).getWidth();
+//                                    j37 = EntityHandler.getObjectDef(k8).getHeight();
+//                                } else {
+//                                    j37 = EntityHandler.getObjectDef(k8).getWidth();
+//                                    i34 = EntityHandler.getObjectDef(k8).getHeight();
+//                                }
+//                                int j40 = ((i15 + i15 + i34) * magicLoc) / 2;
+//                                int i42 = ((l19 + l19 + j37) * magicLoc) / 2;
+//                                int k43 = EntityHandler.getObjectDef(k8).modelID;
+//                                Model model_1 = gameDataModels[k43].method203();
+//                                gameCamera.addModel(model_1);
+//                                model_1.anInt257 = objectCount;
+//                                model_1.method188(0, l29 * 32, 0);
+//                                model_1.method190(j40, -engineHandle.getAveragedElevation(j40, i42), i42);
+//                                model_1.method184(true, 48, 48, -50, -10, -50);
+//                                engineHandle.method412(i15, l19, k8, l29);
+//                                if (k8 == 74) {
+//                                    model_1.method190(0, -480, 0);
+//                                }
+//                                objectX[objectCount] = i15;
+//                                objectY[objectCount] = l19;
+//                                objectType[objectCount] = k8;
+//                                objectID[objectCount] = l29;
+//                                objectModelArray[objectCount++] = model_1;
+//                            }
+//                        }
+//                    }
+//
+//                    return;
 
-                            objectCount = j8;
-                        } else {
-                            int k8 = DataOperations.getUnsigned2Bytes(data, i1);
-                            i1 += 2;
-                            int i15 = sectionX + data[i1++];
-                            int l19 = sectionY + data[i1++];
-                            int l29 = data[i1++];
-                            int j24 = 0;
-                            for (int i27 = 0; i27 < objectCount; i27++) {
-                                if (objectX[i27] != i15 || objectY[i27] != l19 || objectID[i27] != l29) {
-                                    if (i27 != j24) {
-                                        objectModelArray[j24] = objectModelArray[i27];
-                                        objectModelArray[j24].anInt257 = j24;
-                                        objectX[j24] = objectX[i27];
-                                        objectY[j24] = objectY[i27];
-                                        objectType[j24] = objectType[i27];
-                                        objectID[j24] = objectID[i27];
-                                    }
-                                    j24++;
-                                } else {
-                                    gameCamera.removeModel(objectModelArray[i27]);
-                                    engineHandle.updateObject(objectX[i27], objectY[i27], objectType[i27], objectID[i27]);
-                                }
-                            }
+//                case 53:
+//                    mobCount = PacketOperations.getShort(packetToHandle.getPacketData(), 1);
+//                    int mobUpdateOffset = 3;
+//                    for (int mobCounter = 0; mobCounter < mobCount; mobCounter++) {
+//
+//                        int mobArrayIndex = PacketOperations.getShort(packetToHandle.getPacketData(), mobUpdateOffset);
+//                        mobUpdateOffset += 2;
+//                        if (mobArrayIndex < 0 || mobArrayIndex > mobArray.length) {
+//                            return;
+//                        }
+//                        Mob mob = mobArray[mobArrayIndex];
+//                        if (mob == null) {
+//                            return;
+//                        }
+//                        byte mobUpdateType = data[mobUpdateOffset++];
+//                        if (mobUpdateType == 0) {
+//                            int i30 = PacketOperations.getShort(packetToHandle.getPacketData(), mobUpdateOffset);
+//                            mobUpdateOffset += 2;
+//                            if (mob != null) {
+//                                mob.anInt163 = 150;
+//                                mob.anInt162 = i30;
+//                            }
+//                        } else if (mobUpdateType == 1) { // Player talking
+//                            byte byte7 = data[mobUpdateOffset++];
+//                            if (mob != null) {
+//                                String s2 = DataConversions.byteToString(data, mobUpdateOffset, byte7);
+//                                mob.lastMessageTimeout = 150;
+//                                mob.lastMessage = s2;
+//                                displayMessage(mob.name + ": " + mob.lastMessage, 2, mob.admin);
+//                            }
+//                            mobUpdateOffset += byte7;
+//                        } else if (mobUpdateType == 2) { // Someone getting hit.
+//                            int j30 = DataOperations.getUnsignedByte(data[mobUpdateOffset++]);
+//                            int hits = DataOperations.getUnsignedByte(data[mobUpdateOffset++]);
+//                            int hitsBase = DataOperations.getUnsignedByte(data[mobUpdateOffset++]);
+//                            if (mob != null) {
+//                                mob.anInt164 = j30;
+//                                mob.hitPointsCurrent = hits;
+//                                mob.hitPointsBase = hitsBase;
+//                                mob.combatTimer = 200;
+//                                if (mob == ourPlayer) {
+//                                    playerStatCurrent[3] = hits;
+//                                    playerStatBase[3] = hitsBase;
+//                                    showWelcomeBox = false;
+////                                showServerMessageBox = false;
+//                                }
+//                            }
+//                        } else if (mobUpdateType == 3) { // Projectile an npc..
+//                            int k30 = PacketOperations.getShort(packetToHandle.getPacketData(), mobUpdateOffset);
+//                            mobUpdateOffset += 2;
+//                            int k34 = PacketOperations.getShort(packetToHandle.getPacketData(), mobUpdateOffset);
+//                            mobUpdateOffset += 2;
+//                            if (mob != null) {
+//                                mob.attackingCameraInt = k30;
+//                                mob.attackingNpcIndex = k34;
+//                                mob.attackingMobIndex = -1;
+//                                mob.anInt176 = attackingInt40;
+//                            }
+//                        } else if (mobUpdateType == 4) { // Projectile another player.
+//                            int l30 = PacketOperations.getShort(packetToHandle.getPacketData(), mobUpdateOffset);
+//                            mobUpdateOffset += 2;
+//                            int l34 = PacketOperations.getShort(packetToHandle.getPacketData(), mobUpdateOffset);
+//                            mobUpdateOffset += 2;
+//                            if (mob != null) {
+//                                mob.attackingCameraInt = l30;
+//                                mob.attackingMobIndex = l34;
+//                                mob.attackingNpcIndex = -1;
+//                                mob.anInt176 = attackingInt40;
+//                            }
+//                        } else if (mobUpdateType == 5) { // Apperance update
+//                            if (mob != null) {
+//                                mob.mobIntUnknown = PacketOperations.getShort(packetToHandle.getPacketData(), mobUpdateOffset);
+//                                mobUpdateOffset += 2;
+//                                mob.nameLong = Packet.getLong(data, mobUpdateOffset);
+//                                mobUpdateOffset += 8;
+//                                mob.name = DataOperations.longToString(mob.nameLong);
+//                                int i31 = DataOperations.getUnsignedByte(data[mobUpdateOffset]);
+//                                mobUpdateOffset++;
+//                                for (int i35 = 0; i35 < i31; i35++) {
+//                                    mob.animationCount[i35] = DataOperations.getUnsignedByte(data[mobUpdateOffset]);
+//                                    mobUpdateOffset++;
+//                                }
+//
+//                                for (int l37 = i31; l37 < 12; l37++) {
+//                                    mob.animationCount[l37] = 0;
+//                                }
+//
+//                                mob.colourHairType = data[mobUpdateOffset++] & 0xff;
+//                                mob.colourTopType = data[mobUpdateOffset++] & 0xff;
+//                                mob.colourBottomType = data[mobUpdateOffset++] & 0xff;
+//                                mob.colourSkinType = data[mobUpdateOffset++] & 0xff;
+//                                mob.level = data[mobUpdateOffset++] & 0xff;
+//                                mob.anInt179 = data[mobUpdateOffset++] & 0xff;
+//                                mob.admin = data[mobUpdateOffset++] & 0xff;
+//                            } else {
+//                                mobUpdateOffset += 14;
+//                                int j31 = DataOperations.getUnsignedByte(data[mobUpdateOffset]);
+//                                mobUpdateOffset += j31 + 1;
+//                            }
+//                        } else if (mobUpdateType == 6) { // private player talking
+//                            byte byte8 = data[mobUpdateOffset];
+//                            mobUpdateOffset++;
+//                            if (mob != null) {
+//                                String s3 = DataConversions.byteToString(data, mobUpdateOffset, byte8);
+//                                mob.lastMessageTimeout = 150;
+//                                mob.lastMessage = s3;
+//                                if (mob == ourPlayer) {
+//                                    displayMessage(mob.name + ": " + mob.lastMessage, 5, mob.admin);
+//                                }
+//                            }
+//                            mobUpdateOffset += byte8;
+//                        }
+//                    }
+//
+//                    return;
 
-                            objectCount = j24;
-                            if (k8 != 60000) {
-                                engineHandle.registerObjectDir(i15, l19, l29);
-                                int i34;
-                                int j37;
-                                if (l29 == 0 || l29 == 4) {
-                                    i34 = EntityHandler.getObjectDef(k8).getWidth();
-                                    j37 = EntityHandler.getObjectDef(k8).getHeight();
-                                } else {
-                                    j37 = EntityHandler.getObjectDef(k8).getWidth();
-                                    i34 = EntityHandler.getObjectDef(k8).getHeight();
-                                }
-                                int j40 = ((i15 + i15 + i34) * magicLoc) / 2;
-                                int i42 = ((l19 + l19 + j37) * magicLoc) / 2;
-                                int k43 = EntityHandler.getObjectDef(k8).modelID;
-                                Model model_1 = gameDataModels[k43].method203();
-                                gameCamera.addModel(model_1);
-                                model_1.anInt257 = objectCount;
-                                model_1.method188(0, l29 * 32, 0);
-                                model_1.method190(j40, -engineHandle.getAveragedElevation(j40, i42), i42);
-                                model_1.method184(true, 48, 48, -50, -10, -50);
-                                engineHandle.method412(i15, l19, k8, l29);
-                                if (k8 == 74) {
-                                    model_1.method190(0, -480, 0);
-                                }
-                                objectX[objectCount] = i15;
-                                objectY[objectCount] = l19;
-                                objectType[objectCount] = k8;
-                                objectID[objectCount] = l29;
-                                objectModelArray[objectCount++] = model_1;
-                            }
-                        }
-                    }
-
-                    return;
-
-                case 53:
-                    mobCount = DataOperations.getUnsigned2Bytes(data, 1);
-                    int mobUpdateOffset = 3;
-                    for (int mobCounter = 0; mobCounter < mobCount; mobCounter++) {
-
-                        int mobArrayIndex = DataOperations.getUnsigned2Bytes(data, mobUpdateOffset);
-                        mobUpdateOffset += 2;
-                        if (mobArrayIndex < 0 || mobArrayIndex > mobArray.length) {
-                            return;
-                        }
-                        Mob mob = mobArray[mobArrayIndex];
-                        if (mob == null) {
-                            return;
-                        }
-                        byte mobUpdateType = data[mobUpdateOffset++];
-                        if (mobUpdateType == 0) {
-                            int i30 = DataOperations.getUnsigned2Bytes(data, mobUpdateOffset);
-                            mobUpdateOffset += 2;
-                            if (mob != null) {
-                                mob.anInt163 = 150;
-                                mob.anInt162 = i30;
-                            }
-                        } else if (mobUpdateType == 1) { // Player talking
-                            byte byte7 = data[mobUpdateOffset++];
-                            if (mob != null) {
-                                String s2 = DataConversions.byteToString(data, mobUpdateOffset, byte7);
-                                mob.lastMessageTimeout = 150;
-                                mob.lastMessage = s2;
-                                displayMessage(mob.name + ": " + mob.lastMessage, 2, mob.admin);
-                            }
-                            mobUpdateOffset += byte7;
-                        } else if (mobUpdateType == 2) { // Someone getting hit.
-                            int j30 = DataOperations.getUnsignedByte(data[mobUpdateOffset++]);
-                            int hits = DataOperations.getUnsignedByte(data[mobUpdateOffset++]);
-                            int hitsBase = DataOperations.getUnsignedByte(data[mobUpdateOffset++]);
-                            if (mob != null) {
-                                mob.anInt164 = j30;
-                                mob.hitPointsCurrent = hits;
-                                mob.hitPointsBase = hitsBase;
-                                mob.combatTimer = 200;
-                                if (mob == ourPlayer) {
-                                    playerStatCurrent[3] = hits;
-                                    playerStatBase[3] = hitsBase;
-                                    showWelcomeBox = false;
-//                                showServerMessageBox = false;
-                                }
-                            }
-                        } else if (mobUpdateType == 3) { // Projectile an npc..
-                            int k30 = DataOperations.getUnsigned2Bytes(data, mobUpdateOffset);
-                            mobUpdateOffset += 2;
-                            int k34 = DataOperations.getUnsigned2Bytes(data, mobUpdateOffset);
-                            mobUpdateOffset += 2;
-                            if (mob != null) {
-                                mob.attackingCameraInt = k30;
-                                mob.attackingNpcIndex = k34;
-                                mob.attackingMobIndex = -1;
-                                mob.anInt176 = attackingInt40;
-                            }
-                        } else if (mobUpdateType == 4) { // Projectile another player.
-                            int l30 = DataOperations.getUnsigned2Bytes(data, mobUpdateOffset);
-                            mobUpdateOffset += 2;
-                            int l34 = DataOperations.getUnsigned2Bytes(data, mobUpdateOffset);
-                            mobUpdateOffset += 2;
-                            if (mob != null) {
-                                mob.attackingCameraInt = l30;
-                                mob.attackingMobIndex = l34;
-                                mob.attackingNpcIndex = -1;
-                                mob.anInt176 = attackingInt40;
-                            }
-                        } else if (mobUpdateType == 5) { // Apperance update
-                            if (mob != null) {
-                                mob.mobIntUnknown = DataOperations.getUnsigned2Bytes(data, mobUpdateOffset);
-                                mobUpdateOffset += 2;
-                                mob.nameLong = DataOperations.getUnsigned8Bytes(data, mobUpdateOffset);
-                                mobUpdateOffset += 8;
-                                mob.name = DataOperations.longToString(mob.nameLong);
-                                int i31 = DataOperations.getUnsignedByte(data[mobUpdateOffset]);
-                                mobUpdateOffset++;
-                                for (int i35 = 0; i35 < i31; i35++) {
-                                    mob.animationCount[i35] = DataOperations.getUnsignedByte(data[mobUpdateOffset]);
-                                    mobUpdateOffset++;
-                                }
-
-                                for (int l37 = i31; l37 < 12; l37++) {
-                                    mob.animationCount[l37] = 0;
-                                }
-
-                                mob.colourHairType = data[mobUpdateOffset++] & 0xff;
-                                mob.colourTopType = data[mobUpdateOffset++] & 0xff;
-                                mob.colourBottomType = data[mobUpdateOffset++] & 0xff;
-                                mob.colourSkinType = data[mobUpdateOffset++] & 0xff;
-                                mob.level = data[mobUpdateOffset++] & 0xff;
-                                mob.anInt179 = data[mobUpdateOffset++] & 0xff;
-                                mob.admin = data[mobUpdateOffset++] & 0xff;
-                            } else {
-                                mobUpdateOffset += 14;
-                                int j31 = DataOperations.getUnsignedByte(data[mobUpdateOffset]);
-                                mobUpdateOffset += j31 + 1;
-                            }
-                        } else if (mobUpdateType == 6) { // private player talking
-                            byte byte8 = data[mobUpdateOffset];
-                            mobUpdateOffset++;
-                            if (mob != null) {
-                                String s3 = DataConversions.byteToString(data, mobUpdateOffset, byte8);
-                                mob.lastMessageTimeout = 150;
-                                mob.lastMessage = s3;
-                                if (mob == ourPlayer) {
-                                    displayMessage(mob.name + ": " + mob.lastMessage, 5, mob.admin);
-                                }
-                            }
-                            mobUpdateOffset += byte8;
-                        }
-                    }
-
-                    return;
-
-                case 63:
-                    duelOpponentItemCount = data[1] & 0xff;
-                    int l5 = 2;
-                    for (int i12 = 0; i12 < duelOpponentItemCount; i12++) {
-                        duelOpponentItems[i12] = DataOperations.getUnsigned2Bytes(data, l5);
-                        l5 += 2;
-                        duelOpponentItemsCount[i12] = DataOperations.readInt(data, l5);
-                        l5 += 4;
-                    }
-
-                    duelOpponentAccepted = false;
-                    duelMyAccepted = false;
-                    return;
+//                case 63:
+//                    duelOpponentItemCount = PacketOperations.getByte(packetToHandle.getPacketData(), 0)
+//                    int l5 = 2;
+//                    for (int i12 = 0; i12 < duelOpponentItemCount; i12++) {
+//                        duelOpponentItems[i12] = PacketOperations.getShort(packetToHandle.getPacketData(), l5);
+//                        l5 += 2;
+//                        duelOpponentItemsCount[i12] = DataOperations.readInt(data, l5);
+//                        l5 += 4;
+//                    }
+//
+//                    duelOpponentAccepted = false;
+//                    duelMyAccepted = false;
+//                    return;
 
                 case 64:
-                    serverMessage = new String(data, 1, length - 1);
+                    serverMessage = new String(packetToHandle.getPacketData(), 0, packetToHandle.getPacketData().length);
                     showServerMessageBox = true;
                     serverMessageBoxTop = true;
                     return;
 
                 case 65:
-                    duelOpponentAccepted = data[1] == 1;
+                    duelOpponentAccepted = (PacketOperations.getByte(packetToHandle.getPacketData(), 0) == 1);
 
-                case 77:
-                    lastNpcCount = npcCount;
-                    npcCount = 0;
-                    for (int lastNpcIndex = 0; lastNpcIndex < lastNpcCount; lastNpcIndex++) {
-                        lastNpcArray[lastNpcIndex] = npcArray[lastNpcIndex];
-                    }
-
-                    int newNpcOffset = 8;
-                    int newNpcCount = DataOperations.getIntFromByteArray(data, newNpcOffset, 8);
-                    newNpcOffset += 8;
-                    for (int newNpcIndex = 0; newNpcIndex < newNpcCount; newNpcIndex++) {
-                        Mob newNPC = getLastNpc(DataOperations.getIntFromByteArray(data, newNpcOffset, 16));
-                        newNpcOffset += 16;
-                        int npcNeedsUpdate = DataOperations.getIntFromByteArray(data, newNpcOffset, 1);
-                        newNpcOffset++;
-                        if (npcNeedsUpdate != 0) {
-                            int i32 = DataOperations.getIntFromByteArray(data, newNpcOffset, 1);
-                            newNpcOffset++;
-                            if (i32 == 0) {
-                                int nextSprite = DataOperations.getIntFromByteArray(data, newNpcOffset, 3);
-                                newNpcOffset += 3;
-                                int waypointCurrent = newNPC.waypointCurrent;
-                                int waypointX = newNPC.waypointsX[waypointCurrent];
-                                int waypointY = newNPC.waypointsY[waypointCurrent];
-                                if (nextSprite == 2 || nextSprite == 1 || nextSprite == 3) {
-                                    waypointX += magicLoc;
-                                }
-                                if (nextSprite == 6 || nextSprite == 5 || nextSprite == 7) {
-                                    waypointX -= magicLoc;
-                                }
-                                if (nextSprite == 4 || nextSprite == 3 || nextSprite == 5) {
-                                    waypointY += magicLoc;
-                                }
-                                if (nextSprite == 0 || nextSprite == 1 || nextSprite == 7) {
-                                    waypointY -= magicLoc;
-                                }
-                                newNPC.nextSprite = nextSprite;
-                                newNPC.waypointCurrent = waypointCurrent = (waypointCurrent + 1) % 10;
-                                newNPC.waypointsX[waypointCurrent] = waypointX;
-                                newNPC.waypointsY[waypointCurrent] = waypointY;
-                            } else {
-                                int nextSpriteOffset = DataOperations.getIntFromByteArray(data, newNpcOffset, 4);
-                                newNpcOffset += 4;
-                                if ((nextSpriteOffset & 0xc) == 12) {
-                                    continue;
-                                }
-                                newNPC.nextSprite = nextSpriteOffset;
-
-                            }
-                        }
-                        npcArray[npcCount++] = newNPC;
-                    }
-
-                    while (newNpcOffset + 34 < length * 8) {
-                        int serverIndex = DataOperations.getIntFromByteArray(data, newNpcOffset, 16);
-                        newNpcOffset += 16;
-                        int i28 = DataOperations.getIntFromByteArray(data, newNpcOffset, 5);
-                        newNpcOffset += 5;
-                        if (i28 > 15) {
-                            i28 -= 32;
-                        }
-                        int j32 = DataOperations.getIntFromByteArray(data, newNpcOffset, 5);
-                        newNpcOffset += 5;
-                        if (j32 > 15) {
-                            j32 -= 32;
-                        }
-                        int nextSprite = DataOperations.getIntFromByteArray(data, newNpcOffset, 4);
-                        newNpcOffset += 4;
-                        int x = (sectionX + i28) * magicLoc + 64;
-                        int y = (sectionY + j32) * magicLoc + 64;
-                        int type = DataOperations.getIntFromByteArray(data, newNpcOffset, 10);
-                        newNpcOffset += 10;
-                        if (type >= EntityHandler.npcCount()) {
-                            type = 24;
-                        }
-                        addNPC(serverIndex, x, y, nextSprite, type);
-                    }
-                    return;
+//                case 77:
+//                    lastNpcCount = npcCount;
+//                    npcCount = 0;
+//                    for (int lastNpcIndex = 0; lastNpcIndex < lastNpcCount; lastNpcIndex++) {
+//                        lastNpcArray[lastNpcIndex] = npcArray[lastNpcIndex];
+//                    }
+//
+//                    int newNpcOffset = 8;
+//                    int newNpcCount = DataOperations.getIntFromByteArray(data, newNpcOffset, 8);
+//                    newNpcOffset += 8;
+//                    for (int newNpcIndex = 0; newNpcIndex < newNpcCount; newNpcIndex++) {
+//                        Mob newNPC = getLastNpc(DataOperations.getIntFromByteArray(data, newNpcOffset, 16));
+//                        newNpcOffset += 16;
+//                        int npcNeedsUpdate = DataOperations.getIntFromByteArray(data, newNpcOffset, 1);
+//                        newNpcOffset++;
+//                        if (npcNeedsUpdate != 0) {
+//                            int i32 = DataOperations.getIntFromByteArray(data, newNpcOffset, 1);
+//                            newNpcOffset++;
+//                            if (i32 == 0) {
+//                                int nextSprite = DataOperations.getIntFromByteArray(data, newNpcOffset, 3);
+//                                newNpcOffset += 3;
+//                                int waypointCurrent = newNPC.waypointCurrent;
+//                                int waypointX = newNPC.waypointsX[waypointCurrent];
+//                                int waypointY = newNPC.waypointsY[waypointCurrent];
+//                                if (nextSprite == 2 || nextSprite == 1 || nextSprite == 3) {
+//                                    waypointX += magicLoc;
+//                                }
+//                                if (nextSprite == 6 || nextSprite == 5 || nextSprite == 7) {
+//                                    waypointX -= magicLoc;
+//                                }
+//                                if (nextSprite == 4 || nextSprite == 3 || nextSprite == 5) {
+//                                    waypointY += magicLoc;
+//                                }
+//                                if (nextSprite == 0 || nextSprite == 1 || nextSprite == 7) {
+//                                    waypointY -= magicLoc;
+//                                }
+//                                newNPC.nextSprite = nextSprite;
+//                                newNPC.waypointCurrent = waypointCurrent = (waypointCurrent + 1) % 10;
+//                                newNPC.waypointsX[waypointCurrent] = waypointX;
+//                                newNPC.waypointsY[waypointCurrent] = waypointY;
+//                            } else {
+//                                int nextSpriteOffset = DataOperations.getIntFromByteArray(data, newNpcOffset, 4);
+//                                newNpcOffset += 4;
+//                                if ((nextSpriteOffset & 0xc) == 12) {
+//                                    continue;
+//                                }
+//                                newNPC.nextSprite = nextSpriteOffset;
+//
+//                            }
+//                        }
+//                        npcArray[npcCount++] = newNPC;
+//                    }
+//
+//                    while (newNpcOffset + 34 < length * 8) {
+//                        int serverIndex = DataOperations.getIntFromByteArray(data, newNpcOffset, 16);
+//                        newNpcOffset += 16;
+//                        int i28 = DataOperations.getIntFromByteArray(data, newNpcOffset, 5);
+//                        newNpcOffset += 5;
+//                        if (i28 > 15) {
+//                            i28 -= 32;
+//                        }
+//                        int j32 = DataOperations.getIntFromByteArray(data, newNpcOffset, 5);
+//                        newNpcOffset += 5;
+//                        if (j32 > 15) {
+//                            j32 -= 32;
+//                        }
+//                        int nextSprite = DataOperations.getIntFromByteArray(data, newNpcOffset, 4);
+//                        newNpcOffset += 4;
+//                        int x = (sectionX + i28) * magicLoc + 64;
+//                        int y = (sectionY + j32) * magicLoc + 64;
+//                        int type = DataOperations.getIntFromByteArray(data, newNpcOffset, 10);
+//                        newNpcOffset += 10;
+//                        if (type >= EntityHandler.npcCount()) {
+//                            type = 24;
+//                        }
+//                        addNPC(serverIndex, x, y, nextSprite, type);
+//                    }
+//                    return;
 
                 case 92:
-                    tradeOtherAccepted = data[1] == 1;
+                    tradeOtherAccepted = (PacketOperations.getByte(packetToHandle.getPacketData(), 0) == 1);
 
-                case 93:
-                    showBank = true;
-                    int l4 = 1;
-                    newBankItemCount = data[l4++] & 0xff;
-                    bankItemsMax = data[l4++] & 0xff;
-                    for (int k11 = 0; k11 < newBankItemCount; k11++) {
-                        newBankItems[k11] = DataOperations.getUnsigned2Bytes(data, l4);
-                        l4 += 2;
-                        newBankItemsCount[k11] = DataOperations.getUnsigned4Bytes(data, l4);
-                        l4 += 4;
-                    }
+//                case 93:
+//                    showBank = true;
+//                    int l4 = 1;
+//                    newBankItemCount = data[l4++] & 0xff;
+//                    bankItemsMax = data[l4++] & 0xff;
+//                    for (int k11 = 0; k11 < newBankItemCount; k11++) {
+//                        newBankItems[k11] = PacketOperations.getShort(packetToHandle.getPacketData(), l4);
+//                        l4 += 2;
+//                        newBankItemsCount[k11] = PacketOperations.getInt(packetToHandle.getPacketData(), l4);
+//                        l4 += 4;
+//                    }
+//
+//                    updateBankItems();
+//                    return;
 
-                    updateBankItems();
-                    return;
+//                case 95:
+//                    for (int l1 = 1; l1 < length;) {
+//                        if (DataOperations.getUnsignedByte(data[l1]) == 255) {
+//                            int j9 = 0;
+//                            int l15 = sectionX + data[l1 + 1] >> 3;
+//                            int j20 = sectionY + data[l1 + 2] >> 3;
+//                            l1 += 3;
+//                            for (int currentDoor = 0; currentDoor < doorCount; currentDoor++) {
+//                                int j27 = (doorX[currentDoor] >> 3) - l15;
+//                                int k31 = (doorY[currentDoor] >> 3) - j20;
+//                                if (j27 != 0 || k31 != 0) {
+//                                    if (currentDoor != j9) {
+//                                        doorModel[j9] = doorModel[currentDoor];
+//                                        doorModel[j9].anInt257 = j9 + 10000;
+//                                        doorX[j9] = doorX[currentDoor];
+//                                        doorY[j9] = doorY[currentDoor];
+//                                        doorDirection[j9] = doorDirection[currentDoor];
+//                                        doorType[j9] = doorType[currentDoor];
+//                                    }
+//                                    j9++;
+//                                } else {
+//                                    gameCamera.removeModel(doorModel[currentDoor]);
+//                                    engineHandle.updateDoor(doorX[currentDoor], doorY[currentDoor], doorDirection[currentDoor], doorType[currentDoor]);
+//                                }
+//                            }
+//
+//                            doorCount = j9;
+//                        } else {
+//                            int k9 = PacketOperations.getShort(packetToHandle.getPacketData(), l1);
+//                            l1 += 2;
+//                            int i16 = sectionX + data[l1++];
+//                            int k20 = sectionY + data[l1++];
+//                            byte byte5 = data[l1++];
+//                            int k27 = 0;
+//                            for (int l31 = 0; l31 < doorCount; l31++) {
+//                                if (doorX[l31] != i16 || doorY[l31] != k20 || doorDirection[l31] != byte5) {
+//                                    if (l31 != k27) {
+//                                        doorModel[k27] = doorModel[l31];
+//                                        doorModel[k27].anInt257 = k27 + 10000;
+//                                        doorX[k27] = doorX[l31];
+//                                        doorY[k27] = doorY[l31];
+//                                        doorDirection[k27] = doorDirection[l31];
+//                                        doorType[k27] = doorType[l31];
+//                                    }
+//                                    k27++;
+//                                } else {
+//                                    gameCamera.removeModel(doorModel[l31]);
+//                                    engineHandle.updateDoor(doorX[l31], doorY[l31], doorDirection[l31], doorType[l31]);
+//                                }
+//                            }
+//
+//                            doorCount = k27;
+//                            if (k9 != 60000) { // 65535) {
+//                                engineHandle.method408(i16, k20, byte5, k9);
+//                                Model model = makeModel(i16, k20, byte5, k9, doorCount);
+//                                doorModel[doorCount] = model;
+//                                doorX[doorCount] = i16;
+//                                doorY[doorCount] = k20;
+//                                doorType[doorCount] = k9;
+//                                doorDirection[doorCount++] = byte5;
+//                            }
+//                        }
+//                    }
+//
+//                    return;
 
-                case 95:
-                    for (int l1 = 1; l1 < length;) {
-                        if (DataOperations.getUnsignedByte(data[l1]) == 255) {
-                            int j9 = 0;
-                            int l15 = sectionX + data[l1 + 1] >> 3;
-                            int j20 = sectionY + data[l1 + 2] >> 3;
-                            l1 += 3;
-                            for (int currentDoor = 0; currentDoor < doorCount; currentDoor++) {
-                                int j27 = (doorX[currentDoor] >> 3) - l15;
-                                int k31 = (doorY[currentDoor] >> 3) - j20;
-                                if (j27 != 0 || k31 != 0) {
-                                    if (currentDoor != j9) {
-                                        doorModel[j9] = doorModel[currentDoor];
-                                        doorModel[j9].anInt257 = j9 + 10000;
-                                        doorX[j9] = doorX[currentDoor];
-                                        doorY[j9] = doorY[currentDoor];
-                                        doorDirection[j9] = doorDirection[currentDoor];
-                                        doorType[j9] = doorType[currentDoor];
-                                    }
-                                    j9++;
-                                } else {
-                                    gameCamera.removeModel(doorModel[currentDoor]);
-                                    engineHandle.updateDoor(doorX[currentDoor], doorY[currentDoor], doorDirection[currentDoor], doorType[currentDoor]);
-                                }
-                            }
-
-                            doorCount = j9;
-                        } else {
-                            int k9 = DataOperations.getUnsigned2Bytes(data, l1);
-                            l1 += 2;
-                            int i16 = sectionX + data[l1++];
-                            int k20 = sectionY + data[l1++];
-                            byte byte5 = data[l1++];
-                            int k27 = 0;
-                            for (int l31 = 0; l31 < doorCount; l31++) {
-                                if (doorX[l31] != i16 || doorY[l31] != k20 || doorDirection[l31] != byte5) {
-                                    if (l31 != k27) {
-                                        doorModel[k27] = doorModel[l31];
-                                        doorModel[k27].anInt257 = k27 + 10000;
-                                        doorX[k27] = doorX[l31];
-                                        doorY[k27] = doorY[l31];
-                                        doorDirection[k27] = doorDirection[l31];
-                                        doorType[k27] = doorType[l31];
-                                    }
-                                    k27++;
-                                } else {
-                                    gameCamera.removeModel(doorModel[l31]);
-                                    engineHandle.updateDoor(doorX[l31], doorY[l31], doorDirection[l31], doorType[l31]);
-                                }
-                            }
-
-                            doorCount = k27;
-                            if (k9 != 60000) { // 65535) {
-                                engineHandle.method408(i16, k20, byte5, k9);
-                                Model model = makeModel(i16, k20, byte5, k9, doorCount);
-                                doorModel[doorCount] = model;
-                                doorX[doorCount] = i16;
-                                doorY[doorCount] = k20;
-                                doorType[doorCount] = k9;
-                                doorDirection[doorCount++] = byte5;
-                            }
-                        }
-                    }
-
-                    return;
-
-                case 109:
-                    for (int l = 1; l < length;) {
-                        if (DataOperations.getUnsignedByte(data[l]) == 255) { // ???
-                            int newCount = 0;
-                            int newSectionX = sectionX + data[l + 1] >> 3;
-                            int newSectionY = sectionY + data[l + 2] >> 3;
-                            l += 3;
-                            for (int groundItem = 0; groundItem < groundItemCount; groundItem++) {
-                                int newX = (groundItemX[groundItem] >> 3) - newSectionX;
-                                int newY = (groundItemY[groundItem] >> 3) - newSectionY;
-                                if (newX != 0 || newY != 0) {
-                                    if (groundItem != newCount) {
-                                        groundItemX[newCount] = groundItemX[groundItem];
-                                        groundItemY[newCount] = groundItemY[groundItem];
-                                        groundItemType[newCount] = groundItemType[groundItem];
-                                        groundItemObjectVar[newCount] = groundItemObjectVar[groundItem];
-                                    }
-                                    newCount++;
-                                }
-                            }
-
-                            groundItemCount = newCount;
-                        } else {
-                            int i8 = DataOperations.getUnsigned2Bytes(data, l);
-                            l += 2;
-                            int k14 = sectionX + data[l++];
-                            int j19 = sectionY + data[l++];
-                            if ((i8 & 0x8000) == 0) { // New Item
-                                groundItemX[groundItemCount] = k14;
-                                groundItemY[groundItemCount] = j19;
-                                groundItemType[groundItemCount] = i8;
-                                groundItemObjectVar[groundItemCount] = 0;
-                                for (int k23 = 0; k23 < objectCount; k23++) {
-                                    if (objectX[k23] != k14 || objectY[k23] != j19) {
-                                        continue;
-                                    }
-                                    groundItemObjectVar[groundItemCount] = EntityHandler.getObjectDef(objectType[k23]).getGroundItemVar();
-                                    break;
-                                }
-
-                                groundItemCount++;
-                            } else { // Known Item
-                                i8 &= 0x7fff;
-                                int l23 = 0;
-                                for (int k26 = 0; k26 < groundItemCount; k26++) {
-                                    if (groundItemX[k26] != k14 || groundItemY[k26] != j19 || groundItemType[k26] != i8) { // Keep how it is
-                                        if (k26 != l23) {
-                                            groundItemX[l23] = groundItemX[k26];
-                                            groundItemY[l23] = groundItemY[k26];
-                                            groundItemType[l23] = groundItemType[k26];
-                                            groundItemObjectVar[l23] = groundItemObjectVar[k26];
-                                        }
-                                        l23++;
-                                    } else { // Remove
-                                        i8 = -123;
-                                    }
-                                }
-
-                                groundItemCount = l23;
-                            }
-                        }
-                    }
-
-                    return;
+//                case 109:
+//                    for (int l = 1; l < length;) {
+//                        if (DataOperations.getUnsignedByte(data[l]) == 255) { // ???
+//                            int newCount = 0;
+//                            int newSectionX = sectionX + data[l + 1] >> 3;
+//                            int newSectionY = sectionY + data[l + 2] >> 3;
+//                            l += 3;
+//                            for (int groundItem = 0; groundItem < groundItemCount; groundItem++) {
+//                                int newX = (groundItemX[groundItem] >> 3) - newSectionX;
+//                                int newY = (groundItemY[groundItem] >> 3) - newSectionY;
+//                                if (newX != 0 || newY != 0) {
+//                                    if (groundItem != newCount) {
+//                                        groundItemX[newCount] = groundItemX[groundItem];
+//                                        groundItemY[newCount] = groundItemY[groundItem];
+//                                        groundItemType[newCount] = groundItemType[groundItem];
+//                                        groundItemObjectVar[newCount] = groundItemObjectVar[groundItem];
+//                                    }
+//                                    newCount++;
+//                                }
+//                            }
+//
+//                            groundItemCount = newCount;
+//                        } else {
+//                            int i8 = PacketOperations.getShort(packetToHandle.getPacketData(), l);
+//                            l += 2;
+//                            int k14 = sectionX + data[l++];
+//                            int j19 = sectionY + data[l++];
+//                            if ((i8 & 0x8000) == 0) { // New Item
+//                                groundItemX[groundItemCount] = k14;
+//                                groundItemY[groundItemCount] = j19;
+//                                groundItemType[groundItemCount] = i8;
+//                                groundItemObjectVar[groundItemCount] = 0;
+//                                for (int k23 = 0; k23 < objectCount; k23++) {
+//                                    if (objectX[k23] != k14 || objectY[k23] != j19) {
+//                                        continue;
+//                                    }
+//                                    groundItemObjectVar[groundItemCount] = EntityHandler.getObjectDef(objectType[k23]).getGroundItemVar();
+//                                    break;
+//                                }
+//
+//                                groundItemCount++;
+//                            } else { // Known Item
+//                                i8 &= 0x7fff;
+//                                int l23 = 0;
+//                                for (int k26 = 0; k26 < groundItemCount; k26++) {
+//                                    if (groundItemX[k26] != k14 || groundItemY[k26] != j19 || groundItemType[k26] != i8) { // Keep how it is
+//                                        if (k26 != l23) {
+//                                            groundItemX[l23] = groundItemX[k26];
+//                                            groundItemY[l23] = groundItemY[k26];
+//                                            groundItemType[l23] = groundItemType[k26];
+//                                            groundItemObjectVar[l23] = groundItemObjectVar[k26];
+//                                        }
+//                                        l23++;
+//                                    } else { // Remove
+//                                        i8 = -123;
+//                                    }
+//                                }
+//
+//                                groundItemCount = l23;
+//                            }
+//                        }
+//                    }
+//
+//                    return;
 
                 case 110:
-                    int i = 1;
-                    serverStartTime = DataOperations.getUnsigned8Bytes(data, i);
+                    int i = 0;
+                    serverStartTime = PacketOperations.getLong(packetToHandle.getPacketData(), i);
                     i += 8;
-                    serverLocation = new String(data, i, length - i);
+                    serverLocation = PacketOperations.getString(packetToHandle.getPacketData(), i, (packetToHandle.getPacketData().length - i));
                     return;
 
-                case 114:
-                    int invOffset = 1;
-                    inventoryCount = data[invOffset++] & 0xff;
-                    for (int invItem = 0; invItem < inventoryCount; invItem++) {
-                        int j15 = DataOperations.getUnsigned2Bytes(data, invOffset);
-                        invOffset += 2;
-                        inventoryItems[invItem] = (j15 & 0x7fff);
-                        wearing[invItem] = j15 / 32768;
-                        if (EntityHandler.getItemDef(j15 & 0x7fff).isStackable()) {
-                            inventoryItemsCount[invItem] = DataOperations.readInt(data, invOffset);
-                            invOffset += 4;
-                        } else {
-                            inventoryItemsCount[invItem] = 1;
-                        }
-                    }
+//                case 114:
+//                    int invOffset = 1;
+//                    inventoryCount = data[invOffset++] & 0xff;
+//                    for (int invItem = 0; invItem < inventoryCount; invItem++) {
+//                        int j15 = PacketOperations.getShort(packetToHandle.getPacketData(), invOffset);
+//                        invOffset += 2;
+//                        inventoryItems[invItem] = (j15 & 0x7fff);
+//                        wearing[invItem] = j15 / 32768;
+//                        if (EntityHandler.getItemDef(j15 & 0x7fff).isStackable()) {
+//                            inventoryItemsCount[invItem] = DataOperations.readInt(data, invOffset);
+//                            invOffset += 4;
+//                        } else {
+//                            inventoryItemsCount[invItem] = 1;
+//                        }
+//                    }
+//
+//                    return;
 
-                    return;
-
-                case 115:
-                    int thingLength = (length - 1) / 4;
-                    for (int currentThing = 0; currentThing < thingLength; currentThing++) {
-                        int currentItemSectionX = sectionX + DataOperations.getSigned2Bytes(data, 1 + currentThing * 4) >> 3;
-                        int currentItemSectionY = sectionY + DataOperations.getSigned2Bytes(data, 3 + currentThing * 4) >> 3;
-                        int currentCount = 0;
-                        for (int currentItem = 0; currentItem < groundItemCount; currentItem++) {
-                            int currentItemOffsetX = (groundItemX[currentItem] >> 3) - currentItemSectionX;
-                            int currentItemOffsetY = (groundItemY[currentItem] >> 3) - currentItemSectionY;
-                            if (currentItemOffsetX != 0 || currentItemOffsetY != 0) {
-                                if (currentItem != currentCount) {
-                                    groundItemX[currentCount] = groundItemX[currentItem];
-                                    groundItemY[currentCount] = groundItemY[currentItem];
-                                    groundItemType[currentCount] = groundItemType[currentItem];
-                                    groundItemObjectVar[currentCount] = groundItemObjectVar[currentItem];
-                                }
-                                currentCount++;
-                            }
-                        }
-
-                        groundItemCount = currentCount;
-                        currentCount = 0;
-                        for (int j33 = 0; j33 < objectCount; j33++) {
-                            int k36 = (objectX[j33] >> 3) - currentItemSectionX;
-                            int l38 = (objectY[j33] >> 3) - currentItemSectionY;
-                            if (k36 != 0 || l38 != 0) {
-                                if (j33 != currentCount) {
-                                    objectModelArray[currentCount] = objectModelArray[j33];
-                                    objectModelArray[currentCount].anInt257 = currentCount;
-                                    objectX[currentCount] = objectX[j33];
-                                    objectY[currentCount] = objectY[j33];
-                                    objectType[currentCount] = objectType[j33];
-                                    objectID[currentCount] = objectID[j33];
-                                }
-                                currentCount++;
-                            } else {
-                                gameCamera.removeModel(objectModelArray[j33]);
-                                engineHandle.updateObject(objectX[j33], objectY[j33], objectType[j33], objectID[j33]);
-                            }
-                        }
-
-                        objectCount = currentCount;
-                        currentCount = 0;
-                        for (int l36 = 0; l36 < doorCount; l36++) {
-                            int i39 = (doorX[l36] >> 3) - currentItemSectionX;
-                            int j41 = (doorY[l36] >> 3) - currentItemSectionY;
-                            if (i39 != 0 || j41 != 0) {
-                                if (l36 != currentCount) {
-                                    doorModel[currentCount] = doorModel[l36];
-                                    doorModel[currentCount].anInt257 = currentCount + 10000;
-                                    doorX[currentCount] = doorX[l36];
-                                    doorY[currentCount] = doorY[l36];
-                                    doorDirection[currentCount] = doorDirection[l36];
-                                    doorType[currentCount] = doorType[l36];
-                                }
-                                currentCount++;
-                            } else {
-                                gameCamera.removeModel(doorModel[l36]);
-                                engineHandle.updateDoor(doorX[l36], doorY[l36], doorDirection[l36], doorType[l36]);
-                            }
-                        }
-
-                        doorCount = currentCount;
-                    }
-
-                    return;
+//                case 115:
+//                    int thingLength = (length - 1) / 4;
+//                    for (int currentThing = 0; currentThing < thingLength; currentThing++) {
+//                        int currentItemSectionX = sectionX + DataOperations.getSigned2Bytes(data, 1 + currentThing * 4) >> 3;
+//                        int currentItemSectionY = sectionY + DataOperations.getSigned2Bytes(data, 3 + currentThing * 4) >> 3;
+//                        int currentCount = 0;
+//                        for (int currentItem = 0; currentItem < groundItemCount; currentItem++) {
+//                            int currentItemOffsetX = (groundItemX[currentItem] >> 3) - currentItemSectionX;
+//                            int currentItemOffsetY = (groundItemY[currentItem] >> 3) - currentItemSectionY;
+//                            if (currentItemOffsetX != 0 || currentItemOffsetY != 0) {
+//                                if (currentItem != currentCount) {
+//                                    groundItemX[currentCount] = groundItemX[currentItem];
+//                                    groundItemY[currentCount] = groundItemY[currentItem];
+//                                    groundItemType[currentCount] = groundItemType[currentItem];
+//                                    groundItemObjectVar[currentCount] = groundItemObjectVar[currentItem];
+//                                }
+//                                currentCount++;
+//                            }
+//                        }
+//
+//                        groundItemCount = currentCount;
+//                        currentCount = 0;
+//                        for (int j33 = 0; j33 < objectCount; j33++) {
+//                            int k36 = (objectX[j33] >> 3) - currentItemSectionX;
+//                            int l38 = (objectY[j33] >> 3) - currentItemSectionY;
+//                            if (k36 != 0 || l38 != 0) {
+//                                if (j33 != currentCount) {
+//                                    objectModelArray[currentCount] = objectModelArray[j33];
+//                                    objectModelArray[currentCount].anInt257 = currentCount;
+//                                    objectX[currentCount] = objectX[j33];
+//                                    objectY[currentCount] = objectY[j33];
+//                                    objectType[currentCount] = objectType[j33];
+//                                    objectID[currentCount] = objectID[j33];
+//                                }
+//                                currentCount++;
+//                            } else {
+//                                gameCamera.removeModel(objectModelArray[j33]);
+//                                engineHandle.updateObject(objectX[j33], objectY[j33], objectType[j33], objectID[j33]);
+//                            }
+//                        }
+//
+//                        objectCount = currentCount;
+//                        currentCount = 0;
+//                        for (int l36 = 0; l36 < doorCount; l36++) {
+//                            int i39 = (doorX[l36] >> 3) - currentItemSectionX;
+//                            int j41 = (doorY[l36] >> 3) - currentItemSectionY;
+//                            if (i39 != 0 || j41 != 0) {
+//                                if (l36 != currentCount) {
+//                                    doorModel[currentCount] = doorModel[l36];
+//                                    doorModel[currentCount].anInt257 = currentCount + 10000;
+//                                    doorX[currentCount] = doorX[l36];
+//                                    doorY[currentCount] = doorY[l36];
+//                                    doorDirection[currentCount] = doorDirection[l36];
+//                                    doorType[currentCount] = doorType[l36];
+//                                }
+//                                currentCount++;
+//                            } else {
+//                                gameCamera.removeModel(doorModel[l36]);
+//                                engineHandle.updateDoor(doorX[l36], doorY[l36], doorDirection[l36], doorType[l36]);
+//                            }
+//                        }
+//
+//                        doorCount = currentCount;
+//                    }
+//
+//                    return;
 
                 case 126:
-                    fatigue = DataOperations.getUnsigned2Bytes(data, 1);
+                    fatigue = PacketOperations.getShort(packetToHandle.getPacketData(), 1);
                     return;
 
                 case 127:
                     showQuestionMenu = false;
                     return;
 
-                case 129:
-                    combatStyle = DataOperations.getUnsignedByte(data[1]);
-                    return;
+//                case 129:
+//                    combatStyle = DataOperations.getUnsignedByte(data[1]);
+//                    return;
 
                 case 131:
                     notInWilderness = true;
                     hasWorldInfo = true;
-                    serverIndex = DataOperations.getUnsigned2Bytes(data, 1);
-                    wildX = DataOperations.getUnsigned2Bytes(data, 3);
-                    wildY = DataOperations.getUnsigned2Bytes(data, 5);
-                    wildYSubtract = DataOperations.getUnsigned2Bytes(data, 7);
-                    wildYMultiplier = DataOperations.getUnsigned2Bytes(data, 9);
+                    serverIndex = PacketOperations.getShort(packetToHandle.getPacketData(), packetOffset);
+                    packetOffset += 2;
+                    wildX = PacketOperations.getShort(packetToHandle.getPacketData(), packetOffset);
+                    packetOffset += 2;
+                    wildY = PacketOperations.getShort(packetToHandle.getPacketData(), packetOffset);
+                    packetOffset += 2;
+                    wildYSubtract = PacketOperations.getShort(packetToHandle.getPacketData(), packetOffset);
+                    packetOffset += 2;
+                    wildYMultiplier = PacketOperations.getShort(packetToHandle.getPacketData(), packetOffset);
+                    packetOffset += 2;
+                    System.out.println("Server index: " + serverIndex);
                     wildY -= wildYSubtract * wildYMultiplier;
                     return;
 
-                case 139:
-                    int bankDataOffset = 1;
-                    int bankSlot = data[bankDataOffset++] & 0xff;
-                    int bankItemId = DataOperations.getUnsigned2Bytes(data, bankDataOffset);
-                    bankDataOffset += 2;
-                    int bankItemCount = DataOperations.getUnsigned4Bytes(data, bankDataOffset);
-                    bankDataOffset += 4;
-                    if (bankItemCount == 0) {
-                        newBankItemCount--;
-                        for (int currentBankSlot = bankSlot; currentBankSlot < newBankItemCount; currentBankSlot++) {
-                            newBankItems[currentBankSlot] = newBankItems[currentBankSlot + 1];
-                            newBankItemsCount[currentBankSlot] = newBankItemsCount[currentBankSlot + 1];
-                        }
-
-                    } else {
-                        newBankItems[bankSlot] = bankItemId;
-                        newBankItemsCount[bankSlot] = bankItemCount;
-                        if (bankSlot >= newBankItemCount) {
-                            newBankItemCount = bankSlot + 1;
-                        }
-                    }
-                    updateBankItems();
-                    return;
+//                case 139:
+//                    int bankDataOffset = 1;
+//                    int bankSlot = data[bankDataOffset++] & 0xff;
+//                    int bankItemId = PacketOperations.getShort(packetToHandle.getPacketData(), bankDataOffset);
+//                    bankDataOffset += 2;
+//                    int bankItemCount = PacketOperations.getInt(packetToHandle.getPacketData(), bankDataOffset);
+//                    bankDataOffset += 4;
+//                    if (bankItemCount == 0) {
+//                        newBankItemCount--;
+//                        for (int currentBankSlot = bankSlot; currentBankSlot < newBankItemCount; currentBankSlot++) {
+//                            newBankItems[currentBankSlot] = newBankItems[currentBankSlot + 1];
+//                            newBankItemsCount[currentBankSlot] = newBankItemsCount[currentBankSlot + 1];
+//                        }
+//
+//                    } else {
+//                        newBankItems[bankSlot] = bankItemId;
+//                        newBankItemsCount[bankSlot] = bankItemCount;
+//                        if (bankSlot >= newBankItemCount) {
+//                            newBankItemCount = bankSlot + 1;
+//                        }
+//                    }
+//                    updateBankItems();
+//                    return;
 
                 case 145:
                     if (!hasWorldInfo) {
@@ -5674,14 +5672,12 @@ public final class mudclient extends GameWindowMiddleMan {
                     for (int k = 0; k < lastPlayerCount; k++) {
                         lastPlayerArray[k] = playerArray[k];
                     }
-
-                    int currentOffset = 8;
-                    sectionX = DataOperations.getIntFromByteArray(data, currentOffset, 11);
-                    currentOffset += 11;
-                    sectionY = DataOperations.getIntFromByteArray(data, currentOffset, 13);
-                    currentOffset += 13;
-                    int mobSprite = DataOperations.getIntFromByteArray(data, currentOffset, 4);
-                    currentOffset += 4;
+                    sectionX = PacketOperations.getInt(packetToHandle.getPacketData(), packetOffset);
+                    packetOffset+=4;
+                    sectionY = PacketOperations.getInt(packetToHandle.getPacketData(), packetOffset);
+                    packetOffset+=4;
+                    int mobSprite = PacketOperations.getInt(packetToHandle.getPacketData(), packetOffset);
+                    packetOffset+=4;
                     boolean sectionLoaded = loadSection(sectionX, sectionY);
                     sectionX -= areaX;
                     sectionY -= areaY;
@@ -5695,132 +5691,132 @@ public final class mudclient extends GameWindowMiddleMan {
                     }
                     playerCount = 0;
                     ourPlayer = makePlayer(serverIndex, mapEnterX, mapEnterY, mobSprite);
-                    int newPlayerCount = DataOperations.getIntFromByteArray(data, currentOffset, 8);
-                    currentOffset += 8;
-                    for (int currentNewPlayer = 0; currentNewPlayer < newPlayerCount; currentNewPlayer++) {
-                        Mob lastMob = getLastPlayer(DataOperations.getIntFromByteArray(data, currentOffset, 16));
-                        currentOffset += 16;
-                        int nextPlayer = DataOperations.getIntFromByteArray(data, currentOffset, 1); // 1
-                        currentOffset++;
-                        if (nextPlayer != 0) {
-                            int waypointsLeft = DataOperations.getIntFromByteArray(data, currentOffset, 1); // 2
-                            currentOffset++;
-                            if (waypointsLeft == 0) {
-                                int currentNextSprite = DataOperations.getIntFromByteArray(data, currentOffset, 3); // 3
-                                currentOffset += 3;
-                                int currentWaypoint = lastMob.waypointCurrent;
-                                int newWaypointX = lastMob.waypointsX[currentWaypoint];
-                                int newWaypointY = lastMob.waypointsY[currentWaypoint];
-                                if (currentNextSprite == 2 || currentNextSprite == 1 || currentNextSprite == 3) {
-                                    newWaypointX += magicLoc;
-                                }
-                                if (currentNextSprite == 6 || currentNextSprite == 5 || currentNextSprite == 7) {
-                                    newWaypointX -= magicLoc;
-                                }
-                                if (currentNextSprite == 4 || currentNextSprite == 3 || currentNextSprite == 5) {
-                                    newWaypointY += magicLoc;
-                                }
-                                if (currentNextSprite == 0 || currentNextSprite == 1 || currentNextSprite == 7) {
-                                    newWaypointY -= magicLoc;
-                                }
-                                lastMob.nextSprite = currentNextSprite;
-                                lastMob.waypointCurrent = currentWaypoint = (currentWaypoint + 1) % 10;
-                                lastMob.waypointsX[currentWaypoint] = newWaypointX;
-                                lastMob.waypointsY[currentWaypoint] = newWaypointY;
-                            } else {
-                                int needsNextSprite = DataOperations.getIntFromByteArray(data, currentOffset, 4);
-                                currentOffset += 4;
-                                if ((needsNextSprite & 0xc) == 12) {
-                                    continue;
-                                }
-                                lastMob.nextSprite = needsNextSprite;
-                            }
-                        }
-                        playerArray[playerCount++] = lastMob;
-                    }
-
-                    mobCount = 0;
-                    while (currentOffset + 24 < length * 8) {
-                        int mobIndex = DataOperations.getIntFromByteArray(data, currentOffset, 16);
-                        currentOffset += 16;
-                        int areaMobX = DataOperations.getIntFromByteArray(data, currentOffset, 5);
-                        currentOffset += 5;
-                        if (areaMobX > 15) {
-                            areaMobX -= 32;
-                        }
-                        int areaMobY = DataOperations.getIntFromByteArray(data, currentOffset, 5);
-                        currentOffset += 5;
-                        if (areaMobY > 15) {
-                            areaMobY -= 32;
-                        }
-                        int mobArrayMobID = DataOperations.getIntFromByteArray(data, currentOffset, 4);
-                        currentOffset += 4;
-                        int addIndex = DataOperations.getIntFromByteArray(data, currentOffset, 1);
-                        currentOffset++;
-                        int mobX = (sectionX + areaMobX) * magicLoc + 64;
-                        int mobY = (sectionY + areaMobY) * magicLoc + 64;
-                        makePlayer(mobIndex, mobX, mobY, mobArrayMobID);
-                        if (addIndex == 0) {
-                            mobArrayIndexes[mobCount++] = mobIndex;
-                        }
-                    }
-                    if (mobCount > 0) {
-                        super.streamClass.createPacket(83);
-                        super.streamClass.writeShort(mobCount);
-                        for (int mobCounter = 0; mobCounter < mobCount; mobCounter++) {
-                            Mob dummyMob = mobArray[mobArrayIndexes[mobCounter]];
-                            super.streamClass.writeShort(dummyMob.serverIndex);
-                            super.streamClass.writeShort(dummyMob.mobIntUnknown);
-                        }
-
-                        super.streamClass.formatPacket();
-                        mobCount = 0;
-                    }
+                    int newPlayerCount = PacketOperations.getInt(packetToHandle.getPacketData(), packetOffset);
+                    packetOffset+=4;
+//                    for (int currentNewPlayer = 0; currentNewPlayer < newPlayerCount; currentNewPlayer++) {
+//                        Mob lastMob = getLastPlayer(DataOperations.getIntFromByteArray(data, currentOffset, 16));
+//                        currentOffset += 16;
+//                        int nextPlayer = DataOperations.getIntFromByteArray(data, currentOffset, 1); // 1
+//                        currentOffset++;
+//                        if (nextPlayer != 0) {
+//                            int waypointsLeft = DataOperations.getIntFromByteArray(data, currentOffset, 1); // 2
+//                            currentOffset++;
+//                            if (waypointsLeft == 0) {
+//                                int currentNextSprite = DataOperations.getIntFromByteArray(data, currentOffset, 3); // 3
+//                                currentOffset += 3;
+//                                int currentWaypoint = lastMob.waypointCurrent;
+//                                int newWaypointX = lastMob.waypointsX[currentWaypoint];
+//                                int newWaypointY = lastMob.waypointsY[currentWaypoint];
+//                                if (currentNextSprite == 2 || currentNextSprite == 1 || currentNextSprite == 3) {
+//                                    newWaypointX += magicLoc;
+//                                }
+//                                if (currentNextSprite == 6 || currentNextSprite == 5 || currentNextSprite == 7) {
+//                                    newWaypointX -= magicLoc;
+//                                }
+//                                if (currentNextSprite == 4 || currentNextSprite == 3 || currentNextSprite == 5) {
+//                                    newWaypointY += magicLoc;
+//                                }
+//                                if (currentNextSprite == 0 || currentNextSprite == 1 || currentNextSprite == 7) {
+//                                    newWaypointY -= magicLoc;
+//                                }
+//                                lastMob.nextSprite = currentNextSprite;
+//                                lastMob.waypointCurrent = currentWaypoint = (currentWaypoint + 1) % 10;
+//                                lastMob.waypointsX[currentWaypoint] = newWaypointX;
+//                                lastMob.waypointsY[currentWaypoint] = newWaypointY;
+//                            } else {
+//                                int needsNextSprite = DataOperations.getIntFromByteArray(data, currentOffset, 4);
+//                                currentOffset += 4;
+//                                if ((needsNextSprite & 0xc) == 12) {
+//                                    continue;
+//                                }
+//                                lastMob.nextSprite = needsNextSprite;
+//                            }
+//                        }
+//                        playerArray[playerCount++] = lastMob;
+//                    }
+//
+//                    mobCount = 0;
+//                    while (currentOffset + 24 < length * 8) {
+//                        int mobIndex = DataOperations.getIntFromByteArray(data, currentOffset, 16);
+//                        currentOffset += 16;
+//                        int areaMobX = DataOperations.getIntFromByteArray(data, currentOffset, 5);
+//                        currentOffset += 5;
+//                        if (areaMobX > 15) {
+//                            areaMobX -= 32;
+//                        }
+//                        int areaMobY = DataOperations.getIntFromByteArray(data, currentOffset, 5);
+//                        currentOffset += 5;
+//                        if (areaMobY > 15) {
+//                            areaMobY -= 32;
+//                        }
+//                        int mobArrayMobID = DataOperations.getIntFromByteArray(data, currentOffset, 4);
+//                        currentOffset += 4;
+//                        int addIndex = DataOperations.getIntFromByteArray(data, currentOffset, 1);
+//                        currentOffset++;
+//                        int mobX = (sectionX + areaMobX) * magicLoc + 64;
+//                        int mobY = (sectionY + areaMobY) * magicLoc + 64;
+//                        makePlayer(mobIndex, mobX, mobY, mobArrayMobID);
+//                        if (addIndex == 0) {
+//                            mobArrayIndexes[mobCount++] = mobIndex;
+//                        }
+//                    }
+//                    if (mobCount > 0) {
+//                        PacketBuilder currentPacket = new PacketBuilder(83);
+//                        currentPacket.writeShort(mobCount);
+//                        for (int mobCounter = 0; mobCounter < mobCount; mobCounter++) {
+//                            Mob dummyMob = mobArray[mobArrayIndexes[mobCounter]];
+//                            currentPacket.writeShort(dummyMob.serverIndex);
+//                            currentPacket.writeShort(dummyMob.mobIntUnknown);
+//                        }
+//
+//                        super.streamClass.writePacket(currentPacket.toByteArray());
+//                        mobCount = 0;
+//                    }
                     return;
 
-                case 147:
-                    showDuelConfirmWindow = true;
-                    duelWeAccept = false;
-                    showDuelWindow = false;
-                    int i7 = 1;
-                    duelOpponentNameLong = DataOperations.getUnsigned8Bytes(data, i7);
-                    i7 += 8;
-                    duelConfirmOpponentItemCount = data[i7++] & 0xff;
-                    for (int j13 = 0; j13 < duelConfirmOpponentItemCount; j13++) {
-                        duelConfirmOpponentItems[j13] = DataOperations.getUnsigned2Bytes(data, i7);
-                        i7 += 2;
-                        duelConfirmOpponentItemsCount[j13] = DataOperations.readInt(data, i7);
-                        i7 += 4;
-                    }
+//                case 147:
+//                    showDuelConfirmWindow = true;
+//                    duelWeAccept = false;
+//                    showDuelWindow = false;
+//                    int i7 = 1;
+//                    duelOpponentNameLong = Packet.getLong(data, i7);
+//                    i7 += 8;
+//                    duelConfirmOpponentItemCount = data[i7++] & 0xff;
+//                    for (int j13 = 0; j13 < duelConfirmOpponentItemCount; j13++) {
+//                        duelConfirmOpponentItems[j13] = PacketOperations.getShort(packetToHandle.getPacketData(), i7);
+//                        i7 += 2;
+//                        duelConfirmOpponentItemsCount[j13] = DataOperations.readInt(data, i7);
+//                        i7 += 4;
+//                    }
+//
+//                    duelConfirmMyItemCount = data[i7++] & 0xff;
+//                    for (int j18 = 0; j18 < duelConfirmMyItemCount; j18++) {
+//                        duelConfirmMyItems[j18] = PacketOperations.getShort(packetToHandle.getPacketData(), i7);
+//                        i7 += 2;
+//                        duelConfirmMyItemsCount[j18] = DataOperations.readInt(data, i7);
+//                        i7 += 4;
+//                    }
+//
+//                    duelCantRetreat = data[i7++] & 0xff;
+//                    duelUseMagic = data[i7++] & 0xff;
+//                    duelUsePrayer = data[i7++] & 0xff;
+//                    duelUseWeapons = data[i7++] & 0xff;
+//                    return;
 
-                    duelConfirmMyItemCount = data[i7++] & 0xff;
-                    for (int j18 = 0; j18 < duelConfirmMyItemCount; j18++) {
-                        duelConfirmMyItems[j18] = DataOperations.getUnsigned2Bytes(data, i7);
-                        i7 += 2;
-                        duelConfirmMyItemsCount[j18] = DataOperations.readInt(data, i7);
-                        i7 += 4;
-                    }
+//                case 148:
+//                    serverMessage = new String(data, 1, length - 1);
+//                    showServerMessageBox = true;
+//                    serverMessageBoxTop = false;
+//                    return;
 
-                    duelCantRetreat = data[i7++] & 0xff;
-                    duelUseMagic = data[i7++] & 0xff;
-                    duelUsePrayer = data[i7++] & 0xff;
-                    duelUseWeapons = data[i7++] & 0xff;
-                    return;
-
-                case 148:
-                    serverMessage = new String(data, 1, length - 1);
-                    showServerMessageBox = true;
-                    serverMessageBoxTop = false;
-                    return;
-
-                case 152:
-                    configAutoCameraAngle = DataOperations.getUnsignedByte(data[1]) == 1;
-                    configMouseButtons = DataOperations.getUnsignedByte(data[2]) == 1;
-                    configSoundEffects = DataOperations.getUnsignedByte(data[3]) == 1;
-                    showRoof = DataOperations.getUnsignedByte(data[4]) == 1;
-                    autoScreenshot = DataOperations.getUnsignedByte(data[5]) == 1;
-                    combatWindow = DataOperations.getUnsignedByte(data[6]) == 1;
-                    return;
+//                case 152:
+//                    configAutoCameraAngle = DataOperations.getUnsignedByte(data[1]) == 1;
+//                    configMouseButtons = DataOperations.getUnsignedByte(data[2]) == 1;
+//                    configSoundEffects = DataOperations.getUnsignedByte(data[3]) == 1;
+//                    showRoof = DataOperations.getUnsignedByte(data[4]) == 1;
+//                    autoScreenshot = DataOperations.getUnsignedByte(data[5]) == 1;
+//                    combatWindow = DataOperations.getUnsignedByte(data[6]) == 1;
+//                    return;
 
                 case 160:
                     showDuelWindow = false;
@@ -5836,31 +5832,31 @@ public final class mudclient extends GameWindowMiddleMan {
                     return;
 
                 case 172:
-                    systemUpdate = DataOperations.getUnsigned2Bytes(data, 1) * 32;
+                    systemUpdate = PacketOperations.getShort(packetToHandle.getPacketData(), 1) * 32;
                     return;
 
-                case 177:
-                    int i3 = 1;
-                    for (int x = 0; x < 6; x++) {
-                        equipmentStatus[x] = DataOperations.getSigned2Bytes(data, i3);
-                        i3 += 2;
-                    }
-                    return;
+//                case 177:
+//                    int i3 = 1;
+//                    for (int x = 0; x < 6; x++) {
+//                        equipmentStatus[x] = DataOperations.getSigned2Bytes(data, i3);
+//                        i3 += 2;
+//                    }
+//                    return;
 
-                case 180:
-                    int l2 = 1;
-                    for (int k10 = 0; k10 < 18; k10++) {
-                        playerStatCurrent[k10] = DataOperations.getUnsignedByte(data[l2++]);
-                    }
-                    for (int i17 = 0; i17 < 18; i17++) {
-                        playerStatBase[i17] = DataOperations.getUnsignedByte(data[l2++]);
-                    }
-                    for (int k21 = 0; k21 < 18; k21++) {
-                        playerStatExperience[k21] = DataOperations.readInt(data, l2);
-                        l2 += 4;
-                    }
-                    expGained = 0;
-                    return;
+//                case 180:
+//                    int l2 = 1;
+//                    for (int k10 = 0; k10 < 18; k10++) {
+//                        playerStatCurrent[k10] = DataOperations.getUnsignedByte(data[l2++]);
+//                    }
+//                    for (int i17 = 0; i17 < 18; i17++) {
+//                        playerStatBase[i17] = DataOperations.getUnsignedByte(data[l2++]);
+//                    }
+//                    for (int k21 = 0; k21 < 18; k21++) {
+//                        playerStatExperience[k21] = DataOperations.readInt(data, l2);
+//                        l2 += 4;
+//                    }
+//                    expGained = 0;
+//                    return;
 
                 case 181:
                     if (autoScreenshot) {
@@ -5873,263 +5869,257 @@ public final class mudclient extends GameWindowMiddleMan {
                     showTradeConfirmWindow = false;
                     return;
 
-                case 190:
-                    int j2 = DataOperations.getUnsigned2Bytes(data, 1);
-                    int i10 = 3;
-                    for (int k16 = 0; k16 < j2; k16++) {
-                        int i21 = DataOperations.getUnsigned2Bytes(data, i10);
-                        i10 += 2;
-                        Mob mob_2 = npcRecordArray[i21];
-                        int j28 = DataOperations.getUnsignedByte(data[i10]);
-                        i10++;
-                        if (j28 == 1) {
-                            int k32 = DataOperations.getUnsigned2Bytes(data, i10);
-                            i10 += 2;
-                            byte byte9 = data[i10];
-                            i10++;
-                            if (mob_2 != null) {
-                                String s4 = DataConversions.byteToString(data, i10, byte9);
-                                mob_2.lastMessageTimeout = 150;
-                                mob_2.lastMessage = s4;
-                                if (k32 == ourPlayer.serverIndex) {
-                                    displayMessage("@yel@" + EntityHandler.getNpcDef(mob_2.type).getName() + ": " + mob_2.lastMessage, 5, 0);
-                                }
-                            }
-                            i10 += byte9;
-                        } else if (j28 == 2) {
-                            int l32 = DataOperations.getUnsignedByte(data[i10]);
-                            i10++;
-                            int i36 = DataOperations.getUnsignedByte(data[i10]);
-                            i10++;
-                            int k38 = DataOperations.getUnsignedByte(data[i10]);
-                            i10++;
-                            if (mob_2 != null) {
-                                mob_2.anInt164 = l32;
-                                mob_2.hitPointsCurrent = i36;
-                                mob_2.hitPointsBase = k38;
-                                mob_2.combatTimer = 200;
-                            }
-                        }
-                    }
+//                case 190:
+//                    int j2 = PacketOperations.getShort(packetToHandle.getPacketData(), 1);
+//                    int i10 = 3;
+//                    for (int k16 = 0; k16 < j2; k16++) {
+//                        int i21 = PacketOperations.getShort(packetToHandle.getPacketData(), i10);
+//                        i10 += 2;
+//                        Mob mob_2 = npcRecordArray[i21];
+//                        int j28 = DataOperations.getUnsignedByte(data[i10]);
+//                        i10++;
+//                        if (j28 == 1) {
+//                            int k32 = PacketOperations.getShort(packetToHandle.getPacketData(), i10);
+//                            i10 += 2;
+//                            byte byte9 = data[i10];
+//                            i10++;
+//                            if (mob_2 != null) {
+//                                String s4 = DataConversions.byteToString(data, i10, byte9);
+//                                mob_2.lastMessageTimeout = 150;
+//                                mob_2.lastMessage = s4;
+//                                if (k32 == ourPlayer.serverIndex) {
+//                                    displayMessage("@yel@" + EntityHandler.getNpcDef(mob_2.type).getName() + ": " + mob_2.lastMessage, 5, 0);
+//                                }
+//                            }
+//                            i10 += byte9;
+//                        } else if (j28 == 2) {
+//                            int l32 = DataOperations.getUnsignedByte(data[i10]);
+//                            i10++;
+//                            int i36 = DataOperations.getUnsignedByte(data[i10]);
+//                            i10++;
+//                            int k38 = DataOperations.getUnsignedByte(data[i10]);
+//                            i10++;
+//                            if (mob_2 != null) {
+//                                mob_2.anInt164 = l32;
+//                                mob_2.hitPointsCurrent = i36;
+//                                mob_2.hitPointsBase = k38;
+//                                mob_2.combatTimer = 200;
+//                            }
+//                        }
+//                    }
+//
+//                    return;
 
-                    return;
+//                case 191:
+//                    int k6 = data[1] & 0xff;
+//                    inventoryCount--;
+//                    for (int l12 = k6; l12 < inventoryCount; l12++) {
+//                        inventoryItems[l12] = inventoryItems[l12 + 1];
+//                        inventoryItemsCount[l12] = inventoryItemsCount[l12 + 1];
+//                        wearing[l12] = wearing[l12 + 1];
+//                    }
+//                    return;
 
-                case 191:
-                    int k6 = data[1] & 0xff;
-                    inventoryCount--;
-                    for (int l12 = k6; l12 < inventoryCount; l12++) {
-                        inventoryItems[l12] = inventoryItems[l12 + 1];
-                        inventoryItemsCount[l12] = inventoryItemsCount[l12 + 1];
-                        wearing[l12] = wearing[l12 + 1];
-                    }
-                    return;
-
-                case 197:
-                    duelMyAccepted = data[1] == 1;
-
-                case 198:
-                    duelNoRetreating = data[1] == 1;
-                    duelNoMagic = data[2] == 1;
-                    duelNoPrayer = data[3] == 1;
-                    duelNoWeapons = data[4] == 1;
-                    duelOpponentAccepted = false;
-                    duelMyAccepted = false;
-                    return;
+//                case 197:
+//                    duelMyAccepted = data[1] == 1;
+//
+//                case 198:
+//                    duelNoRetreating = data[1] == 1;
+//                    duelNoMagic = data[2] == 1;
+//                    duelNoPrayer = data[3] == 1;
+//                    duelNoWeapons = data[4] == 1;
+//                    duelOpponentAccepted = false;
+//                    duelMyAccepted = false;
+//                    return;
 
                 case 207:
                     showCharacterLookScreen = true;
                     return;
 
-                case 208:
-                    int pointer = 1;
-                    idx = data[pointer++] & 0xff;
-                    int oldExp = playerStatExperience[idx];
-                    playerStatCurrent[idx] = DataOperations.getUnsignedByte(data[pointer++]);
-                    playerStatBase[idx] = DataOperations.getUnsignedByte(data[pointer++]);
-                    playerStatExperience[idx] = DataOperations.readInt(data, pointer);
-                    pointer += 4;
+//                case 208:
+//                    int pointer = 1;
+//                    idx = data[pointer++] & 0xff;
+//                    int oldExp = playerStatExperience[idx];
+//                    playerStatCurrent[idx] = DataOperations.getUnsignedByte(data[pointer++]);
+//                    playerStatBase[idx] = DataOperations.getUnsignedByte(data[pointer++]);
+//                    playerStatExperience[idx] = DataOperations.readInt(data, pointer);
+//                    pointer += 4;
+//
+//                    if (playerStatExperience[idx] > oldExp) {
+//                        expGained += (playerStatExperience[idx] - oldExp);
+//                    }
+//                    return;
 
-                    if (playerStatExperience[idx] > oldExp) {
-                        expGained += (playerStatExperience[idx] - oldExp);
-                    }
-                    return;
+//                case 209:
+//                    for (int currentPrayer = 0; currentPrayer < length - 1; currentPrayer++) {
+//                        boolean prayerOff = data[currentPrayer + 1] == 1;
+//                        prayerOn[currentPrayer] = prayerOff;
+//                    }
+//
+//                    return;
 
-                case 209:
-                    for (int currentPrayer = 0; currentPrayer < length - 1; currentPrayer++) {
-                        boolean prayerOff = data[currentPrayer + 1] == 1;
-                        prayerOn[currentPrayer] = prayerOff;
-                    }
-
-                    return;
-
-                case 211:
-                    idx = data[1] & 0xFF;
-                    oldExp = playerStatExperience[idx];
-                    playerStatExperience[idx] = DataOperations.readInt(data, 2);
-                    if (playerStatExperience[idx] > oldExp) {
-                        expGained += (playerStatExperience[idx] - oldExp);
-                    }
-                    return;
+//                case 211:
+//                    idx = data[1] & 0xFF;
+//                    oldExp = playerStatExperience[idx];
+//                    playerStatExperience[idx] = DataOperations.readInt(data, 2);
+//                    if (playerStatExperience[idx] > oldExp) {
+//                        expGained += (playerStatExperience[idx] - oldExp);
+//                    }
+//                    return;
 
                 case 220:
                     showShop = false;
                     return;
 
-                case 223:
-                    showQuestionMenu = true;
-                    int newQuestionMenuCount = DataOperations.getUnsignedByte(data[1]);
-                    questionMenuCount = newQuestionMenuCount;
-                    int newQuestionMenuOffset = 2;
-                    for (int l16 = 0; l16 < newQuestionMenuCount; l16++) {
-                        int newQuestionMenuQuestionLength = DataOperations.getUnsignedByte(data[newQuestionMenuOffset]);
-                        newQuestionMenuOffset++;
-                        questionMenuAnswer[l16] = new String(data, newQuestionMenuOffset, newQuestionMenuQuestionLength);
-                        newQuestionMenuOffset += newQuestionMenuQuestionLength;
-                    }
+//                case 223:
+//                    showQuestionMenu = true;
+//                    int newQuestionMenuCount = DataOperations.getUnsignedByte(data[1]);
+//                    questionMenuCount = newQuestionMenuCount;
+//                    int newQuestionMenuOffset = 2;
+//                    for (int l16 = 0; l16 < newQuestionMenuCount; l16++) {
+//                        int newQuestionMenuQuestionLength = DataOperations.getUnsignedByte(data[newQuestionMenuOffset]);
+//                        newQuestionMenuOffset++;
+//                        questionMenuAnswer[l16] = new String(data, newQuestionMenuOffset, newQuestionMenuQuestionLength);
+//                        newQuestionMenuOffset += newQuestionMenuQuestionLength;
+//                    }
+//
+//                    return;
 
-                    return;
+//                case 228:
+//                    int j6 = 1;
+//                    int k12 = 1;
+//                    int i18 = data[j6++] & 0xff;
+//                    int k22 = PacketOperations.getShort(packetToHandle.getPacketData(), j6);
+//                    j6 += 2;
+//                    if (EntityHandler.getItemDef(k22 & 0x7fff).isStackable()) {
+//                        k12 = DataOperations.readInt(data, j6);
+//                        j6 += 4;
+//                    }
+//                    inventoryItems[i18] = k22 & 0x7fff;
+//                    wearing[i18] = k22 / 32768;
+//                    inventoryItemsCount[i18] = k12;
+//                    if (i18 >= inventoryCount) {
+//                        inventoryCount = i18 + 1;
+//                    }
+//                    return;
 
-                case 228:
-                    int j6 = 1;
-                    int k12 = 1;
-                    int i18 = data[j6++] & 0xff;
-                    int k22 = DataOperations.getUnsigned2Bytes(data, j6);
-                    j6 += 2;
-                    if (EntityHandler.getItemDef(k22 & 0x7fff).isStackable()) {
-                        k12 = DataOperations.readInt(data, j6);
-                        j6 += 4;
-                    }
-                    inventoryItems[i18] = k22 & 0x7fff;
-                    wearing[i18] = k22 / 32768;
-                    inventoryItemsCount[i18] = k12;
-                    if (i18 >= inventoryCount) {
-                        inventoryCount = i18 + 1;
-                    }
-                    return;
+//                case 229:
+//                    int j5 = PacketOperations.getShort(packetToHandle.getPacketData(), 1);
+//                    if (mobArray[j5] != null) {
+//                        duelOpponentName = mobArray[j5].name;
+//                    }
+//                    showDuelWindow = true;
+//                    duelMyItemCount = 0;
+//                    duelOpponentItemCount = 0;
+//                    duelOpponentAccepted = false;
+//                    duelMyAccepted = false;
+//                    duelNoRetreating = false;
+//                    duelNoMagic = false;
+//                    duelNoPrayer = false;
+//                    duelNoWeapons = false;
+//                    return;
 
-                case 229:
-                    int j5 = DataOperations.getUnsigned2Bytes(data, 1);
-                    if (mobArray[j5] != null) {
-                        duelOpponentName = mobArray[j5].name;
-                    }
-                    showDuelWindow = true;
-                    duelMyItemCount = 0;
-                    duelOpponentItemCount = 0;
-                    duelOpponentAccepted = false;
-                    duelMyAccepted = false;
-                    duelNoRetreating = false;
-                    duelNoMagic = false;
-                    duelNoPrayer = false;
-                    duelNoWeapons = false;
-                    return;
+//                case 248:
+//                    if (!hasReceivedWelcomeBoxDetails) {
+//                        lastLoggedInDays = PacketOperations.getShort(packetToHandle.getPacketData(), 1);
+//                        subscriptionLeftDays = PacketOperations.getShort(packetToHandle.getPacketData(), 3);
+//                        lastLoggedInAddress = new String(data, 5, length - 5);
+//                        showWelcomeBox = true;
+//                        hasReceivedWelcomeBoxDetails = true;
+//                    }
+//                    return;
 
-                case 248:
-                    if (!hasReceivedWelcomeBoxDetails) {
-                        lastLoggedInDays = DataOperations.getUnsigned2Bytes(data, 1);
-                        subscriptionLeftDays = DataOperations.getUnsigned2Bytes(data, 3);
-                        lastLoggedInAddress = new String(data, 5, length - 5);
-                        showWelcomeBox = true;
-                        hasReceivedWelcomeBoxDetails = true;
-                    }
-                    return;
-
-                case 250:
-                    tradeOtherItemCount = data[1] & 0xff;
-                    int l3 = 2;
-                    for (int i11 = 0; i11 < tradeOtherItemCount; i11++) {
-                        tradeOtherItems[i11] = DataOperations.getUnsigned2Bytes(data, l3);
-                        l3 += 2;
-                        tradeOtherItemsCount[i11] = DataOperations.readInt(data, l3);
-                        l3 += 4;
-                    }
-
-                    tradeOtherAccepted = false;
-                    tradeWeAccepted = false;
-                    return;
-
-                case 251:
-                    showTradeConfirmWindow = true;
-                    tradeConfirmAccepted = false;
-                    showTradeWindow = false;
-                    int k5 = 1;
-                    tradeConfirmOtherNameLong = DataOperations.getUnsigned8Bytes(data, k5);
-                    k5 += 8;
-                    tradeConfirmOtherItemCount = data[k5++] & 0xff;
-                    for (int l11 = 0; l11 < tradeConfirmOtherItemCount; l11++) {
-                        tradeConfirmOtherItems[l11] = DataOperations.getUnsigned2Bytes(data, k5);
-                        k5 += 2;
-                        tradeConfirmOtherItemsCount[l11] = DataOperations.readInt(data, k5);
-                        k5 += 4;
-                    }
-
-                    tradeConfirmItemCount = data[k5++] & 0xff;
-                    for (int k17 = 0; k17 < tradeConfirmItemCount; k17++) {
-                        tradeConfirmItems[k17] = DataOperations.getUnsigned2Bytes(data, k5);
-                        k5 += 2;
-                        tradeConfirmItemsCount[k17] = DataOperations.readInt(data, k5);
-                        k5 += 4;
-                    }
-
-                    return;
-
-                case 253:
-                    showShop = true;
-                    int i4 = 1;
-                    int j11 = data[i4++] & 0xff;
-                    byte byte4 = data[i4++];
-                    shopItemSellPriceModifier = data[i4++] & 0xff;
-                    shopItemBuyPriceModifier = data[i4++] & 0xff;
-                    for (int i22 = 0; i22 < 40; i22++) {
-                        shopItems[i22] = -1;
-                    }
-
-                    for (int j25 = 0; j25 < j11; j25++) {
-                        shopItems[j25] = DataOperations.getUnsigned2Bytes(data, i4);
-                        i4 += 2;
-                        shopItemCount[j25] = DataOperations.getUnsigned2Bytes(data, i4);
-                        i4 += 2;
-                    }
-
-                    if (byte4 == 1) {
-                        int l28 = 39;
-                        for (int k33 = 0; k33 < inventoryCount; k33++) {
-                            if (l28 < j11) {
-                                break;
-                            }
-                            boolean flag2 = false;
-                            for (int j39 = 0; j39 < 40; j39++) {
-                                if (shopItems[j39] != inventoryItems[k33]) {
-                                    continue;
-                                }
-                                flag2 = true;
-                                break;
-                            }
-
-                            if (inventoryItems[k33] == 10) {
-                                flag2 = true;
-                            }
-                            if (!flag2) {
-                                shopItems[l28] = inventoryItems[k33] & 0x7fff;
-                                shopItemCount[l28] = 0;
-                                l28--;
-                            }
-                        }
-
-                    }
-                    if (selectedShopItemIndex >= 0 && selectedShopItemIndex < 40 && shopItems[selectedShopItemIndex] != selectedShopItemType) {
-                        selectedShopItemIndex = -1;
-                        selectedShopItemType = -2;
-                    }
-                    return;
+//                case 250:
+//                    tradeOtherItemCount = data[1] & 0xff;
+//                    int l3 = 2;
+//                    for (int i11 = 0; i11 < tradeOtherItemCount; i11++) {
+//                        tradeOtherItems[i11] = PacketOperations.getShort(packetToHandle.getPacketData(), l3);
+//                        l3 += 2;
+//                        tradeOtherItemsCount[i11] = DataOperations.readInt(data, l3);
+//                        l3 += 4;
+//                    }
+//
+//                    tradeOtherAccepted = false;
+//                    tradeWeAccepted = false;
+//                    return;
+//
+//                case 251:
+//                    showTradeConfirmWindow = true;
+//                    tradeConfirmAccepted = false;
+//                    showTradeWindow = false;
+//                    int k5 = 1;
+//                    tradeConfirmOtherNameLong = Packet.getLong(data, k5);
+//                    k5 += 8;
+//                    tradeConfirmOtherItemCount = data[k5++] & 0xff;
+//                    for (int l11 = 0; l11 < tradeConfirmOtherItemCount; l11++) {
+//                        tradeConfirmOtherItems[l11] = PacketOperations.getShort(packetToHandle.getPacketData(), k5);
+//                        k5 += 2;
+//                        tradeConfirmOtherItemsCount[l11] = DataOperations.readInt(data, k5);
+//                        k5 += 4;
+//                    }
+//
+//                    tradeConfirmItemCount = data[k5++] & 0xff;
+//                    for (int k17 = 0; k17 < tradeConfirmItemCount; k17++) {
+//                        tradeConfirmItems[k17] = PacketOperations.getShort(packetToHandle.getPacketData(), k5);
+//                        k5 += 2;
+//                        tradeConfirmItemsCount[k17] = DataOperations.readInt(data, k5);
+//                        k5 += 4;
+//                    }
+//
+//                    return;
+//
+//                case 253:
+//                    showShop = true;
+//                    int i4 = 1;
+//                    int j11 = data[i4++] & 0xff;
+//                    byte byte4 = data[i4++];
+//                    shopItemSellPriceModifier = data[i4++] & 0xff;
+//                    shopItemBuyPriceModifier = data[i4++] & 0xff;
+//                    for (int i22 = 0; i22 < 40; i22++) {
+//                        shopItems[i22] = -1;
+//                    }
+//
+//                    for (int j25 = 0; j25 < j11; j25++) {
+//                        shopItems[j25] = PacketOperations.getShort(packetToHandle.getPacketData(), i4);
+//                        i4 += 2;
+//                        shopItemCount[j25] = PacketOperations.getShort(packetToHandle.getPacketData(), i4);
+//                        i4 += 2;
+//                    }
+//
+//                    if (byte4 == 1) {
+//                        int l28 = 39;
+//                        for (int k33 = 0; k33 < inventoryCount; k33++) {
+//                            if (l28 < j11) {
+//                                break;
+//                            }
+//                            boolean flag2 = false;
+//                            for (int j39 = 0; j39 < 40; j39++) {
+//                                if (shopItems[j39] != inventoryItems[k33]) {
+//                                    continue;
+//                                }
+//                                flag2 = true;
+//                                break;
+//                            }
+//
+//                            if (inventoryItems[k33] == 10) {
+//                                flag2 = true;
+//                            }
+//                            if (!flag2) {
+//                                shopItems[l28] = inventoryItems[k33] & 0x7fff;
+//                                shopItemCount[l28] = 0;
+//                                l28--;
+//                            }
+//                        }
+//
+//                    }
+//                    if (selectedShopItemIndex >= 0 && selectedShopItemIndex < 40 && shopItems[selectedShopItemIndex] != selectedShopItemType) {
+//                        selectedShopItemIndex = -1;
+//                        selectedShopItemType = -2;
+//                    }
+//                    return;
             }
         } catch (RuntimeException runtimeexception) {
             runtimeexception.printStackTrace();
-            if (handlePacketErrorCount < 3) {
-                super.streamClass.createPacket(156);
-                super.streamClass.writeString(runtimeexception.toString());
-                super.streamClass.formatPacket();
-                handlePacketErrorCount++;
-            }
         }
     }
 
@@ -6144,6 +6134,7 @@ public final class mudclient extends GameWindowMiddleMan {
 
     private final boolean sendWalkCommand(int walkSectionX, int walkSectionY, int x1, int y1, int x2, int y2, boolean stepBoolean, boolean coordsEqual) {
         // todo: needs checking
+        PacketBuilder currentPacket;
         int stepCount = engineHandle.getStepCount(walkSectionX, walkSectionY, x1, y1, x2, y2, sectionXArray, sectionYArray, stepBoolean);
         if (stepCount == -1) {
             if (coordsEqual) {
@@ -6159,21 +6150,21 @@ public final class mudclient extends GameWindowMiddleMan {
         walkSectionY = sectionYArray[stepCount];
         stepCount--;
         if (coordsEqual) {
-            super.streamClass.createPacket(246);
+            currentPacket = new PacketBuilder(246);
         } else {
-            super.streamClass.createPacket(132);
+            currentPacket = new PacketBuilder(132);
         }
-        super.streamClass.writeShort(walkSectionX + areaX);
-        super.streamClass.writeShort(walkSectionY + areaY);
+        currentPacket.writeShort(walkSectionX + areaX);
+        currentPacket.writeShort(walkSectionY + areaY);
         if (coordsEqual && stepCount == -1 && (walkSectionX + areaX) % 5 == 0) {
             stepCount = 0;
         }
         for (int currentStep = stepCount; currentStep >= 0 && currentStep > stepCount - 25; currentStep--) {
-            super.streamClass.writeByte(sectionXArray[currentStep] - walkSectionX);
-            super.streamClass.writeByte(sectionYArray[currentStep] - walkSectionY);
+            currentPacket.writeByte(sectionXArray[currentStep] - walkSectionX);
+            currentPacket.writeByte(sectionYArray[currentStep] - walkSectionY);
         }
 
-        super.streamClass.formatPacket();
+        super.streamClass.writePacket(currentPacket.toByteArray());
         actionPictureType = -24;
         actionPictureX = super.mouseX; // guessing the little red/yellow x that appears when you click
         actionPictureY = super.mouseY;
@@ -6181,6 +6172,7 @@ public final class mudclient extends GameWindowMiddleMan {
     }
 
     private final boolean sendWalkCommandIgnoreCoordsEqual(int walkSectionX, int walkSectionY, int x1, int y1, int x2, int y2, boolean stepBoolean, boolean coordsEqual) {
+        PacketBuilder currentPacket;
         int stepCount = engineHandle.getStepCount(walkSectionX, walkSectionY, x1, y1, x2, y2, sectionXArray, sectionYArray, stepBoolean);
         if (stepCount == -1) {
             return false;
@@ -6190,21 +6182,21 @@ public final class mudclient extends GameWindowMiddleMan {
         walkSectionY = sectionYArray[stepCount];
         stepCount--;
         if (coordsEqual) {
-            super.streamClass.createPacket(246);
+            currentPacket = new PacketBuilder(246);
         } else {
-            super.streamClass.createPacket(132);
+            currentPacket = new PacketBuilder(132);
         }
-        super.streamClass.writeShort(walkSectionX + areaX);
-        super.streamClass.writeShort(walkSectionY + areaY);
+        currentPacket.writeShort(walkSectionX + areaX);
+        currentPacket.writeShort(walkSectionY + areaY);
         if (coordsEqual && stepCount == -1 && (walkSectionX + areaX) % 5 == 0) {
             stepCount = 0;
         }
         for (int currentStep = stepCount; currentStep >= 0 && currentStep > stepCount - 25; currentStep--) {
-            super.streamClass.writeByte(sectionXArray[currentStep] - walkSectionX);
-            super.streamClass.writeByte(sectionYArray[currentStep] - walkSectionY);
+            currentPacket.writeByte(sectionXArray[currentStep] - walkSectionX);
+            currentPacket.writeByte(sectionYArray[currentStep] - walkSectionY);
         }
 
-        super.streamClass.formatPacket();
+        super.streamClass.writePacket(currentPacket.toByteArray());
         actionPictureType = -24;
         actionPictureX = super.mouseX;
         actionPictureY = super.mouseY;
@@ -6261,18 +6253,18 @@ public final class mudclient extends GameWindowMiddleMan {
         if (mouseButtonClick == 1) {
             if (super.mouseX < byte0 || super.mouseY < byte1 || super.mouseX > byte0 + 468 || super.mouseY > byte1 + 262) {
                 showTradeConfirmWindow = false;
-                super.streamClass.createPacket(216);
-                super.streamClass.formatPacket();
+                PacketBuilder currentPacket = new PacketBuilder(216);
+                super.streamClass.writePacket(currentPacket.toByteArray());
             }
             if (super.mouseX >= (byte0 + 118) - 35 && super.mouseX <= byte0 + 118 + 70 && super.mouseY >= byte1 + 238 && super.mouseY <= byte1 + 238 + 21) {
                 tradeConfirmAccepted = true;
-                super.streamClass.createPacket(53);
-                super.streamClass.formatPacket();
+                PacketBuilder currentPacket = new PacketBuilder(53);
+                super.streamClass.writePacket(currentPacket.toByteArray());
             }
             if (super.mouseX >= (byte0 + 352) - 35 && super.mouseX <= byte0 + 353 + 70 && super.mouseY >= byte1 + 238 && super.mouseY <= byte1 + 238 + 21) {
                 showTradeConfirmWindow = false;
-                super.streamClass.createPacket(216);
-                super.streamClass.formatPacket();
+                PacketBuilder currentPacket = new PacketBuilder(216);
+                super.streamClass.writePacket(currentPacket.toByteArray());
             }
             mouseButtonClick = 0;
         }
@@ -6365,14 +6357,14 @@ public final class mudclient extends GameWindowMiddleMan {
                             flag1 = true;
                         }
                         if (flag1) {
-                            super.streamClass.createPacket(123);
-                            super.streamClass.writeByte(duelMyItemCount);
+                            PacketBuilder currentPacket = new PacketBuilder(123);
+                            currentPacket.writeByte(duelMyItemCount);
                             for (int duelItem = 0; duelItem < duelMyItemCount; duelItem++) {
-                                super.streamClass.writeShort(duelMyItems[duelItem]);
-                                super.streamClass.writeInt(duelMyItemsCount[duelItem]);
+                                currentPacket.writeShort(duelMyItems[duelItem]);
+                                currentPacket.writeInt(duelMyItemsCount[duelItem]);
                             }
 
-                            super.streamClass.formatPacket();
+                            super.streamClass.writePacket(currentPacket.toByteArray());
                             duelOpponentAccepted = false;
                             duelMyAccepted = false;
                         }
@@ -6397,14 +6389,14 @@ public final class mudclient extends GameWindowMiddleMan {
                             break;
                         }
 
-                        super.streamClass.createPacket(123);
-                        super.streamClass.writeByte(duelMyItemCount);
+                        PacketBuilder currentPacket = new PacketBuilder(123);
+                        currentPacket.writeByte(duelMyItemCount);
                         for (int i3 = 0; i3 < duelMyItemCount; i3++) {
-                            super.streamClass.writeShort(duelMyItems[i3]);
-                            super.streamClass.writeInt(duelMyItemsCount[i3]);
+                            currentPacket.writeShort(duelMyItems[i3]);
+                            currentPacket.writeInt(duelMyItemsCount[i3]);
                         }
 
-                        super.streamClass.formatPacket();
+                        super.streamClass.writePacket(currentPacket.toByteArray());
                         duelOpponentAccepted = false;
                         duelMyAccepted = false;
                     }
@@ -6427,29 +6419,29 @@ public final class mudclient extends GameWindowMiddleMan {
                     flag = true;
                 }
                 if (flag) {
-                    super.streamClass.createPacket(225);
-                    super.streamClass.writeByte(duelNoRetreating ? 1 : 0);
-                    super.streamClass.writeByte(duelNoMagic ? 1 : 0);
-                    super.streamClass.writeByte(duelNoPrayer ? 1 : 0);
-                    super.streamClass.writeByte(duelNoWeapons ? 1 : 0);
-                    super.streamClass.formatPacket();
+                    PacketBuilder currentPacket = new PacketBuilder(225);
+                    currentPacket.writeByte(duelNoRetreating ? 1 : 0);
+                    currentPacket.writeByte(duelNoMagic ? 1 : 0);
+                    currentPacket.writeByte(duelNoPrayer ? 1 : 0);
+                    currentPacket.writeByte(duelNoWeapons ? 1 : 0);
+                    super.streamClass.writePacket(currentPacket.toByteArray());
                     duelOpponentAccepted = false;
                     duelMyAccepted = false;
                 }
                 if (i >= 217 && j >= 238 && i <= 286 && j <= 259) {
                     duelMyAccepted = true;
-                    super.streamClass.createPacket(252);
-                    super.streamClass.formatPacket();
+                    PacketBuilder currentPacket = new PacketBuilder(252);
+                    super.streamClass.writePacket(currentPacket.toByteArray());
                 }
                 if (i >= 394 && j >= 238 && i < 463 && j < 259) {
                     showDuelWindow = false;
-                    super.streamClass.createPacket(35);
-                    super.streamClass.formatPacket();
+                    PacketBuilder currentPacket = new PacketBuilder(35);
+                    super.streamClass.writePacket(currentPacket.toByteArray());
                 }
             } else if (mouseButtonClick != 0) {
                 showDuelWindow = false;
-                super.streamClass.createPacket(35);
-                super.streamClass.formatPacket();
+                PacketBuilder currentPacket = new PacketBuilder(35);
+                super.streamClass.writePacket(currentPacket.toByteArray());
             }
             mouseButtonClick = 0;
             itemIncrement = 0;

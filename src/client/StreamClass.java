@@ -1,147 +1,117 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package client;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.util.LinkedList;
+import java.util.Queue;
 
-public class StreamClass extends PacketConstruction implements Runnable {
+/**
+ *
+ * @author Sean
+ */
+public class StreamClass implements Runnable {
 
-	public StreamClass(Socket socket, GameWindow gameWindow)
-	throws IOException {
-		closingStream = false;
-		closedStream = true;
-		streamSocket = socket;
-		inputStream = socket.getInputStream();
-		outputStream = socket.getOutputStream();
-		closedStream = false;
-		gameWindow.startThread(this);
-	}
+    private Socket clientSocket;
+    private InputStream clientInputStream;
+    private OutputStream clientOutputStream;
+    private Queue<byte[]> packetQueue = new LinkedList<byte[]>();
+    private boolean streamRunning = true;
 
-	public StreamClass(Socket socket)
-	throws IOException {
-		closingStream = false;
-		closedStream = true;
-		streamSocket = socket;
-		inputStream = socket.getInputStream();
-		outputStream = socket.getOutputStream();
-		closedStream = false;
-		//gameWindow.startThread(this);
-	}
+    public StreamClass(Socket clientSocket, GameWindow gameWindow) throws IOException {
+        this.clientSocket = clientSocket;
+        this.clientInputStream = clientSocket.getInputStream();
+        this.clientOutputStream = clientSocket.getOutputStream();
+        gameWindow.startThread(this);
+    }
 
-	public void closeStream() {
-		super.closeStream();
-		closingStream = true;
-		try {
-			if (inputStream != null)
-				inputStream.close();
-			if (outputStream != null)
-				outputStream.close();
-			if (streamSocket != null)
-				streamSocket.close();
-		}
-		catch (IOException _ex) {
-			System.out.println("Error closing stream");
-		}
-		closedStream = true;
-		synchronized (this) {
-			notify();
-		}
-		outputBuffer = null;
-	}
+    public void run() {
+        while (streamRunning) {
+            try {
+                if (!packetQueue.isEmpty()) {
+                    System.out.println("Sent packet.");
+                    clientOutputStream.write(packetQueue.remove());
+                    clientOutputStream.flush();
+                }
+                Thread.sleep(100);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        try {
+            clientSocket.close();
+        } catch (IOException IOe) {
+            IOe.printStackTrace();
+        }
+    }
 
-	public int readInputStream()
-	throws IOException {
-		if (closingStream)
-			return 0;
-		else
-			return inputStream.read();
-	}
+    public void stopStream() {
+        streamRunning = false;
+    }
 
-	public int inputStreamAvailable()
-	throws IOException {
-		if (closingStream)
-			return 0;
-		else
-			return inputStream.available();
-	}
+    public void writePacket(byte[] packetToWrite) {
+        String packetString = "";
+        for (byte currentByte : packetToWrite) {
+            packetString += currentByte + " ";
+        }
+        System.out.println(packetString);
+        packetQueue.add(packetToWrite);
+    }
 
-	public void readInputStream(int length, int offset, byte abyte0[])
-	throws IOException {
-		if (closingStream)
-			return;
-		int k = 0;
-		int l;
-		for (; k < length; k += l)
-			if ((l = inputStream.read(abyte0, k + offset, length - k)) <= 0)
-				throw new IOException("EOF");
+    public Packet readPacket() throws IOException {
+        if (clientInputStream.available() >= 2) {
+            int packetLength = readShort();
+            int packetHeader = readByte();
+            byte[] packetData = readBytes(packetLength);
+            return new Packet(packetHeader, packetData);
+        } else {
+            return null;
+        }
+    }
 
-	}
+    public int readByte() throws IOException {
+        return clientInputStream.read();
+    }
 
-	public void writeToOutputBuffer(byte abyte0[], int i, int j)
-	throws IOException {
-		if (closingStream)
-			return;
-		if (outputBuffer == null)
-			outputBuffer = new byte[5000];
-		synchronized (this) {
-			for (int k = 0; k < j; k++) {
-				outputBuffer[bufferSize] = abyte0[k + i];
-				bufferSize = (bufferSize + 1) % 5000;
-				if (bufferSize == (dataWritten + 4900) % 5000)
-					throw new IOException("buffer overflow");
-			}
+    public int readShort() throws IOException {
+        int returnShort = 0;
+        returnShort += clientInputStream.read();
+        returnShort += (clientInputStream.read() << 8);
+        return returnShort;
+    }
 
-			notify();
-		}
-	}
+    public int readInt() throws IOException {
+        int returnInt = 0;
+        returnInt += clientInputStream.read();
+        returnInt += (clientInputStream.read() << 8);
+        returnInt += (clientInputStream.read() << 16);
+        returnInt += (clientInputStream.read() << 24);
+        return returnInt;
+    }
 
-	public void run() {
-		while (!closedStream) {
-			int i;
-			int j;
-			synchronized (this) {
-				if (bufferSize == dataWritten)
-					try {
-						wait();
-					}
-				catch (InterruptedException _ex) {
-				}
-				if (closedStream)
-					return;
-				j = dataWritten;
-				if (bufferSize >= dataWritten)
-					i = bufferSize - dataWritten;
-				else
-					i = 5000 - dataWritten;
-			}
-			if (i > 0) {
-				try {
-					outputStream.write(outputBuffer, j, i);
-				}
-				catch (IOException ioexception) {
-					super.error = true;
-					super.errorText = "Twriter:" + ioexception;
-				}
-				dataWritten = (dataWritten + i) % 5000;
-				try {
-					if (bufferSize == dataWritten)
-						outputStream.flush();
-				}
-				catch (IOException ioexception1) {
-					super.error = true;
-					super.errorText = "Twriter:" + ioexception1;
-				}
-			}
-		}
-	}
+    public long readLong() throws IOException {
+        long returnLong = 0;
+        returnLong += clientInputStream.read();
+        returnLong += (clientInputStream.read() << 8);
+        returnLong += (clientInputStream.read() << 16);
+        returnLong += (clientInputStream.read() << 24);
+        returnLong += (clientInputStream.read() << 32);
+        returnLong += (clientInputStream.read() << 40);
+        returnLong += (clientInputStream.read() << 48);
+        returnLong += (clientInputStream.read() << 56);
+        return returnLong;
+    }
 
-	private InputStream inputStream;
-	private OutputStream outputStream;
-	private Socket streamSocket;
-	private boolean closingStream;
-	private byte outputBuffer[];
-	private int dataWritten;
-	private int bufferSize;
-	private boolean closedStream;
+    public byte[] readBytes(int count) throws IOException {
+        byte[] returnBytes = new byte[count];
+        for (int currentByte = 0; currentByte < returnBytes.length; currentByte++) {
+            returnBytes[currentByte] = (byte) readByte();
+        }
+        return returnBytes;
+    }
 }
