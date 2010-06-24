@@ -34,12 +34,15 @@ public class StreamClass implements Runnable {
         while (streamRunning) {
             try {
                 if (!packetQueue.isEmpty()) {
-                    System.out.println("Sent packet.");
                     clientOutputStream.write(packetQueue.remove());
                     clientOutputStream.flush();
                 }
                 Thread.sleep(100);
-            } catch (Exception e) {
+            }
+            catch(IOException IOe) {
+                stopStream();
+            }
+            catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -55,11 +58,6 @@ public class StreamClass implements Runnable {
     }
 
     public void writePacket(byte[] packetToWrite) {
-        String packetString = "";
-        for (byte currentByte : packetToWrite) {
-            packetString += currentByte + " ";
-        }
-        System.out.println(packetString);
         packetQueue.add(packetToWrite);
     }
 

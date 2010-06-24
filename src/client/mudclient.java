@@ -301,7 +301,7 @@ public final class mudclient extends GameWindowMiddleMan {
                     j3 += (10 * k1) / 100;
                 }
                 gameGraphics.drawPicture((j3 + k / 2) - 12, (j + l / 2) - 12, SPRITE_MEDIA_START + 12);
-                gameGraphics.drawText(String.valueOf(mob.anInt164), (j3 + k / 2) - 1, j + l / 2 + 5, 3, 0xffffff);
+                gameGraphics.drawText(String.valueOf(mob.damageSplatNumber), (j3 + k / 2) - 1, j + l / 2 + 5, 3, 0xffffff);
             }
         }
     }
@@ -725,11 +725,11 @@ public final class mudclient extends GameWindowMiddleMan {
             mobMessagesY[mobMessageCount] = j;
             mobMessages[mobMessageCount++] = mob.lastMessage;
         }
-        if (mob.anInt163 > 0) {
+        if (mob.itemBubbleTimeout > 0) {
             anIntArray858[anInt699] = i + k / 2;
             anIntArray859[anInt699] = j;
             anIntArray705[anInt699] = k1;
-            anIntArray706[anInt699++] = mob.anInt162;
+            anIntArray706[anInt699++] = mob.itemBubbleID;
         }
         if (mob.currentSprite == 8 || mob.currentSprite == 9 || mob.combatTimer != 0) {
             if (mob.combatTimer > 0) {
@@ -752,10 +752,10 @@ public final class mudclient extends GameWindowMiddleMan {
                     j3 += (10 * k1) / 100;
                 }
                 gameGraphics.drawPicture((j3 + k / 2) - 12, (j + l / 2) - 12, SPRITE_MEDIA_START + 11);
-                gameGraphics.drawText(String.valueOf(mob.anInt164), (j3 + k / 2) - 1, j + l / 2 + 5, 3, 0xffffff);
+                gameGraphics.drawText(String.valueOf(mob.damageSplatNumber), (j3 + k / 2) - 1, j + l / 2 + 5, 3, 0xffffff);
             }
         }
-        if (mob.anInt179 == 1 && mob.anInt163 == 0) {
+        if (mob.isSkulled == 1 && mob.itemBubbleTimeout == 0) {
             int k3 = j1 + i + k / 2;
             if (mob.currentSprite == 8) {
                 k3 -= (20 * k1) / 100;
@@ -1331,7 +1331,7 @@ public final class mudclient extends GameWindowMiddleMan {
                     menuActionType[menuLength] = currentInventorySlot;
                     menuLength++;
                     menuText1[menuLength] = "Examine";
-                    menuText2[menuLength] = "@lre@" + itemDef.getName() + (ourPlayer.admin >= 2 ? " @or1@(" + i2 + ")" : "");
+                    menuText2[menuLength] = "@lre@" + itemDef.getName() + (ourPlayer.adminLevel >= 2 ? " @or1@(" + i2 + ")" : "");
                     menuID[menuLength] = 3600;
                     menuActionType[menuLength] = i2;
                     menuLength++;
@@ -1581,7 +1581,7 @@ public final class mudclient extends GameWindowMiddleMan {
                 i1 += 12;
                 gameGraphics.drawString("Total xp: " + expTotal, i + 5, i1, 1, 0xffffff);
                 i1 += 12;
-                gameGraphics.drawString("Combat level: " + ourPlayer.level, i + 5, i1, 1, 0xffffff);
+                gameGraphics.drawString("Combat level: " + ourPlayer.mobLevel, i + 5, i1, 1, 0xffffff);
             }
         }
         if (anInt826 == 1) {
@@ -2591,8 +2591,8 @@ public final class mudclient extends GameWindowMiddleMan {
                     if (l2 == 1) {
                         String s = "";
                         int k3 = 0;
-                        if (ourPlayer.level > 0 && playerArray[i2].level > 0) {
-                            k3 = ourPlayer.level - playerArray[i2].level;
+                        if (ourPlayer.mobLevel > 0 && playerArray[i2].mobLevel > 0) {
+                            k3 = ourPlayer.mobLevel - playerArray[i2].mobLevel;
                         }
                         if (k3 < 0) {
                             s = "@or1@";
@@ -2618,7 +2618,7 @@ public final class mudclient extends GameWindowMiddleMan {
                         if (k3 > 9) {
                             s = "@gre@";
                         }
-                        s = " " + s + "(level-" + playerArray[i2].level + ")";
+                        s = " " + s + "(level-" + playerArray[i2].mobLevel + ")";
                         if (selectedSpell >= 0) {
                             if (EntityHandler.getSpellDef(selectedSpell).getSpellType() == 1 || EntityHandler.getSpellDef(selectedSpell).getSpellType() == 2) {
                                 menuText1[menuLength] = "Cast " + EntityHandler.getSpellDef(selectedSpell).getName() + " on";
@@ -2703,7 +2703,7 @@ public final class mudclient extends GameWindowMiddleMan {
                             menuActionType[menuLength] = groundItemType[i2];
                             menuLength++;
                             menuText1[menuLength] = "Examine";
-                            menuText2[menuLength] = "@lre@" + itemDef.getName() + (ourPlayer.admin >= 2 ? " @or1@(" + groundItemType[i2] + ":" + (groundItemX[i2] + areaX) + "," + (groundItemY[i2] + areaY) + ")" : "");
+                            menuText2[menuLength] = "@lre@" + itemDef.getName() + (ourPlayer.adminLevel >= 2 ? " @or1@(" + groundItemType[i2] + ":" + (groundItemX[i2] + areaX) + "," + (groundItemY[i2] + areaY) + ")" : "");
                             menuID[menuLength] = 3200;
                             menuActionType[menuLength] = groundItemType[i2];
                             menuLength++;
@@ -2794,7 +2794,7 @@ public final class mudclient extends GameWindowMiddleMan {
                                 menuLength++;
                             }
                             menuText1[menuLength] = "Examine";
-                            menuText2[menuLength] = "@yel@" + npcDef.getName() + (ourPlayer.admin >= 2 ? " @or1@(" + npcArray[i2].type + ")" : "");
+                            menuText2[menuLength] = "@yel@" + npcDef.getName() + (ourPlayer.adminLevel >= 2 ? " @or1@(" + npcArray[i2].type + ")" : "");
                             menuID[menuLength] = 3700;
                             menuActionType[menuLength] = npcArray[i2].type;
                             menuLength++;
@@ -2844,7 +2844,7 @@ public final class mudclient extends GameWindowMiddleMan {
                                 menuLength++;
                             }
                             menuText1[menuLength] = "Examine";
-                            menuText2[menuLength] = "@cya@" + EntityHandler.getDoorDef(i3).getName() + (ourPlayer.admin >= 2 ? " @or1@(" + i3 + ":" + (doorX[j2] + areaX) + "," + (doorY[j2] + areaY) + ")" : "");
+                            menuText2[menuLength] = "@cya@" + EntityHandler.getDoorDef(i3).getName() + (ourPlayer.adminLevel >= 2 ? " @or1@(" + i3 + ":" + (doorX[j2] + areaX) + "," + (doorY[j2] + areaY) + ")" : "");
                             menuID[menuLength] = 3300;
                             menuActionType[menuLength] = i3;
                             menuLength++;
@@ -2899,7 +2899,7 @@ public final class mudclient extends GameWindowMiddleMan {
                                 menuLength++;
                             }
                             menuText1[menuLength] = "Examine";
-                            menuText2[menuLength] = "@cya@" + EntityHandler.getObjectDef(j3).getName() + (ourPlayer.admin >= 2 ? " @or1@(" + j3 + ":" + (objectX[k2] + areaX) + "," + (objectY[k2] + areaY) + ")" : "");
+                            menuText2[menuLength] = "@cya@" + EntityHandler.getObjectDef(j3).getName() + (ourPlayer.adminLevel >= 2 ? " @or1@(" + j3 + ":" + (objectX[k2] + areaX) + "," + (objectY[k2] + areaY) + ")" : "");
                             menuID[menuLength] = 3400;
                             menuActionType[menuLength] = j3;
                             menuLength++;
@@ -4061,8 +4061,8 @@ public final class mudclient extends GameWindowMiddleMan {
             if (mob.lastMessageTimeout > 0) {
                 mob.lastMessageTimeout--;
             }
-            if (mob.anInt163 > 0) {
-                mob.anInt163--;
+            if (mob.itemBubbleTimeout > 0) {
+                mob.itemBubbleTimeout--;
             }
             if (mob.combatTimer > 0) {
                 mob.combatTimer--;
@@ -4150,8 +4150,8 @@ public final class mudclient extends GameWindowMiddleMan {
             if (mob_1.lastMessageTimeout > 0) {
                 mob_1.lastMessageTimeout--;
             }
-            if (mob_1.anInt163 > 0) {
-                mob_1.anInt163--;
+            if (mob_1.itemBubbleTimeout > 0) {
+                mob_1.itemBubbleTimeout--;
             }
             if (mob_1.combatTimer > 0) {
                 mob_1.combatTimer--;
@@ -4257,12 +4257,10 @@ public final class mudclient extends GameWindowMiddleMan {
                     sendChatString(s);
                 }
             } else {
-                byte[] chatMessage = DataConversions.stringToByteArray(s);
-                sendChatMessage(chatMessage, chatMessage.length);
-                s = DataConversions.byteToString(chatMessage, 0, chatMessage.length);
+                sendChatMessage(s);
                 ourPlayer.lastMessageTimeout = 150;
                 ourPlayer.lastMessage = s;
-                displayMessage(ourPlayer.name + ": " + s, 2, ourPlayer.admin);
+                displayMessage(ourPlayer.name + ": " + s, 2, ourPlayer.adminLevel);
             }
         }
         if (messagesTab == 0) {
@@ -5031,7 +5029,7 @@ public final class mudclient extends GameWindowMiddleMan {
     protected final void handleIncomingPacket(Packet packetToHandle) {
         try {
             int packetOffset = 0;
-            int mobCount = 0;
+            int updateCount = 0;
             int idx = 0;
             int currentExp = 0;
             switch (packetToHandle.getHeader()) {
@@ -5152,121 +5150,126 @@ public final class mudclient extends GameWindowMiddleMan {
 //
 //                    return;
 
-//                case 53:
-//                    mobCount = PacketOperations.getShort(packetToHandle.getPacketData(), 1);
-//                    int mobUpdateOffset = 3;
-//                    for (int mobCounter = 0; mobCounter < mobCount; mobCounter++) {
-//
-//                        int mobArrayIndex = PacketOperations.getShort(packetToHandle.getPacketData(), mobUpdateOffset);
-//                        mobUpdateOffset += 2;
-//                        if (mobArrayIndex < 0 || mobArrayIndex > mobArray.length) {
-//                            return;
-//                        }
-//                        Mob mob = mobArray[mobArrayIndex];
-//                        if (mob == null) {
-//                            return;
-//                        }
-//                        byte mobUpdateType = data[mobUpdateOffset++];
-//                        if (mobUpdateType == 0) {
-//                            int i30 = PacketOperations.getShort(packetToHandle.getPacketData(), mobUpdateOffset);
-//                            mobUpdateOffset += 2;
-//                            if (mob != null) {
-//                                mob.anInt163 = 150;
-//                                mob.anInt162 = i30;
-//                            }
-//                        } else if (mobUpdateType == 1) { // Player talking
-//                            byte byte7 = data[mobUpdateOffset++];
-//                            if (mob != null) {
-//                                String s2 = DataConversions.byteToString(data, mobUpdateOffset, byte7);
-//                                mob.lastMessageTimeout = 150;
-//                                mob.lastMessage = s2;
-//                                displayMessage(mob.name + ": " + mob.lastMessage, 2, mob.admin);
-//                            }
-//                            mobUpdateOffset += byte7;
-//                        } else if (mobUpdateType == 2) { // Someone getting hit.
-//                            int j30 = DataOperations.getUnsignedByte(data[mobUpdateOffset++]);
-//                            int hits = DataOperations.getUnsignedByte(data[mobUpdateOffset++]);
-//                            int hitsBase = DataOperations.getUnsignedByte(data[mobUpdateOffset++]);
-//                            if (mob != null) {
-//                                mob.anInt164 = j30;
-//                                mob.hitPointsCurrent = hits;
-//                                mob.hitPointsBase = hitsBase;
-//                                mob.combatTimer = 200;
-//                                if (mob == ourPlayer) {
-//                                    playerStatCurrent[3] = hits;
-//                                    playerStatBase[3] = hitsBase;
-//                                    showWelcomeBox = false;
-////                                showServerMessageBox = false;
-//                                }
-//                            }
-//                        } else if (mobUpdateType == 3) { // Projectile an npc..
-//                            int k30 = PacketOperations.getShort(packetToHandle.getPacketData(), mobUpdateOffset);
-//                            mobUpdateOffset += 2;
-//                            int k34 = PacketOperations.getShort(packetToHandle.getPacketData(), mobUpdateOffset);
-//                            mobUpdateOffset += 2;
-//                            if (mob != null) {
-//                                mob.attackingCameraInt = k30;
-//                                mob.attackingNpcIndex = k34;
-//                                mob.attackingMobIndex = -1;
-//                                mob.anInt176 = attackingInt40;
-//                            }
-//                        } else if (mobUpdateType == 4) { // Projectile another player.
-//                            int l30 = PacketOperations.getShort(packetToHandle.getPacketData(), mobUpdateOffset);
-//                            mobUpdateOffset += 2;
-//                            int l34 = PacketOperations.getShort(packetToHandle.getPacketData(), mobUpdateOffset);
-//                            mobUpdateOffset += 2;
-//                            if (mob != null) {
-//                                mob.attackingCameraInt = l30;
-//                                mob.attackingMobIndex = l34;
-//                                mob.attackingNpcIndex = -1;
-//                                mob.anInt176 = attackingInt40;
-//                            }
-//                        } else if (mobUpdateType == 5) { // Apperance update
-//                            if (mob != null) {
-//                                mob.mobIntUnknown = PacketOperations.getShort(packetToHandle.getPacketData(), mobUpdateOffset);
+                case 53:
+                    updateCount = PacketOperations.getShort(packetToHandle.getPacketData(), packetOffset);
+                    packetOffset += 2;
+                    for (int updateCounter = 0; updateCounter < updateCount; updateCounter++) {
+                        int currentServerIndex = PacketOperations.getShort(packetToHandle.getPacketData(), packetOffset);
+                        packetOffset += 2;
+                        if (currentServerIndex < 0 || currentServerIndex > mobArray.length) {
+                            return;
+                        }
+                        Mob mob = mobArray[currentServerIndex];
+                        if (mob == null) {
+                            return;
+                        }
+                        switch (PacketOperations.getByte(packetToHandle.getPacketData(), packetOffset++)) {
+                            //Item bubble
+                            case 0:
+                                int itemID = PacketOperations.getShort(packetToHandle.getPacketData(), packetOffset);
+                                packetOffset += 2;
+                                if (mob != null) {
+                                    mob.itemBubbleTimeout = 150;
+                                    mob.itemBubbleID = itemID;
+                                }
+                                break;
+                            //Player chat
+                            case 1:
+                                int messageLength = PacketOperations.getShort(packetToHandle.getPacketData(), packetOffset);
+                                packetOffset += 2;
+                                if (mob != null) {
+                                    String message = PacketOperations.getString(packetToHandle.getPacketData(), packetOffset, messageLength);
+                                    mob.lastMessageTimeout = 150;
+                                    mob.lastMessage = message;
+                                    displayMessage(mob.name + ": " + mob.lastMessage, 2, mob.adminLevel);
+                                }
+                                packetOffset += messageLength;
+                                break;
+                            //Damaged
+                            case 2:
+                                int amountDamaged = PacketOperations.getByte(packetToHandle.getPacketData(), packetOffset++);
+                                int hitpointsCurrent = PacketOperations.getByte(packetToHandle.getPacketData(), packetOffset++);
+                                int hitpointsMax = PacketOperations.getByte(packetToHandle.getPacketData(), packetOffset++);
+                                if (mob != null) {
+                                    mob.damageSplatNumber = amountDamaged;
+                                    mob.hitPointsCurrent = hitpointsCurrent;
+                                    mob.hitPointsBase = hitpointsMax;
+                                    mob.combatTimer = 200;
+                                    if (mob == ourPlayer) {
+                                        playerStatCurrent[3] = hitpointsCurrent;
+                                        playerStatBase[3] = hitpointsMax;
+                                        showWelcomeBox = false;
+                                    }
+                                }
+                                break;
+//                            //Projectile NPC
+//                            case 3:
+//                                int k30 = PacketOperations.getShort(packetToHandle.getPacketData(), mobUpdateOffset);
 //                                mobUpdateOffset += 2;
-//                                mob.nameLong = Packet.getLong(data, mobUpdateOffset);
-//                                mobUpdateOffset += 8;
-//                                mob.name = DataOperations.longToString(mob.nameLong);
-//                                int i31 = DataOperations.getUnsignedByte(data[mobUpdateOffset]);
+//                                int k34 = PacketOperations.getShort(packetToHandle.getPacketData(), mobUpdateOffset);
+//                                mobUpdateOffset += 2;
+//                                if (mob != null) {
+//                                    mob.attackingCameraInt = k30;
+//                                    mob.attackingNpcIndex = k34;
+//                                    mob.attackingMobIndex = -1;
+//                                    mob.anInt176 = attackingInt40;
+//                                }
+//                                break;
+//                            //Projectile player
+//                            case 4:
+//                                int l30 = PacketOperations.getShort(packetToHandle.getPacketData(), mobUpdateOffset);
+//                                mobUpdateOffset += 2;
+//                                int l34 = PacketOperations.getShort(packetToHandle.getPacketData(), mobUpdateOffset);
+//                                mobUpdateOffset += 2;
+//                                if (mob != null) {
+//                                    mob.attackingCameraInt = l30;
+//                                    mob.attackingMobIndex = l34;
+//                                    mob.attackingNpcIndex = -1;
+//                                    mob.anInt176 = attackingInt40;
+//                                }
+//                                break;
+//                            //Appearence update
+                            case 5:
+                                if (mob != null) {
+                                    mob.mobIntUnknown = PacketOperations.getShort(packetToHandle.getPacketData(), packetOffset);
+                                    packetOffset += 2;
+                                    mob.name = PacketOperations.getString(packetToHandle.getPacketData(), packetOffset, 20).trim();
+                                    packetOffset += 20;
+                                    int wornItemsCount = PacketOperations.getByte(packetToHandle.getPacketData(), packetOffset++);
+                                    for (int currentItem = 0; currentItem < 12; currentItem++) {
+                                        if (currentItem < wornItemsCount) {
+                                            mob.animationCount[currentItem] = PacketOperations.getByte(packetToHandle.getPacketData(), packetOffset++);
+                                        } else {
+                                            mob.animationCount[currentItem] = 0;
+                                        }
+                                    }
+                                    mob.colourHairType = PacketOperations.getByte(packetToHandle.getPacketData(), packetOffset++);
+                                    mob.colourTopType = PacketOperations.getByte(packetToHandle.getPacketData(), packetOffset++);
+                                    mob.colourBottomType = PacketOperations.getByte(packetToHandle.getPacketData(), packetOffset++);
+                                    mob.colourSkinType = PacketOperations.getByte(packetToHandle.getPacketData(), packetOffset++);
+                                    mob.mobLevel = PacketOperations.getByte(packetToHandle.getPacketData(), packetOffset++);
+                                    mob.isSkulled = PacketOperations.getByte(packetToHandle.getPacketData(), packetOffset++);
+                                    mob.adminLevel = PacketOperations.getByte(packetToHandle.getPacketData(), packetOffset++);
+                                }
+                                break;
+//                            //Private chat
+//                            case 6:
+//                                byte byte8 = data[mobUpdateOffset];
 //                                mobUpdateOffset++;
-//                                for (int i35 = 0; i35 < i31; i35++) {
-//                                    mob.animationCount[i35] = DataOperations.getUnsignedByte(data[mobUpdateOffset]);
-//                                    mobUpdateOffset++;
+//                                if (mob != null) {
+//                                    String s3 = DataConversions.byteToString(data, mobUpdateOffset, byte8);
+//                                    mob.lastMessageTimeout = 150;
+//                                    mob.lastMessage = s3;
+//                                    if (mob == ourPlayer) {
+//                                        displayMessage(mob.name + ": " + mob.lastMessage, 5, mob.admin);
+//                                    }
 //                                }
-//
-//                                for (int l37 = i31; l37 < 12; l37++) {
-//                                    mob.animationCount[l37] = 0;
-//                                }
-//
-//                                mob.colourHairType = data[mobUpdateOffset++] & 0xff;
-//                                mob.colourTopType = data[mobUpdateOffset++] & 0xff;
-//                                mob.colourBottomType = data[mobUpdateOffset++] & 0xff;
-//                                mob.colourSkinType = data[mobUpdateOffset++] & 0xff;
-//                                mob.level = data[mobUpdateOffset++] & 0xff;
-//                                mob.anInt179 = data[mobUpdateOffset++] & 0xff;
-//                                mob.admin = data[mobUpdateOffset++] & 0xff;
-//                            } else {
-//                                mobUpdateOffset += 14;
-//                                int j31 = DataOperations.getUnsignedByte(data[mobUpdateOffset]);
-//                                mobUpdateOffset += j31 + 1;
-//                            }
-//                        } else if (mobUpdateType == 6) { // private player talking
-//                            byte byte8 = data[mobUpdateOffset];
-//                            mobUpdateOffset++;
-//                            if (mob != null) {
-//                                String s3 = DataConversions.byteToString(data, mobUpdateOffset, byte8);
-//                                mob.lastMessageTimeout = 150;
-//                                mob.lastMessage = s3;
-//                                if (mob == ourPlayer) {
-//                                    displayMessage(mob.name + ": " + mob.lastMessage, 5, mob.admin);
-//                                }
-//                            }
-//                            mobUpdateOffset += byte8;
-//                        }
-//                    }
-//
-//                    return;
+//                                mobUpdateOffset += byte8;
+//                                break;
+                        }
+                    }
+
+                    return;
 
 //                case 63:
 //                    duelOpponentItemCount = PacketOperations.getByte(packetToHandle.getPacketData(), 0)
@@ -5673,11 +5676,11 @@ public final class mudclient extends GameWindowMiddleMan {
                         lastPlayerArray[k] = playerArray[k];
                     }
                     sectionX = PacketOperations.getInt(packetToHandle.getPacketData(), packetOffset);
-                    packetOffset+=4;
+                    packetOffset += 4;
                     sectionY = PacketOperations.getInt(packetToHandle.getPacketData(), packetOffset);
-                    packetOffset+=4;
+                    packetOffset += 4;
                     int mobSprite = PacketOperations.getInt(packetToHandle.getPacketData(), packetOffset);
-                    packetOffset+=4;
+                    packetOffset += 4;
                     boolean sectionLoaded = loadSection(sectionX, sectionY);
                     sectionX -= areaX;
                     sectionY -= areaY;
@@ -5691,45 +5694,44 @@ public final class mudclient extends GameWindowMiddleMan {
                     }
                     playerCount = 0;
                     ourPlayer = makePlayer(serverIndex, mapEnterX, mapEnterY, mobSprite);
+                    ourPlayer.nextSprite = 3;
                     int newPlayerCount = PacketOperations.getInt(packetToHandle.getPacketData(), packetOffset);
-                    packetOffset+=4;
+                    packetOffset += 4;
 //                    for (int currentNewPlayer = 0; currentNewPlayer < newPlayerCount; currentNewPlayer++) {
-//                        Mob lastMob = getLastPlayer(DataOperations.getIntFromByteArray(data, currentOffset, 16));
-//                        currentOffset += 16;
-//                        int nextPlayer = DataOperations.getIntFromByteArray(data, currentOffset, 1); // 1
-//                        currentOffset++;
-//                        if (nextPlayer != 0) {
-//                            int waypointsLeft = DataOperations.getIntFromByteArray(data, currentOffset, 1); // 2
-//                            currentOffset++;
-//                            if (waypointsLeft == 0) {
-//                                int currentNextSprite = DataOperations.getIntFromByteArray(data, currentOffset, 3); // 3
-//                                currentOffset += 3;
+//                        Mob lastMob = getLastPlayer(PacketOperations.getInt(packetToHandle.getPacketData(), packetOffset));
+//                        packetOffset += 4;
+//                        boolean playerChanged = (PacketOperations.getByte(packetToHandle.getPacketData(), packetOffset) == 1);
+//                        packetOffset += 1;
+//                        if (playerChanged) {
+//                            boolean waypointsLeft = (PacketOperations.getByte(packetToHandle.getPacketData(), packetOffset) == 1);
+//                            packetOffset += 1;
+//                            int nextSprite = PacketOperations.getByte(packetToHandle.getPacketData(), packetOffset);
+//                            packetOffset += 1;
+//                            if (!waypointsLeft) {
 //                                int currentWaypoint = lastMob.waypointCurrent;
 //                                int newWaypointX = lastMob.waypointsX[currentWaypoint];
 //                                int newWaypointY = lastMob.waypointsY[currentWaypoint];
-//                                if (currentNextSprite == 2 || currentNextSprite == 1 || currentNextSprite == 3) {
+//                                if (nextSprite == 2 || nextSprite == 1 || nextSprite == 3) {
 //                                    newWaypointX += magicLoc;
 //                                }
-//                                if (currentNextSprite == 6 || currentNextSprite == 5 || currentNextSprite == 7) {
+//                                if (nextSprite == 6 || nextSprite == 5 || nextSprite == 7) {
 //                                    newWaypointX -= magicLoc;
 //                                }
-//                                if (currentNextSprite == 4 || currentNextSprite == 3 || currentNextSprite == 5) {
+//                                if (nextSprite == 4 || nextSprite == 3 || nextSprite == 5) {
 //                                    newWaypointY += magicLoc;
 //                                }
-//                                if (currentNextSprite == 0 || currentNextSprite == 1 || currentNextSprite == 7) {
+//                                if (nextSprite == 0 || nextSprite == 1 || nextSprite == 7) {
 //                                    newWaypointY -= magicLoc;
 //                                }
-//                                lastMob.nextSprite = currentNextSprite;
+//                                lastMob.nextSprite = nextSprite;
 //                                lastMob.waypointCurrent = currentWaypoint = (currentWaypoint + 1) % 10;
 //                                lastMob.waypointsX[currentWaypoint] = newWaypointX;
 //                                lastMob.waypointsY[currentWaypoint] = newWaypointY;
 //                            } else {
-//                                int needsNextSprite = DataOperations.getIntFromByteArray(data, currentOffset, 4);
-//                                currentOffset += 4;
-//                                if ((needsNextSprite & 0xc) == 12) {
+//                                if (nextSprite == 12) {
 //                                    continue;
 //                                }
-//                                lastMob.nextSprite = needsNextSprite;
+//                                lastMob.nextSprite = nextSprite;
 //                            }
 //                        }
 //                        playerArray[playerCount++] = lastMob;
