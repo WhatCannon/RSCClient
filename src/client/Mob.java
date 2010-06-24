@@ -7,12 +7,12 @@ final class Mob {
         waypointsX = new int[10];
         waypointsY = new int[10];
         animationCount = new int[12];
-        level = -1;
+        mobLevel = -1;
         unusedBool = false;
         unusedInt = -1;
     }
 
-    public int admin;
+    public int adminLevel;
     public long nameLong;
     public String name;
     public int serverIndex;
@@ -30,13 +30,13 @@ final class Mob {
     public int animationCount[];
     public String lastMessage;
     public int lastMessageTimeout;
-    public int anInt162;
-    public int anInt163;
-    public int anInt164;
+    public int itemBubbleID;
+    public int itemBubbleTimeout;
+    public int damageSplatNumber;
     public int hitPointsCurrent;
     public int hitPointsBase;
     public int combatTimer;
-    public int level;
+    public int mobLevel;
     public int colourHairType;
     public int colourTopType;
     public int colourBottomType;
@@ -47,5 +47,5 @@ final class Mob {
     public int anInt176;
     public boolean unusedBool;
     public int unusedInt;
-    public int anInt179;
+    public int isSkulled;
 }
