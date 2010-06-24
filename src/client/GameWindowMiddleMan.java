@@ -8,6 +8,8 @@ import java.net.Socket;
 
 public abstract class GameWindowMiddleMan extends GameWindow {
 
+    private long lastPing = System.currentTimeMillis();
+
     protected final void login(String user, String pass, boolean reconnecting) {
         loginScreenPrint("Please wait...", "Connecting to server");
         if ((user.trim().length() < 4) || (pass.trim().length() < 4)) {
@@ -127,6 +129,10 @@ public abstract class GameWindowMiddleMan extends GameWindow {
 
     protected final void readPacket() {
         try {
+            if((System.currentTimeMillis() - lastPing) >= 5000) {
+                streamClass.writePacket(new PacketBuilder(5).toByteArray());
+                lastPing = System.currentTimeMillis();
+            }
             Packet packetToHandle = streamClass.readPacket();
             if (packetToHandle != null) {
                 checkIncomingPacket(packetToHandle);
@@ -135,10 +141,8 @@ public abstract class GameWindowMiddleMan extends GameWindow {
             IOe.printStackTrace();
         }
     }
-    private long lastPacket = System.currentTimeMillis();
 
     protected final void checkIncomingPacket(Packet packetToHandle) {
-        System.out.println(packetToHandle.getHeader());
         switch (packetToHandle.getHeader()) {
             case 2:
                 ignoreListCount = PacketOperations.getByte(packetToHandle.getPacketData(), 0);
@@ -311,15 +315,17 @@ public abstract class GameWindowMiddleMan extends GameWindow {
         streamClass.writePacket(currentPacket.toByteArray());
     }
 
-    protected final void sendChatMessage(byte abyte0[], int i) {
+    protected final void sendChatMessage(String message) {
         PacketBuilder currentPacket = new PacketBuilder(145);
-        currentPacket.writeBytes(abyte0, 0, i);
+        currentPacket.writeShort(message.length());
+        currentPacket.writeString(message);
         streamClass.writePacket(currentPacket.toByteArray());
     }
 
-    protected final void sendChatString(String s) {
+    protected final void sendChatString(String message) {
         PacketBuilder currentPacket = new PacketBuilder(90);
-        currentPacket.writeString(s);
+        currentPacket.writeShort(message.length());
+        currentPacket.writeString(message);
         streamClass.writePacket(currentPacket.toByteArray());
     }
 
@@ -350,7 +356,6 @@ public abstract class GameWindowMiddleMan extends GameWindow {
     protected StreamClass streamClass;
     protected byte[] packetData;
     int reconnectTries;
-    long lastPing;
     public int friendsCount;
     public long[] friendsListLongs;
     public int[] friendsListOnlineStatus;
