@@ -256,8 +256,8 @@ public class EngineHandle {
 
     public void method402(int i, int j, int k, int l, int i1) {
         Model model = aModelArray596[i + j * 8];
-        for (int j1 = 0; j1 < model.anInt226; j1++) {
-            if (model.anIntArray272[j1] == k * 128 && model.anIntArray274[j1] == l * 128) {
+        for (int j1 = 0; j1 < model.vertexCount; j1++) {
+            if (model.vertexYArray[j1] == k * 128 && model.vertexXArray[j1] == l * 128) {
                 model.method187(j1, i1);
                 return;
             }
@@ -1274,7 +1274,7 @@ public class EngineHandle {
         sectors = new Sector[4];
 
         try {
-            tileArchive = new ZipFile(new File(Config.CONF_DIR + "/Landscape.rscd"));
+            tileArchive = new ZipFile(new File(Config.DATA_DIRECTORY + "/Landscape.rscd"));
         }
         catch (Exception e) {
             e.printStackTrace();

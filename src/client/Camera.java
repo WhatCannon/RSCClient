@@ -350,9 +350,9 @@ public class Camera {
         for (int k3 = 0; k3 < modelCount; k3++) {
             Model model = modelArray[k3];
             if (model.aBoolean247) {
-                for (int j = 0; j < model.anInt234; j++) {
-                    int l3 = model.anIntArray235[j];
-                    int ai1[] = model.anIntArrayArray236[j];
+                for (int j = 0; j < model.faceCount; j++) {
+                    int l3 = model.faceVertexCount[j];
+                    int ai1[] = model.faceArray[j];
                     boolean flag = false;
                     for (int k4 = 0; k4 < l3; k4++) {
                         int i1 = model.anIntArray229[ai1[k4]];
@@ -393,9 +393,9 @@ public class Camera {
                                 method293(cameraModelCount);
                                 int l8;
                                 if (cameraModel_1.anInt365 < 0)
-                                    l8 = model.anIntArray237[j];
+                                    l8 = model.unknownDataArrayOne[j];
                                 else
-                                    l8 = model.anIntArray238[j];
+                                    l8 = model.unknownDataArrayTwo[j];
                                 if (l8 != 0xbc614e) {
                                     int j2 = 0;
                                     for (int l9 = 0; l9 < l3; l9++)
@@ -415,8 +415,8 @@ public class Camera {
 
         Model model_1 = aModel_423;
         if (model_1.aBoolean247) {
-            for (int k = 0; k < model_1.anInt234; k++) {
-                int ai[] = model_1.anIntArrayArray236[k];
+            for (int k = 0; k < model_1.faceCount; k++) {
+                int ai[] = model_1.faceArray[k];
                 int j4 = ai[0];
                 int l4 = model_1.anIntArray230[j4];
                 int l5 = model_1.anIntArray231[j4];
@@ -446,7 +446,7 @@ public class Camera {
             Model model_2 = cameraModel.aModel_359;
             int l = cameraModel.anInt360;
             if (model_2 == aModel_423) {
-                int ai2[] = model_2.anIntArrayArray236[l];
+                int ai2[] = model_2.faceArray[l];
                 int i6 = ai2[0];
                 int j7 = model_2.anIntArray230[i6];
                 int j8 = model_2.anIntArray231[i6];
@@ -458,7 +458,7 @@ public class Camera {
                 j11 = model_2.anIntArray230[ai2[1]] - j7;
                 int l11 = j7 - i10 / 2;
                 int j12 = (halfHeight2 + j8) - k10;
-                gameImage.method245(l11 + halfWidth2, j12, i10, k10, anIntArray416[l], j11, (256 << cameraSizeInt) / j9);
+                gameImage.drawEntity(l11 + halfWidth2, j12, i10, k10, anIntArray416[l], j11, (256 << cameraSizeInt) / j9);
                 if (aBoolean389 && currentVisibleModelCount < maxVisibleModelCount) {
                     l11 += (anIntArray422[l] << cameraSizeInt) / j9;
                     if (mouseY >= j12 && mouseY <= j12 + k10 && mouseX >= l11 && mouseX <= l11 + i10 && !model_2.aBoolean263 && model_2.aByteArray259[l] == 0) {
@@ -470,19 +470,19 @@ public class Camera {
             } else {
                 int k8 = 0;
                 int j10 = 0;
-                int l10 = model_2.anIntArray235[l];
-                int ai3[] = model_2.anIntArrayArray236[l];
-                if (model_2.anIntArray241[l] != 0xbc614e)
+                int l10 = model_2.faceVertexCount[l];
+                int ai3[] = model_2.faceArray[l];
+                if (model_2.unknownDataArrayThree[l] != 0xbc614e)
                     if (cameraModel.anInt365 < 0)
-                        j10 = model_2.anInt308 - model_2.anIntArray241[l];
+                        j10 = model_2.anInt308 - model_2.unknownDataArrayThree[l];
                     else
-                        j10 = model_2.anInt308 + model_2.anIntArray241[l];
+                        j10 = model_2.anInt308 + model_2.unknownDataArrayThree[l];
                 for (int k11 = 0; k11 < l10; k11++) {
                     int k2 = ai3[k11];
                     anIntArray444[k11] = model_2.anIntArray227[k2];
                     anIntArray445[k11] = model_2.anIntArray228[k2];
                     anIntArray446[k11] = model_2.anIntArray229[k2];
-                    if (model_2.anIntArray241[l] == 0xbc614e)
+                    if (model_2.unknownDataArrayThree[l] == 0xbc614e)
                         if (cameraModel.anInt365 < 0)
                             j10 = (model_2.anInt308 - model_2.anIntArray232[k2]) + model_2.aByteArray233[k2];
                         else
@@ -2325,8 +2325,8 @@ public class Camera {
         CameraModel cameraModel = cameraModels[i];
         Model model = cameraModel.aModel_359;
         int j = cameraModel.anInt360;
-        int ai[] = model.anIntArrayArray236[j];
-        int k = model.anIntArray235[j];
+        int ai[] = model.faceArray[j];
+        int k = model.faceVertexCount[j];
         int l = model.anIntArray240[j];
         int j1 = model.anIntArray227[ai[0]];
         int k1 = model.anIntArray228[ai[0]];
@@ -2395,7 +2395,7 @@ public class Camera {
         CameraModel cameraModel = cameraModels[i];
         Model model = cameraModel.aModel_359;
         int j = cameraModel.anInt360;
-        int ai[] = model.anIntArrayArray236[j];
+        int ai[] = model.faceArray[j];
         int l = 0;
         int i1 = 0;
         int j1 = 1;
@@ -2458,10 +2458,10 @@ public class Camera {
         Model model_1 = cameraModel_1.aModel_359;
         int i = cameraModel.anInt360;
         int j = cameraModel_1.anInt360;
-        int ai[] = model.anIntArrayArray236[i];
-        int ai1[] = model_1.anIntArrayArray236[j];
-        int k = model.anIntArray235[i];
-        int l = model_1.anIntArray235[j];
+        int ai[] = model.faceArray[i];
+        int ai1[] = model_1.faceArray[j];
+        int k = model.faceVertexCount[i];
+        int l = model_1.faceVertexCount[j];
         int k2 = model_1.anIntArray227[ai1[0]];
         int l2 = model_1.anIntArray228[ai1[0]];
         int i3 = model_1.anIntArray229[ai1[0]];
@@ -2556,10 +2556,10 @@ public class Camera {
         Model model_1 = cameraModel_1.aModel_359;
         int i = cameraModel.anInt360;
         int j = cameraModel_1.anInt360;
-        int ai[] = model.anIntArrayArray236[i];
-        int ai1[] = model_1.anIntArrayArray236[j];
-        int k = model.anIntArray235[i];
-        int l = model_1.anIntArray235[j];
+        int ai[] = model.faceArray[i];
+        int ai1[] = model_1.faceArray[j];
+        int k = model.faceVertexCount[i];
+        int l = model_1.faceVertexCount[j];
         int i2 = model_1.anIntArray227[ai1[0]];
         int j2 = model_1.anIntArray228[ai1[0]];
         int k2 = model_1.anIntArray229[ai1[0]];

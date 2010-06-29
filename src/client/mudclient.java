@@ -7,14 +7,14 @@ import client.model.Sprite;
 import client.util.Config;
 import client.util.DataConversions;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
-import java.util.LinkedList;
 import java.util.Map.Entry;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 public final class mudclient extends GameWindowMiddleMan {
 
@@ -36,16 +36,12 @@ public final class mudclient extends GameWindowMiddleMan {
     private boolean autoScreenshot = true;
     private long expGained = 0;
     private boolean hasWorldInfo = false;
-    private boolean recording = false;
-    private LinkedList<BufferedImage> frames = new LinkedList<BufferedImage>();
-    private long lastFrame = 0;
 
     public static final void main(String[] args) throws Exception {
-        Config.initConfig(args.length > 0 ? args[0] : "settings.ini");
         GameWindowMiddleMan.clientVersion = 25;
         mudclient mc = new mudclient();
         mc.appletMode = false;
-        mc.setLogo(Toolkit.getDefaultToolkit().getImage(Config.CONF_DIR + File.separator + "Loading.rscd"));
+        mc.setLogo(Toolkit.getDefaultToolkit().getImage(Config.DATA_DIRECTORY + File.separator + "Loading.rscd"));
         mc.createWindow(mc.windowWidth, mc.windowHeight + 11, "RSCDaemon v" + GameWindowMiddleMan.clientVersion, false);
     }
 
@@ -178,37 +174,7 @@ public final class mudclient extends GameWindowMiddleMan {
         return bufferedImage;
     }
 
-    private File getEmptyFile(boolean movie) throws IOException {
-        String charName = DataOperations.longToString(DataOperations.stringLength12ToLong(currentUser));
-        File file = new File(Config.MEDIA_DIR + File.separator + charName);
-        if (!file.exists() || !file.isDirectory()) {
-            file.mkdir();
-        }
-        String folder = file.getPath() + File.separator;
-        file = null;
-        for (int suffix = 0; file == null || file.exists(); suffix++) {
-            file = movie ? new File(folder + "movie" + suffix + ".mov") : new File(folder + "screenshot" + suffix + ".png");
-        }
-        return file;
-    }
-
-    private boolean takeScreenshot(boolean verbose) {
-        try {
-            File file = getEmptyFile(false);
-            ImageIO.write(getImage(), "png", file);
-            if (verbose) {
-                handleServerMessage("Screenshot saved as " + file.getName() + ".");
-            }
-            return true;
-        } catch (IOException e) {
-            if (verbose) {
-                handleServerMessage("Error saving screenshot.");
-            }
-            return false;
-        }
-    }
-
-    final void method45(int i, int j, int k, int l, int i1, int j1, int k1) {
+    final void drawMob(int i, int j, int k, int l, int i1, int j1, int k1) {
         Mob mob = npcArray[i1];
         int l1 = mob.currentSprite + (cameraRotation + 16) / 32 & 7;
         boolean flag = false;
@@ -790,19 +756,12 @@ public final class mudclient extends GameWindowMiddleMan {
             EntityHandler.storeModel(name);
         }
 
-        byte[] models = load("models36.jag");
-        if (models == null) {
-            lastLoadedNull = true;
-            return;
-        }
-        for (int j = 0; j < EntityHandler.getModelCount(); j++) {
-            int k = DataOperations.method358(EntityHandler.getModelName(j) + ".ob3", models);
-            if (k == 0) {
-                gameDataModels[j] = new Model(1, 1);
-            } else {
-                gameDataModels[j] = new Model(models, k, true);
+        for (int currentModelIndex = 0; currentModelIndex < EntityHandler.getModelCount(); currentModelIndex++) {
+            try {
+                gameDataModels[currentModelIndex] = new Model(new ZipFile(new File(Config.DATA_DIRECTORY + File.separatorChar + "Models.rsc")), EntityHandler.getModelName(currentModelIndex));
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            gameDataModels[j].isGiantCrystal = EntityHandler.getModelName(j).equals("giantcrystal");
         }
     }
 
@@ -3637,7 +3596,6 @@ public final class mudclient extends GameWindowMiddleMan {
                 gameMenu.updateText(chatHandle, "");
                 break;
             case 1019: // F12
-                takeScreenshot(true);
                 break;
         }
         if (loggedIn == 0) {
@@ -3789,7 +3747,7 @@ public final class mudclient extends GameWindowMiddleMan {
     }
 
     protected final byte[] load(String filename) {
-        return super.load(Config.CONF_DIR + File.separator + "data" + File.separator + filename);
+        return super.load(Config.DATA_DIRECTORY + File.separator + "data" + File.separator + filename);
     }
 
     private final void drawOptionsMenu(boolean flag) {
@@ -5859,13 +5817,6 @@ public final class mudclient extends GameWindowMiddleMan {
 //                    }
 //                    expGained = 0;
 //                    return;
-
-                case 181:
-                    if (autoScreenshot) {
-                        takeScreenshot(false);
-                    }
-                    return;
-
                 case 187:
                     showTradeWindow = false;
                     showTradeConfirmWindow = false;

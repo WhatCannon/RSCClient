@@ -40,7 +40,7 @@ public class GameImage implements ImageProducer, ImageObserver {
             component.prepareImage(image, component);
         }
         try {
-            spriteArchive = new ZipFile(new File(Config.CONF_DIR + "/Sprites.rscd"));
+            spriteArchive = new ZipFile(new File(Config.DATA_DIRECTORY + "/Sprites.rscd"));
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -1161,7 +1161,7 @@ public class GameImage implements ImageProducer, ImageObserver {
 
     }
 
-    public void method245(int i, int j, int k, int l, int i1, int j1, int k1) {
+    public void drawEntity(int i, int j, int k, int l, int i1, int j1, int k1) {
         spriteClip1(i, j, k, l, i1);
     }
 

@@ -358,7 +358,7 @@ public class GameWindow extends Applet implements Runnable {
 	}
 
     protected byte[] load(String filename) {
-        int j = 0;
+        int length = 0;
         int k = 0;
         byte abyte0[] = null;
         try {
@@ -366,7 +366,7 @@ public class GameWindow extends Applet implements Runnable {
             DataInputStream datainputstream = new DataInputStream(inputstream);
             byte abyte2[] = new byte[6];
             datainputstream.readFully(abyte2, 0, 6);
-            j = ((abyte2[0] & 0xff) << 16) + ((abyte2[1] & 0xff) << 8) + (abyte2[2] & 0xff);
+            length = ((abyte2[0] & 0xff) << 16) + ((abyte2[1] & 0xff) << 8) + (abyte2[2] & 0xff);
             k = ((abyte2[3] & 0xff) << 16) + ((abyte2[4] & 0xff) << 8) + (abyte2[5] & 0xff);
             int l = 0;
             abyte0 = new byte[k];
@@ -383,9 +383,9 @@ public class GameWindow extends Applet implements Runnable {
         catch (IOException _ex) {
         	_ex.printStackTrace();
         }
-        if (k != j) {
-            byte abyte1[] = new byte[j];
-            DataFileDecrypter.unpackData(abyte1, j, abyte0, k, 0);
+        if (k != length) {
+            byte abyte1[] = new byte[length];
+            DataFileDecrypter.unpackData(abyte1, length, abyte0, k, 0);
             return abyte1;
         }
         else {

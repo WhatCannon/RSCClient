@@ -1,7 +1,8 @@
 package client;
 
 import java.io.DataInputStream;
-import java.io.IOException;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 public class Model {
 
@@ -27,8 +28,9 @@ public class Model {
         anInt308 = 32;
         method174(i, j);
         anIntArrayArray279 = new int[j][1];
-        for (int k = 0; k < j; k++)
+        for (int k = 0; k < j; k++) {
             anIntArrayArray279[k][0] = k;
+        }
 
     }
 
@@ -61,16 +63,16 @@ public class Model {
     }
 
     private void method174(int i, int j) {
-        anIntArray272 = new int[i];
-        anIntArray273 = new int[i];
-        anIntArray274 = new int[i];
+        vertexYArray = new int[i];
+        vertexZArray = new int[i];
+        vertexXArray = new int[i];
         anIntArray232 = new int[i];
         aByteArray233 = new byte[i];
-        anIntArray235 = new int[j];
-        anIntArrayArray236 = new int[j][];
-        anIntArray237 = new int[j];
-        anIntArray238 = new int[j];
-        anIntArray241 = new int[j];
+        faceVertexCount = new int[j];
+        faceArray = new int[j][];
+        unknownDataArrayOne = new int[j];
+        unknownDataArrayTwo = new int[j];
+        unknownDataArrayThree = new int[j];
         anIntArray240 = new int[j];
         anIntArray239 = new int[j];
         if (!aBoolean264) {
@@ -85,9 +87,9 @@ public class Model {
             anIntArray258 = new int[j];
         }
         if (aBoolean260) {
-            anIntArray275 = anIntArray272;
-            anIntArray276 = anIntArray273;
-            anIntArray277 = anIntArray274;
+            anIntArray275 = vertexYArray;
+            anIntArray276 = vertexZArray;
+            anIntArray277 = vertexXArray;
         } else {
             anIntArray275 = new int[i];
             anIntArray276 = new int[i];
@@ -106,8 +108,8 @@ public class Model {
             anIntArray284 = new int[j];
             anIntArray285 = new int[j];
         }
-        anInt234 = 0;
-        anInt226 = 0;
+        faceCount = 0;
+        vertexCount = 0;
         anInt271 = i;
         anInt278 = j;
         anInt286 = anInt287 = anInt288 = 0;
@@ -118,33 +120,35 @@ public class Model {
     }
 
     public void method175() {
-        anIntArray227 = new int[anInt226];
-        anIntArray228 = new int[anInt226];
-        anIntArray229 = new int[anInt226];
-        anIntArray230 = new int[anInt226];
-        anIntArray231 = new int[anInt226];
+        anIntArray227 = new int[vertexCount];
+        anIntArray228 = new int[vertexCount];
+        anIntArray229 = new int[vertexCount];
+        anIntArray230 = new int[vertexCount];
+        anIntArray231 = new int[vertexCount];
     }
 
     public void method176() {
-        anInt234 = 0;
-        anInt226 = 0;
+        faceCount = 0;
+        vertexCount = 0;
     }
 
     public void method177(int i, int j) {
-        anInt234 -= i;
-        if (anInt234 < 0)
-            anInt234 = 0;
-        anInt226 -= j;
-        if (anInt226 < 0)
-            anInt226 = 0;
+        faceCount -= i;
+        if (faceCount < 0) {
+            faceCount = 0;
+        }
+        vertexCount -= j;
+        if (vertexCount < 0) {
+            vertexCount = 0;
+        }
     }
 
-    public Model(byte abyte0[], int i, boolean flag) {
+    public Model(ZipFile modelArchive, String modelName) {
         anInt246 = 1;
         aBoolean247 = true;
         aBoolean254 = true;
         aBoolean255 = false;
-        isGiantCrystal = false;
+        isGiantCrystal = modelName.equals("giantcrystal");
         anInt257 = -1;
         aBoolean260 = false;
         aBoolean261 = false;
@@ -159,144 +163,38 @@ public class Model {
         anInt306 = 256;
         anInt307 = 512;
         anInt308 = 32;
-        int j = DataOperations.getUnsignedShort(abyte0, i);
-        i += 2;
-        int k = DataOperations.getUnsignedShort(abyte0, i);
-        i += 2;
-        method174(j, k);
-        anIntArrayArray279 = new int[k][1];
-        for (int l = 0; l < j; l++) {
-            anIntArray272[l] = DataOperations.getSigned2Bytes(abyte0, i);
-            i += 2;
-        }
-
-        for (int i1 = 0; i1 < j; i1++) {
-            anIntArray273[i1] = DataOperations.getSigned2Bytes(abyte0, i);
-            i += 2;
-        }
-
-        for (int j1 = 0; j1 < j; j1++) {
-            anIntArray274[j1] = DataOperations.getSigned2Bytes(abyte0, i);
-            i += 2;
-        }
-
-        anInt226 = j;
-        for (int k1 = 0; k1 < k; k1++)
-            anIntArray235[k1] = abyte0[i++] & 0xff;
-
-        for (int l1 = 0; l1 < k; l1++) {
-            anIntArray237[l1] = DataOperations.getSigned2Bytes(abyte0, i);
-            i += 2;
-            if (anIntArray237[l1] == 32767)
-                anIntArray237[l1] = anInt270;
-        }
-
-        for (int i2 = 0; i2 < k; i2++) {
-            anIntArray238[i2] = DataOperations.getSigned2Bytes(abyte0, i);
-            i += 2;
-            if (anIntArray238[i2] == 32767)
-                anIntArray238[i2] = anInt270;
-        }
-
-        for (int j2 = 0; j2 < k; j2++) {
-            int k2 = abyte0[i++] & 0xff;
-            if (k2 == 0)
-                anIntArray241[j2] = 0;
-            else
-                anIntArray241[j2] = anInt270;
-        }
-
-        for (int l2 = 0; l2 < k; l2++) {
-            anIntArrayArray236[l2] = new int[anIntArray235[l2]];
-            for (int i3 = 0; i3 < anIntArray235[l2]; i3++)
-                if (j < 256) {
-                    anIntArrayArray236[l2][i3] = abyte0[i++] & 0xff;
-                } else {
-                    anIntArrayArray236[l2][i3] = DataOperations.getUnsignedShort(abyte0, i);
-                    i += 2;
-                }
-
-        }
-
-        anInt234 = k;
-        anInt246 = 1;
-    }
-
-    public Model(String path) {
-        anInt246 = 1;
-        aBoolean247 = true;
-        aBoolean254 = true;
-        aBoolean255 = false;
-        isGiantCrystal = false;
-        anInt257 = -1;
-        aBoolean260 = false;
-        aBoolean261 = false;
-        aBoolean262 = false;
-        aBoolean263 = false;
-        aBoolean264 = false;
-        anInt270 = 0xbc614e;
-        anInt302 = 0xbc614e;
-        anInt303 = 180;
-        anInt304 = 155;
-        anInt305 = 95;
-        anInt306 = 256;
-        anInt307 = 512;
-        anInt308 = 32;
-        byte abyte0[] = null;
         try {
-            java.io.InputStream inputstream = DataOperations.streamFromPath(path);
-            DataInputStream datainputstream = new DataInputStream(inputstream);
-            abyte0 = new byte[3];
-            anInt309 = 0;
-            for (int i = 0; i < 3; i += datainputstream.read(abyte0, i, 3 - i))
-                ;
-            int k = method206(abyte0);
-            abyte0 = new byte[k];
-            anInt309 = 0;
-            for (int j = 0; j < k; j += datainputstream.read(abyte0, j, k - j))
-                ;
-            datainputstream.close();
+            ZipEntry modelEntry = modelArchive.getEntry(modelName);
+            if (modelEntry != null) {
+                DataInputStream modelReader = new DataInputStream(modelArchive.getInputStream(modelEntry));
+                this.vertexCount = modelReader.readShort();
+                vertexXArray = new int[vertexCount];
+                vertexYArray = new int[vertexCount];
+                vertexZArray = new int[vertexCount];
+                for (int currentVertex = 0; currentVertex < vertexCount; currentVertex++) {
+                    vertexXArray[currentVertex] = modelReader.readShort();
+                    vertexYArray[currentVertex] = modelReader.readShort();
+                    vertexZArray[currentVertex] = modelReader.readShort();
+                }
+                this.faceCount = modelReader.readShort();
+                faceArray = new int[faceCount][];
+                unknownDataArrayOne = new int[faceCount];
+                unknownDataArrayTwo = new int[faceCount];
+                unknownDataArrayThree = new int[faceCount];
+                for (int currentFace = 0; currentFace < faceCount; currentFace++) {
+                    faceArray[currentFace] = new int[modelReader.read()];
+                    for (int currentVertex = 0; currentVertex < faceArray[currentFace].length; currentVertex++) {
+                        faceArray[currentFace][currentVertex] = modelReader.readShort();
+                    }
+                    unknownDataArrayOne[currentFace] = modelReader.readShort();
+                    unknownDataArrayTwo[currentFace] = modelReader.readShort();
+                    unknownDataArrayThree[currentFace] = modelReader.read();
+                }
+                modelReader.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        catch (IOException _ex) {
-            anInt226 = 0;
-            anInt234 = 0;
-            return;
-        }
-        int l = method206(abyte0);
-        int i1 = method206(abyte0);
-        method174(l, i1);
-        anIntArrayArray279 = new int[i1][];
-        for (int j3 = 0; j3 < l; j3++) {
-            int j1 = method206(abyte0);
-            int k1 = method206(abyte0);
-            int l1 = method206(abyte0);
-            method179(j1, k1, l1);
-        }
-
-        for (int k3 = 0; k3 < i1; k3++) {
-            int i2 = method206(abyte0);
-            int j2 = method206(abyte0);
-            int k2 = method206(abyte0);
-            int l2 = method206(abyte0);
-            anInt307 = method206(abyte0);
-            anInt308 = method206(abyte0);
-            int i3 = method206(abyte0);
-            int ai[] = new int[i2];
-            for (int l3 = 0; l3 < i2; l3++)
-                ai[l3] = method206(abyte0);
-
-            int ai1[] = new int[l2];
-            for (int i4 = 0; i4 < l2; i4++)
-                ai1[i4] = method206(abyte0);
-
-            int j4 = method181(i2, ai, j2, k2);
-            anIntArrayArray279[k3] = ai1;
-            if (i3 == 0)
-                anIntArray241[j4] = 0;
-            else
-                anIntArray241[j4] = anInt270;
-        }
-
         anInt246 = 1;
     }
 
@@ -354,13 +252,14 @@ public class Model {
         int j = 0;
         int k = 0;
         for (int l = 0; l < i; l++) {
-            j += models[l].anInt234;
-            k += models[l].anInt226;
+            j += models[l].faceCount;
+            k += models[l].vertexCount;
         }
 
         method174(k, j);
-        if (flag)
+        if (flag) {
             anIntArrayArray279 = new int[j][];
+        }
         for (int i1 = 0; i1 < i; i1++) {
             Model model = models[i1];
             model.method202();
@@ -370,29 +269,33 @@ public class Model {
             anInt304 = model.anInt304;
             anInt305 = model.anInt305;
             anInt306 = model.anInt306;
-            for (int j1 = 0; j1 < model.anInt234; j1++) {
-                int ai[] = new int[model.anIntArray235[j1]];
-                int ai1[] = model.anIntArrayArray236[j1];
-                for (int k1 = 0; k1 < model.anIntArray235[j1]; k1++)
-                    ai[k1] = method179(model.anIntArray272[ai1[k1]], model.anIntArray273[ai1[k1]], model.anIntArray274[ai1[k1]]);
+            for (int j1 = 0; j1 < model.faceCount; j1++) {
+                int ai[] = new int[model.faceVertexCount[j1]];
+                int ai1[] = model.faceArray[j1];
+                for (int k1 = 0; k1 < model.faceVertexCount[j1]; k1++) {
+                    ai[k1] = method179(model.vertexYArray[ai1[k1]], model.vertexZArray[ai1[k1]], model.vertexXArray[ai1[k1]]);
+                }
 
-                int l1 = method181(model.anIntArray235[j1], ai, model.anIntArray237[j1], model.anIntArray238[j1]);
-                anIntArray241[l1] = model.anIntArray241[j1];
+                int l1 = method181(model.faceVertexCount[j1], ai, model.unknownDataArrayOne[j1], model.unknownDataArrayTwo[j1]);
+                unknownDataArrayThree[l1] = model.unknownDataArrayThree[j1];
                 anIntArray240[l1] = model.anIntArray240[j1];
                 anIntArray239[l1] = model.anIntArray239[j1];
-                if (flag)
+                if (flag) {
                     if (i > 1) {
                         anIntArrayArray279[l1] = new int[model.anIntArrayArray279[j1].length + 1];
                         anIntArrayArray279[l1][0] = i1;
-                        for (int i2 = 0; i2 < model.anIntArrayArray279[j1].length; i2++)
+                        for (int i2 = 0; i2 < model.anIntArrayArray279[j1].length; i2++) {
                             anIntArrayArray279[l1][i2 + 1] = model.anIntArrayArray279[j1][i2];
+                        }
 
                     } else {
                         anIntArrayArray279[l1] = new int[model.anIntArrayArray279[j1].length];
-                        for (int j2 = 0; j2 < model.anIntArrayArray279[j1].length; j2++)
+                        for (int j2 = 0; j2 < model.anIntArrayArray279[j1].length; j2++) {
                             anIntArrayArray279[l1][j2] = model.anIntArrayArray279[j1][j2];
+                        }
 
                     }
+                }
             }
 
         }
@@ -401,46 +304,48 @@ public class Model {
     }
 
     public int method179(int i, int j, int k) {
-        for (int l = 0; l < anInt226; l++)
-            if (anIntArray272[l] == i && anIntArray273[l] == j && anIntArray274[l] == k)
+        for (int l = 0; l < vertexCount; l++) {
+            if (vertexYArray[l] == i && vertexZArray[l] == j && vertexXArray[l] == k) {
                 return l;
+            }
+        }
 
-        if (anInt226 >= anInt271) {
+        if (vertexCount >= anInt271) {
             return -1;
         } else {
-            anIntArray272[anInt226] = i;
-            anIntArray273[anInt226] = j;
-            anIntArray274[anInt226] = k;
-            return anInt226++;
+            vertexYArray[vertexCount] = i;
+            vertexZArray[vertexCount] = j;
+            vertexXArray[vertexCount] = k;
+            return vertexCount++;
         }
     }
 
     public int method180(int i, int j, int k) {
-        if (anInt226 >= anInt271) {
+        if (vertexCount >= anInt271) {
             return -1;
         } else {
-            anIntArray272[anInt226] = i;
-            anIntArray273[anInt226] = j;
-            anIntArray274[anInt226] = k;
-            return anInt226++;
+            vertexYArray[vertexCount] = i;
+            vertexZArray[vertexCount] = j;
+            vertexXArray[vertexCount] = k;
+            return vertexCount++;
         }
     }
 
     public int method181(int i, int ai[], int j, int k) {
-        if (anInt234 >= anInt278) {
+        if (faceCount >= anInt278) {
             return -1;
         } else {
-            anIntArray235[anInt234] = i;
-            anIntArrayArray236[anInt234] = ai;
-            anIntArray237[anInt234] = j;
-            anIntArray238[anInt234] = k;
+            faceVertexCount[faceCount] = i;
+            faceArray[faceCount] = ai;
+            unknownDataArrayOne[faceCount] = j;
+            unknownDataArrayTwo[faceCount] = k;
             anInt246 = 1;
-            return anInt234++;
+            return faceCount++;
         }
     }
 
     public Model[] method182(int i, int j, int k, int l, int i1, int j1, int k1,
-                             boolean flag) {
+            boolean flag) {
         method202();
         int ai[] = new int[j1];
         int ai1[] = new int[j1];
@@ -449,14 +354,14 @@ public class Model {
             ai1[l1] = 0;
         }
 
-        for (int i2 = 0; i2 < anInt234; i2++) {
+        for (int i2 = 0; i2 < faceCount; i2++) {
             int j2 = 0;
             int k2 = 0;
-            int i3 = anIntArray235[i2];
-            int ai2[] = anIntArrayArray236[i2];
+            int i3 = faceVertexCount[i2];
+            int ai2[] = faceArray[i2];
             for (int i4 = 0; i4 < i3; i4++) {
-                j2 += anIntArray272[ai2[i4]];
-                k2 += anIntArray274[ai2[i4]];
+                j2 += vertexYArray[ai2[i4]];
+                k2 += vertexXArray[ai2[i4]];
             }
 
             int k4 = j2 / (i3 * k) + (k2 / (i3 * l)) * i1;
@@ -466,29 +371,31 @@ public class Model {
 
         Model models[] = new Model[j1];
         for (int l2 = 0; l2 < j1; l2++) {
-            if (ai[l2] > k1)
+            if (ai[l2] > k1) {
                 ai[l2] = k1;
+            }
             models[l2] = new Model(ai[l2], ai1[l2], true, true, true, flag, true);
             models[l2].anInt307 = anInt307;
             models[l2].anInt308 = anInt308;
         }
 
-        for (int j3 = 0; j3 < anInt234; j3++) {
+        for (int j3 = 0; j3 < faceCount; j3++) {
             int k3 = 0;
             int j4 = 0;
-            int l4 = anIntArray235[j3];
-            int ai3[] = anIntArrayArray236[j3];
+            int l4 = faceVertexCount[j3];
+            int ai3[] = faceArray[j3];
             for (int i5 = 0; i5 < l4; i5++) {
-                k3 += anIntArray272[ai3[i5]];
-                j4 += anIntArray274[ai3[i5]];
+                k3 += vertexYArray[ai3[i5]];
+                j4 += vertexXArray[ai3[i5]];
             }
 
             int j5 = k3 / (l4 * k) + (j4 / (l4 * l)) * i1;
             method183(models[j5], ai3, l4, j3);
         }
 
-        for (int l3 = 0; l3 < j1; l3++)
+        for (int l3 = 0; l3 < j1; l3++) {
             models[l3].method175();
+        }
 
         return models;
     }
@@ -496,15 +403,16 @@ public class Model {
     public void method183(Model model, int ai[], int i, int j) {
         int ai1[] = new int[i];
         for (int k = 0; k < i; k++) {
-            int l = ai1[k] = model.method179(anIntArray272[ai[k]], anIntArray273[ai[k]], anIntArray274[ai[k]]);
+            int l = ai1[k] = model.method179(vertexYArray[ai[k]], vertexZArray[ai[k]], vertexXArray[ai[k]]);
             model.anIntArray232[l] = anIntArray232[ai[k]];
             model.aByteArray233[l] = aByteArray233[ai[k]];
         }
 
-        int i1 = model.method181(i, ai1, anIntArray237[j], anIntArray238[j]);
-        if (!model.aBoolean263 && !aBoolean263)
+        int i1 = model.method181(i, ai1, unknownDataArrayOne[j], unknownDataArrayTwo[j]);
+        if (!model.aBoolean263 && !aBoolean263) {
             model.anIntArray258[i1] = anIntArray258[j];
-        model.anIntArray241[i1] = anIntArray241[j];
+        }
+        model.unknownDataArrayThree[i1] = unknownDataArrayThree[j];
         model.anIntArray240[i1] = anIntArray240[j];
         model.anIntArray239[i1] = anIntArray239[j];
     }
@@ -512,13 +420,16 @@ public class Model {
     public void method184(boolean flag, int i, int j, int k, int l, int i1) {
         anInt308 = 256 - i * 4;
         anInt307 = (64 - j) * 16 + 128;
-        if (aBoolean262)
+        if (aBoolean262) {
             return;
-        for (int j1 = 0; j1 < anInt234; j1++)
-            if (flag)
-                anIntArray241[j1] = anInt270;
-            else
-                anIntArray241[j1] = 0;
+        }
+        for (int j1 = 0; j1 < faceCount; j1++) {
+            if (flag) {
+                unknownDataArrayThree[j1] = anInt270;
+            } else {
+                unknownDataArrayThree[j1] = 0;
+            }
+        }
 
         anInt303 = k;
         anInt304 = l;
@@ -614,7 +525,7 @@ public class Model {
     }
 
     private void method193(int i, int j, int k) {
-        for (int l = 0; l < anInt226; l++) {
+        for (int l = 0; l < vertexCount; l++) {
             anIntArray275[l] += i;
             anIntArray276[l] += j;
             anIntArray277[l] += k;
@@ -623,7 +534,7 @@ public class Model {
     }
 
     private void method194(int i, int j, int k) {
-        for (int i3 = 0; i3 < anInt226; i3++) {
+        for (int i3 = 0; i3 < vertexCount; i3++) {
             if (k != 0) {
                 int l = anIntArray265[k];
                 int k1 = anIntArray265[k + 256];
@@ -650,25 +561,31 @@ public class Model {
     }
 
     private void method195(int i, int j, int k, int l, int i1, int j1) {
-        for (int k1 = 0; k1 < anInt226; k1++) {
-            if (i != 0)
+        for (int k1 = 0; k1 < vertexCount; k1++) {
+            if (i != 0) {
                 anIntArray275[k1] += anIntArray276[k1] * i >> 8;
-            if (j != 0)
+            }
+            if (j != 0) {
                 anIntArray277[k1] += anIntArray276[k1] * j >> 8;
-            if (k != 0)
+            }
+            if (k != 0) {
                 anIntArray275[k1] += anIntArray277[k1] * k >> 8;
-            if (l != 0)
+            }
+            if (l != 0) {
                 anIntArray276[k1] += anIntArray277[k1] * l >> 8;
-            if (i1 != 0)
+            }
+            if (i1 != 0) {
                 anIntArray277[k1] += anIntArray275[k1] * i1 >> 8;
-            if (j1 != 0)
+            }
+            if (j1 != 0) {
                 anIntArray276[k1] += anIntArray275[k1] * j1 >> 8;
+            }
         }
 
     }
 
     private void method196(int i, int j, int k) {
-        for (int l = 0; l < anInt226; l++) {
+        for (int l = 0; l < vertexCount; l++) {
             anIntArray275[l] = anIntArray275[l] * i >> 8;
             anIntArray276[l] = anIntArray276[l] * j >> 8;
             anIntArray277[l] = anIntArray277[l] * k >> 8;
@@ -679,10 +596,10 @@ public class Model {
     private void method197() {
         anInt248 = anInt250 = anInt252 = 0xf423f;
         anInt302 = anInt249 = anInt251 = anInt253 = 0xfff0bdc1;
-        for (int i = 0; i < anInt234; i++) {
-            int ai[] = anIntArrayArray236[i];
+        for (int i = 0; i < faceCount; i++) {
+            int ai[] = faceArray[i];
             int k = ai[0];
-            int i1 = anIntArray235[i];
+            int i1 = faceVertexCount[i];
             int j1;
             int k1 = j1 = anIntArray275[k];
             int l1;
@@ -691,18 +608,21 @@ public class Model {
             int k2 = j2 = anIntArray277[k];
             for (int j = 0; j < i1; j++) {
                 int l = ai[j];
-                if (anIntArray275[l] < j1)
+                if (anIntArray275[l] < j1) {
                     j1 = anIntArray275[l];
-                else if (anIntArray275[l] > k1)
+                } else if (anIntArray275[l] > k1) {
                     k1 = anIntArray275[l];
-                if (anIntArray276[l] < l1)
+                }
+                if (anIntArray276[l] < l1) {
                     l1 = anIntArray276[l];
-                else if (anIntArray276[l] > i2)
+                } else if (anIntArray276[l] > i2) {
                     i2 = anIntArray276[l];
-                if (anIntArray277[l] < j2)
+                }
+                if (anIntArray277[l] < j2) {
                     j2 = anIntArray277[l];
-                else if (anIntArray277[l] > k2)
+                } else if (anIntArray277[l] > k2) {
                     k2 = anIntArray277[l];
+                }
             }
 
             if (!aBoolean261) {
@@ -713,51 +633,63 @@ public class Model {
                 anIntArray284[i] = j2;
                 anIntArray285[i] = k2;
             }
-            if (k1 - j1 > anInt302)
+            if (k1 - j1 > anInt302) {
                 anInt302 = k1 - j1;
-            if (i2 - l1 > anInt302)
+            }
+            if (i2 - l1 > anInt302) {
                 anInt302 = i2 - l1;
-            if (k2 - j2 > anInt302)
+            }
+            if (k2 - j2 > anInt302) {
                 anInt302 = k2 - j2;
-            if (j1 < anInt248)
+            }
+            if (j1 < anInt248) {
                 anInt248 = j1;
-            if (k1 > anInt249)
+            }
+            if (k1 > anInt249) {
                 anInt249 = k1;
-            if (l1 < anInt250)
+            }
+            if (l1 < anInt250) {
                 anInt250 = l1;
-            if (i2 > anInt251)
+            }
+            if (i2 > anInt251) {
                 anInt251 = i2;
-            if (j2 < anInt252)
+            }
+            if (j2 < anInt252) {
                 anInt252 = j2;
-            if (k2 > anInt253)
+            }
+            if (k2 > anInt253) {
                 anInt253 = k2;
+            }
         }
 
     }
 
     public void method198() {
-        if (aBoolean262)
+        if (aBoolean262) {
             return;
+        }
         int i = anInt307 * anInt306 >> 8;
-        for (int j = 0; j < anInt234; j++)
-            if (anIntArray241[j] != anInt270)
-                anIntArray241[j] = (anIntArray242[j] * anInt303 + anIntArray243[j] * anInt304 + anIntArray244[j] * anInt305) / i;
+        for (int j = 0; j < faceCount; j++) {
+            if (unknownDataArrayThree[j] != anInt270) {
+                unknownDataArrayThree[j] = (anIntArray242[j] * anInt303 + anIntArray243[j] * anInt304 + anIntArray244[j] * anInt305) / i;
+            }
+        }
 
-        int ai[] = new int[anInt226];
-        int ai1[] = new int[anInt226];
-        int ai2[] = new int[anInt226];
-        int ai3[] = new int[anInt226];
-        for (int k = 0; k < anInt226; k++) {
+        int ai[] = new int[vertexCount];
+        int ai1[] = new int[vertexCount];
+        int ai2[] = new int[vertexCount];
+        int ai3[] = new int[vertexCount];
+        for (int k = 0; k < vertexCount; k++) {
             ai[k] = 0;
             ai1[k] = 0;
             ai2[k] = 0;
             ai3[k] = 0;
         }
 
-        for (int l = 0; l < anInt234; l++)
-            if (anIntArray241[l] == anInt270) {
-                for (int i1 = 0; i1 < anIntArray235[l]; i1++) {
-                    int k1 = anIntArrayArray236[l][i1];
+        for (int l = 0; l < faceCount; l++) {
+            if (unknownDataArrayThree[l] == anInt270) {
+                for (int i1 = 0; i1 < faceVertexCount[l]; i1++) {
+                    int k1 = faceArray[l][i1];
                     ai[k1] += anIntArray242[l];
                     ai1[k1] += anIntArray243[l];
                     ai2[k1] += anIntArray244[l];
@@ -765,18 +697,22 @@ public class Model {
                 }
 
             }
+        }
 
-        for (int j1 = 0; j1 < anInt226; j1++)
-            if (ai3[j1] > 0)
+        for (int j1 = 0; j1 < vertexCount; j1++) {
+            if (ai3[j1] > 0) {
                 anIntArray232[j1] = (ai[j1] * anInt303 + ai1[j1] * anInt304 + ai2[j1] * anInt305) / (i * ai3[j1]);
+            }
+        }
 
     }
 
     public void method199() {
-        if (aBoolean262 && aBoolean261)
+        if (aBoolean262 && aBoolean261) {
             return;
-        for (int i = 0; i < anInt234; i++) {
-            int ai[] = anIntArrayArray236[i];
+        }
+        for (int i = 0; i < faceCount; i++) {
+            int ai[] = faceArray[i];
             int j = anIntArray275[ai[0]];
             int k = anIntArray276[ai[0]];
             int l = anIntArray277[ai[0]];
@@ -789,15 +725,15 @@ public class Model {
             int k2 = j1 * j2 - i2 * k1;
             int l2 = k1 * l1 - j2 * i1;
             int i3;
-            for (i3 = i1 * i2 - l1 * j1; k2 > 8192 || l2 > 8192 || i3 > 8192 || k2 < -8192 || l2 < -8192 || i3 < -8192; i3 >>= 1)
-            {
+            for (i3 = i1 * i2 - l1 * j1; k2 > 8192 || l2 > 8192 || i3 > 8192 || k2 < -8192 || l2 < -8192 || i3 < -8192; i3 >>= 1) {
                 k2 >>= 1;
                 l2 >>= 1;
             }
 
             int j3 = (int) (256D * Math.sqrt(k2 * k2 + l2 * l2 + i3 * i3));
-            if (j3 <= 0)
+            if (j3 <= 0) {
                 j3 = 1;
+            }
             anIntArray242[i] = (k2 * 0x10000) / j3;
             anIntArray243[i] = (l2 * 0x10000) / j3;
             anIntArray244[i] = (i3 * 65535) / j3;
@@ -810,10 +746,10 @@ public class Model {
     public void method200() {
         if (anInt246 == 2) {
             anInt246 = 0;
-            for (int i = 0; i < anInt226; i++) {
-                anIntArray275[i] = anIntArray272[i];
-                anIntArray276[i] = anIntArray273[i];
-                anIntArray277[i] = anIntArray274[i];
+            for (int i = 0; i < vertexCount; i++) {
+                anIntArray275[i] = vertexYArray[i];
+                anIntArray276[i] = vertexZArray[i];
+                anIntArray277[i] = vertexXArray[i];
             }
 
             anInt248 = anInt250 = anInt252 = 0xff676981;
@@ -822,27 +758,31 @@ public class Model {
         }
         if (anInt246 == 1) {
             anInt246 = 0;
-            for (int j = 0; j < anInt226; j++) {
-                anIntArray275[j] = anIntArray272[j];
-                anIntArray276[j] = anIntArray273[j];
-                anIntArray277[j] = anIntArray274[j];
+            for (int j = 0; j < vertexCount; j++) {
+                anIntArray275[j] = vertexYArray[j];
+                anIntArray276[j] = vertexZArray[j];
+                anIntArray277[j] = vertexXArray[j];
             }
 
-            if (anInt301 >= 2)
+            if (anInt301 >= 2) {
                 method194(anInt289, anInt290, anInt291);
-            if (anInt301 >= 3)
+            }
+            if (anInt301 >= 3) {
                 method196(anInt292, anInt293, anInt294);
-            if (anInt301 >= 4)
+            }
+            if (anInt301 >= 4) {
                 method195(anInt295, anInt296, anInt297, anInt298, anInt299, anInt300);
-            if (anInt301 >= 1)
+            }
+            if (anInt301 >= 1) {
                 method193(anInt286, anInt287, anInt288);
+            }
             method197();
             method199();
         }
     }
 
     public void method201(int i, int j, int k, int l, int i1, int j1, int k1,
-                          int l1) {
+            int l1) {
         method200();
         if (anInt252 > Camera.anInt453 || anInt253 < Camera.anInt452 || anInt248 > Camera.anInt449 || anInt249 < Camera.anInt448 || anInt250 > Camera.anInt451 || anInt251 < Camera.anInt450) {
             aBoolean247 = false;
@@ -867,7 +807,7 @@ public class Model {
             j3 = anIntArray266[l];
             k3 = anIntArray266[l + 1024];
         }
-        for (int j4 = 0; j4 < anInt226; j4++) {
+        for (int j4 = 0; j4 < vertexCount; j4++) {
             int k4 = anIntArray275[j4] - i;
             int l4 = anIntArray276[j4] - j;
             int i5 = anIntArray277[j4] - k;
@@ -886,14 +826,16 @@ public class Model {
                 i5 = l4 * j3 + i5 * k3 >> 15;
                 l4 = k2;
             }
-            if (i5 >= l1)
+            if (i5 >= l1) {
                 anIntArray230[j4] = (k4 << k1) / i5;
-            else
+            } else {
                 anIntArray230[j4] = k4 << k1;
-            if (i5 >= l1)
+            }
+            if (i5 >= l1) {
                 anIntArray231[j4] = (l4 << k1) / i5;
-            else
+            } else {
                 anIntArray231[j4] = l4 << k1;
+            }
             anIntArray227[j4] = k4;
             anIntArray228[j4] = l4;
             anIntArray229[j4] = i5;
@@ -903,10 +845,10 @@ public class Model {
 
     public void method202() {
         method200();
-        for (int i = 0; i < anInt226; i++) {
-            anIntArray272[i] = anIntArray275[i];
-            anIntArray273[i] = anIntArray276[i];
-            anIntArray274[i] = anIntArray277[i];
+        for (int i = 0; i < vertexCount; i++) {
+            vertexYArray[i] = anIntArray275[i];
+            vertexZArray[i] = anIntArray276[i];
+            vertexXArray[i] = anIntArray277[i];
         }
 
         anInt286 = anInt287 = anInt288 = 0;
@@ -945,18 +887,17 @@ public class Model {
     }
 
     public int method206(byte abyte0[]) {
-        for (; abyte0[anInt309] == 10 || abyte0[anInt309] == 13; anInt309++)
-            ;
+        for (; abyte0[anInt309] == 10 || abyte0[anInt309] == 13; anInt309++);
         int i = anIntArray268[abyte0[anInt309++] & 0xff];
         int j = anIntArray268[abyte0[anInt309++] & 0xff];
         int k = anIntArray268[abyte0[anInt309++] & 0xff];
         int l = (i * 4096 + j * 64 + k) - 0x20000;
-        if (l == 0x1e240)
+        if (l == 0x1e240) {
             l = anInt270;
+        }
         return l;
     }
-
-    public int anInt226;
+    public int vertexCount;
     public int anIntArray227[];
     public int anIntArray228[];
     public int anIntArray229[];
@@ -964,14 +905,14 @@ public class Model {
     public int anIntArray231[];
     public int anIntArray232[];
     public byte aByteArray233[];
-    public int anInt234;
-    public int anIntArray235[];
-    public int anIntArrayArray236[][];
-    public int anIntArray237[];
-    public int anIntArray238[];
+    public int faceCount;
+    public int faceVertexCount[];
+    public int faceArray[][];
+    public int unknownDataArrayOne[];
+    public int unknownDataArrayTwo[];
     public int anIntArray239[];
     public int anIntArray240[];
-    public int anIntArray241[];
+    public int unknownDataArrayThree[];
     public int anIntArray242[];
     public int anIntArray243[];
     private int anIntArray244[];
@@ -1001,9 +942,9 @@ public class Model {
     private static int anIntArray268[];
     private int anInt270;
     public int anInt271;
-    public int anIntArray272[];
-    public int anIntArray273[];
-    public int anIntArray274[];
+    public int vertexYArray[];
+    public int vertexZArray[];
+    public int vertexXArray[];
     public int anIntArray275[];
     public int anIntArray276[];
     public int anIntArray277[];
@@ -1055,25 +996,31 @@ public class Model {
             anIntArray266[j + 1024] = (int) (Math.cos((double) j * 0.00613592315D) * 32768D);
         }
 
-        for (int k = 0; k < 10; k++)
+        for (int k = 0; k < 10; k++) {
             aByteArray267[k] = (byte) (48 + k);
+        }
 
-        for (int l = 0; l < 26; l++)
+        for (int l = 0; l < 26; l++) {
             aByteArray267[l + 10] = (byte) (65 + l);
+        }
 
-        for (int i1 = 0; i1 < 26; i1++)
+        for (int i1 = 0; i1 < 26; i1++) {
             aByteArray267[i1 + 36] = (byte) (97 + i1);
+        }
 
         aByteArray267[62] = -93;
         aByteArray267[63] = 36;
-        for (int j1 = 0; j1 < 10; j1++)
+        for (int j1 = 0; j1 < 10; j1++) {
             anIntArray268[48 + j1] = j1;
+        }
 
-        for (int k1 = 0; k1 < 26; k1++)
+        for (int k1 = 0; k1 < 26; k1++) {
             anIntArray268[65 + k1] = k1 + 10;
+        }
 
-        for (int l1 = 0; l1 < 26; l1++)
+        for (int l1 = 0; l1 < 26; l1++) {
             anIntArray268[97 + l1] = l1 + 36;
+        }
 
         anIntArray268[163] = 62;
         anIntArray268[36] = 63;

@@ -155,16 +155,16 @@ public class EntityHandler {
     }
 
     public static void load() {
-        npcs = (NPCDef[]) PersistenceManager.load(new File(Config.CONF_DIR, "NPCs.rscd"));
-        items = (ItemDef[]) PersistenceManager.load(new File(Config.CONF_DIR, "Items.rscd"));
-        textures = (TextureDef[]) PersistenceManager.load(new File(Config.CONF_DIR, "Textures.rscd"));
-        animations = (AnimationDef[]) PersistenceManager.load(new File(Config.CONF_DIR, "Animations.rscd"));
-        spells = (SpellDef[]) PersistenceManager.load(new File(Config.CONF_DIR, "Spells.rscd"));
-        prayers = (PrayerDef[]) PersistenceManager.load(new File(Config.CONF_DIR, "Prayers.rscd"));
-        tiles = (TileDef[]) PersistenceManager.load(new File(Config.CONF_DIR, "Tiles.rscd"));
-        doors = (DoorDef[]) PersistenceManager.load(new File(Config.CONF_DIR, "Doors.rscd"));
-        elevation = (ElevationDef[]) PersistenceManager.load(new File(Config.CONF_DIR, "Elevation.rscd"));
-        objects = (GameObjectDef[]) PersistenceManager.load(new File(Config.CONF_DIR, "Objects.rscd"));
+        npcs = (NPCDef[]) PersistenceManager.load(new File(Config.DATA_DIRECTORY, "NPCs.rscd"));
+        items = (ItemDef[]) PersistenceManager.load(new File(Config.DATA_DIRECTORY, "Items.rscd"));
+        textures = (TextureDef[]) PersistenceManager.load(new File(Config.DATA_DIRECTORY, "Textures.rscd"));
+        animations = (AnimationDef[]) PersistenceManager.load(new File(Config.DATA_DIRECTORY, "Animations.rscd"));
+        spells = (SpellDef[]) PersistenceManager.load(new File(Config.DATA_DIRECTORY, "Spells.rscd"));
+        prayers = (PrayerDef[]) PersistenceManager.load(new File(Config.DATA_DIRECTORY, "Prayers.rscd"));
+        tiles = (TileDef[]) PersistenceManager.load(new File(Config.DATA_DIRECTORY, "Tiles.rscd"));
+        doors = (DoorDef[]) PersistenceManager.load(new File(Config.DATA_DIRECTORY, "Doors.rscd"));
+        elevation = (ElevationDef[]) PersistenceManager.load(new File(Config.DATA_DIRECTORY, "Elevation.rscd"));
+        objects = (GameObjectDef[]) PersistenceManager.load(new File(Config.DATA_DIRECTORY, "Objects.rscd"));
 
         for (int id = 0; id < items.length; id++) {
             if (items[id].getSprite() + 1 > invPictureCount) {
