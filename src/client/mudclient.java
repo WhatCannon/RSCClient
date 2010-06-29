@@ -5,7 +5,6 @@ import client.entityhandling.defs.ItemDef;
 import client.entityhandling.defs.NPCDef;
 import client.model.Sprite;
 import client.util.Config;
-import client.util.DataConversions;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -13,7 +12,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.util.Map.Entry;
-import java.util.zip.ZipEntry;
+import java.util.Random;
 import java.util.zip.ZipFile;
 
 public final class mudclient extends GameWindowMiddleMan {
@@ -2015,12 +2014,10 @@ public final class mudclient extends GameWindowMiddleMan {
             screenRotationTimer++;
             if (screenRotationTimer > 500) {
                 screenRotationTimer = 0;
-                int i = (int) (Math.random() * 4D);
-                if ((i & 1) == 1) {
-                    screenRotationX += anInt727;
-                }
-                if ((i & 2) == 2) {
-                    screenRotationY += anInt911;
+                if(new Random().nextBoolean()) {
+                  screenRotationX += anInt727;
+                } else {
+                  screenRotationY += anInt911;
                 }
             }
             if (screenRotationX < -50) {
@@ -2916,7 +2913,6 @@ public final class mudclient extends GameWindowMiddleMan {
             experienceArray[j] = (i & 0xffffffc) / 4;
         }
         super.yOffset = 0;
-        GameWindowMiddleMan.maxPacketReadCount = 1000;
         loadConfigFilter(); // 15%
         if (lastLoadedNull) {
             return;
@@ -3211,37 +3207,24 @@ public final class mudclient extends GameWindowMiddleMan {
         gameGraphics.drawText("Ignore", i + c / 4 + c / 2, j + 16, 4, 0);
         friendsMenu.resetListTextCount(friendsMenuHandle);
         if (anInt981 == 0) {
-            for (int i1 = 0; i1 < super.friendsCount; i1++) {
-                String s;
-                if (super.friendsListOnlineStatus[i1] == 99) {
-                    s = "@gre@";
-                } else if (super.friendsListOnlineStatus[i1] > 0) {
-                    s = "@yel@";
-                } else {
-                    s = "@red@";
-                }
-                friendsMenu.drawMenuListText(friendsMenuHandle, i1, s + DataOperations.longToString(super.friendsListLongs[i1]) + "~439~@whi@Remove         WWWWWWWWWW");
+            for(String currentEntry : super.friendList) {
+             friendsMenu.drawMenuListText(friendsMenuHandle, super.friendList.indexOf(currentEntry), "@gre@" + currentEntry + "~439~@whi@Remove         WWWWWWWWWW");
             }
 
         }
         if (anInt981 == 1) {
-            for (int j1 = 0; j1 < super.ignoreListCount; j1++) {
-                friendsMenu.drawMenuListText(friendsMenuHandle, j1, "@yel@" + super.ignoreList[j1] + "~439~@whi@Remove         WWWWWWWWWW");
+            for(String currentEntry : super.ignoreList) {
+             friendsMenu.drawMenuListText(friendsMenuHandle, super.ignoreList.indexOf(currentEntry), "@gre@" + currentEntry + "~439~@whi@Remove         WWWWWWWWWW");
             }
-
         }
         friendsMenu.drawMenu();
         if (anInt981 == 0) {
-            int k1 = friendsMenu.selectedListIndex(friendsMenuHandle);
-            if (k1 >= 0 && super.mouseX < 489) {
+            int friendIndex = friendsMenu.selectedListIndex(friendsMenuHandle);
+            if (friendIndex >= 0 && super.mouseX < 489) {
                 if (super.mouseX > 429) {
-                    gameGraphics.drawText("Click to remove " + DataOperations.longToString(super.friendsListLongs[k1]), i + c / 2, j + 35, 1, 0xffffff);
-                } else if (super.friendsListOnlineStatus[k1] == 99) {
-                    gameGraphics.drawText("Click to message " + DataOperations.longToString(super.friendsListLongs[k1]), i + c / 2, j + 35, 1, 0xffffff);
-                } else if (super.friendsListOnlineStatus[k1] > 0) {
-                    gameGraphics.drawText(DataOperations.longToString(super.friendsListLongs[k1]) + " is on world " + super.friendsListOnlineStatus[k1], i + c / 2, j + 35, 1, 0xffffff);
+                    gameGraphics.drawText("Click to remove " + super.friendList.get(friendIndex), i + c / 2, j + 35, 1, 0xffffff);
                 } else {
-                    gameGraphics.drawText(DataOperations.longToString(super.friendsListLongs[k1]) + " is offline", i + c / 2, j + 35, 1, 0xffffff);
+                    gameGraphics.drawText(super.friendList.get(friendIndex) + " is offline", i + c / 2, j + 35, 1, 0xffffff);
                 }
             } else {
                 gameGraphics.drawText("Click a name to send a message", i + c / 2, j + 35, 1, 0xffffff);
@@ -3255,10 +3238,10 @@ public final class mudclient extends GameWindowMiddleMan {
             gameGraphics.drawText("Click here to add a friend", i + c / 2, (j + c1) - 3, 1, k2);
         }
         if (anInt981 == 1) {
-            int l1 = friendsMenu.selectedListIndex(friendsMenuHandle);
-            if (l1 >= 0 && super.mouseX < 489 && super.mouseX > 429) {
+            int friendIndex = friendsMenu.selectedListIndex(friendsMenuHandle);
+            if (friendIndex >= 0 && super.mouseX < 489 && super.mouseX > 429) {
                 if (super.mouseX > 429) {
-                    gameGraphics.drawText("Click to remove " + super.ignoreList[l1], i + c / 2, j + 35, 1, 0xffffff);
+                    gameGraphics.drawText("Click to remove " + super.friendList.get(friendIndex), i + c / 2, j + 35, 1, 0xffffff);
                 }
             } else {
                 gameGraphics.drawText("Blocking messages from:", i + c / 2, j + 35, 1, 0xffffff);
@@ -3288,22 +3271,22 @@ public final class mudclient extends GameWindowMiddleMan {
                 }
             }
             if (mouseButtonClick == 1 && anInt981 == 0) {
-                int i2 = friendsMenu.selectedListIndex(friendsMenuHandle);
-                if (i2 >= 0 && super.mouseX < 489) {
+                int friendIndex = friendsMenu.selectedListIndex(friendsMenuHandle);
+                if (friendIndex >= 0 && super.mouseX < 489) {
                     if (super.mouseX > 429) {
-                        removeFromFriends(super.friendsListLongs[i2]);
-                    } else if (super.friendsListOnlineStatus[i2] != 0) {
+                        removeFromFriends(friendList.get(friendIndex));
+                    } else {
                         inputBoxType = 2;
-                        privateMessageTarget = super.friendsListLongs[i2];
+                        privateMessageTarget = friendList.get(friendIndex);
                         super.inputMessage = "";
                         super.enteredMessage = "";
                     }
                 }
             }
             if (mouseButtonClick == 1 && anInt981 == 1) {
-                int j2 = friendsMenu.selectedListIndex(friendsMenuHandle);
-                if (j2 >= 0 && super.mouseX < 489 && super.mouseX > 429) {
-                    removeFromIgnoreList(super.ignoreList[j2]);
+                int friendListIndex = friendsMenu.selectedListIndex(friendsMenuHandle);
+                if (friendListIndex >= 0 && super.mouseX < 489 && super.mouseX > 429) {
+                    removeFromIgnoreList(super.ignoreList.get(friendListIndex));
                 }
             }
             if (j > 166 && mouseButtonClick == 1 && anInt981 == 0) {
@@ -3746,10 +3729,6 @@ public final class mudclient extends GameWindowMiddleMan {
         gameMenu.setFocus(chatHandle);
     }
 
-    protected final byte[] load(String filename) {
-        return super.load(Config.DATA_DIRECTORY + File.separator + "data" + File.separator + filename);
-    }
-
     private final void drawOptionsMenu(boolean flag) {
         int i = ((GameImage) (gameGraphics)).menuDefaultWidth - 199;
         int j = 36;
@@ -3806,25 +3785,25 @@ public final class mudclient extends GameWindowMiddleMan {
         i1 += 15;
         gameGraphics.drawString("all people not on your friends list", i + 3, i1, 1, 0);
         i1 += 15;
-        if (super.blockChatMessages == 0) {
+        if (!super.blockChatMessages) {
             gameGraphics.drawString("Block chat messages: @red@<off>", i + 3, i1, 1, 0xffffff);
         } else {
             gameGraphics.drawString("Block chat messages: @gre@<on>", i + 3, i1, 1, 0xffffff);
         }
         i1 += 15;
-        if (super.blockPrivateMessages == 0) {
+        if (!super.blockPrivateMessages) {
             gameGraphics.drawString("Block private messages: @red@<off>", i + 3, i1, 1, 0xffffff);
         } else {
             gameGraphics.drawString("Block private messages: @gre@<on>", i + 3, i1, 1, 0xffffff);
         }
         i1 += 15;
-        if (super.blockTradeRequests == 0) {
+        if (!super.blockTradeRequests) {
             gameGraphics.drawString("Block trade requests: @red@<off>", i + 3, i1, 1, 0xffffff);
         } else {
             gameGraphics.drawString("Block trade requests: @gre@<on>", i + 3, i1, 1, 0xffffff);
         }
         i1 += 15;
-        if (super.blockDuelRequests == 0) {
+        if (!super.blockDuelRequests) {
             gameGraphics.drawString("Block duel requests: @red@<off>", i + 3, i1, 1, 0xffffff);
         } else {
             gameGraphics.drawString("Block duel requests: @gre@<on>", i + 3, i1, 1, 0xffffff);
@@ -3902,22 +3881,22 @@ public final class mudclient extends GameWindowMiddleMan {
             boolean flag1 = false;
             j1 += 35;
             if (super.mouseX > l && super.mouseX < l + c1 && super.mouseY > j1 - 12 && super.mouseY < j1 + 4 && mouseButtonClick == 1) {
-                super.blockChatMessages = 1 - super.blockChatMessages;
+                super.blockChatMessages = !super.blockChatMessages;
                 flag1 = true;
             }
             j1 += 15;
             if (super.mouseX > l && super.mouseX < l + c1 && super.mouseY > j1 - 12 && super.mouseY < j1 + 4 && mouseButtonClick == 1) {
-                super.blockPrivateMessages = 1 - super.blockPrivateMessages;
+                super.blockPrivateMessages = !super.blockPrivateMessages;
                 flag1 = true;
             }
             j1 += 15;
             if (super.mouseX > l && super.mouseX < l + c1 && super.mouseY > j1 - 12 && super.mouseY < j1 + 4 && mouseButtonClick == 1) {
-                super.blockTradeRequests = 1 - super.blockTradeRequests;
+                super.blockTradeRequests = !super.blockTradeRequests;
                 flag1 = true;
             }
             j1 += 15;
             if (super.mouseX > l && super.mouseX < l + c1 && super.mouseY > j1 - 12 && super.mouseY < j1 + 4 && mouseButtonClick == 1) {
-                super.blockDuelRequests = 1 - super.blockDuelRequests;
+                super.blockDuelRequests = !super.blockDuelRequests;
                 flag1 = true;
             }
             j1 += 15;
@@ -4387,7 +4366,7 @@ public final class mudclient extends GameWindowMiddleMan {
         gameGraphics.drawBox(byte0, byte1, 468, 16, 192);
         int i = 0x989898;
         gameGraphics.drawBoxAlpha(byte0, byte1 + 16, 468, 246, i, 160);
-        gameGraphics.drawText("Please confirm your duel with @yel@" + DataOperations.longToString(duelOpponentNameLong), byte0 + 234, byte1 + 12, 1, 0xffffff);
+        gameGraphics.drawText("Please confirm your duel with @yel@testing", byte0 + 234, byte1 + 12, 1, 0xffffff);
         gameGraphics.drawText("Your stake:", byte0 + 117, byte1 + 30, 1, 0xffff00);
         for (int j = 0; j < duelConfirmMyItemCount; j++) {
             String s = EntityHandler.getItemDef(duelConfirmMyItems[j]).getName();
@@ -4557,9 +4536,8 @@ public final class mudclient extends GameWindowMiddleMan {
             super.inputText = "";
             super.enteredText = "";
             if (s.length() > 0) {
-                long l = DataOperations.stringLength12ToLong(s);
                 PacketBuilder currentPacket = new PacketBuilder(7);
-                currentPacket.writeLong(l);
+                currentPacket.writeString(s);
                 currentPacket.writeByte(abuseSelectedType);
                 super.streamClass.writePacket(currentPacket.toByteArray());
             }
@@ -4738,7 +4716,7 @@ public final class mudclient extends GameWindowMiddleMan {
         super.mouseDownButton = 0;
         showShop = false;
         showBank = false;
-        super.friendsCount = 0;
+        super.friendList.clear();
     }
 
     private final void drawTradeWindow() {
@@ -4993,7 +4971,7 @@ public final class mudclient extends GameWindowMiddleMan {
             switch (packetToHandle.getHeader()) {
                 //Show trade window
                 case 4:
-                    int currentMob = PacketOperations.getShort(packetToHandle.getPacketData(), packetOffset);
+                    int currentMob = DataOperations.getShort(packetToHandle.getPacketData(), packetOffset);
                     if (mobArray[currentMob] != null) // todo: check what that mobArray is
                     {
                         tradeOtherPlayerName = mobArray[currentMob].name;
@@ -5006,7 +4984,7 @@ public final class mudclient extends GameWindowMiddleMan {
                     return;
 
                 case 18:
-                    tradeWeAccepted = (PacketOperations.getByte(packetToHandle.getPacketData(), 0) == 1);
+                    tradeWeAccepted = (DataOperations.getByte(packetToHandle.getPacketData(), 0) == 1);
                     return;
 //                case 23:
 //                    if (anInt892 < 50) {
@@ -5109,10 +5087,10 @@ public final class mudclient extends GameWindowMiddleMan {
 //                    return;
 
                 case 53:
-                    updateCount = PacketOperations.getShort(packetToHandle.getPacketData(), packetOffset);
+                    updateCount = DataOperations.getShort(packetToHandle.getPacketData(), packetOffset);
                     packetOffset += 2;
                     for (int updateCounter = 0; updateCounter < updateCount; updateCounter++) {
-                        int currentServerIndex = PacketOperations.getShort(packetToHandle.getPacketData(), packetOffset);
+                        int currentServerIndex = DataOperations.getShort(packetToHandle.getPacketData(), packetOffset);
                         packetOffset += 2;
                         if (currentServerIndex < 0 || currentServerIndex > mobArray.length) {
                             return;
@@ -5121,10 +5099,10 @@ public final class mudclient extends GameWindowMiddleMan {
                         if (mob == null) {
                             return;
                         }
-                        switch (PacketOperations.getByte(packetToHandle.getPacketData(), packetOffset++)) {
+                        switch (DataOperations.getByte(packetToHandle.getPacketData(), packetOffset++)) {
                             //Item bubble
                             case 0:
-                                int itemID = PacketOperations.getShort(packetToHandle.getPacketData(), packetOffset);
+                                int itemID = DataOperations.getShort(packetToHandle.getPacketData(), packetOffset);
                                 packetOffset += 2;
                                 if (mob != null) {
                                     mob.itemBubbleTimeout = 150;
@@ -5133,10 +5111,10 @@ public final class mudclient extends GameWindowMiddleMan {
                                 break;
                             //Player chat
                             case 1:
-                                int messageLength = PacketOperations.getShort(packetToHandle.getPacketData(), packetOffset);
+                                int messageLength = DataOperations.getShort(packetToHandle.getPacketData(), packetOffset);
                                 packetOffset += 2;
                                 if (mob != null) {
-                                    String message = PacketOperations.getString(packetToHandle.getPacketData(), packetOffset, messageLength);
+                                    String message = DataOperations.getString(packetToHandle.getPacketData(), packetOffset, messageLength);
                                     mob.lastMessageTimeout = 150;
                                     mob.lastMessage = message;
                                     displayMessage(mob.name + ": " + mob.lastMessage, 2, mob.adminLevel);
@@ -5145,9 +5123,9 @@ public final class mudclient extends GameWindowMiddleMan {
                                 break;
                             //Damaged
                             case 2:
-                                int amountDamaged = PacketOperations.getByte(packetToHandle.getPacketData(), packetOffset++);
-                                int hitpointsCurrent = PacketOperations.getByte(packetToHandle.getPacketData(), packetOffset++);
-                                int hitpointsMax = PacketOperations.getByte(packetToHandle.getPacketData(), packetOffset++);
+                                int amountDamaged = DataOperations.getByte(packetToHandle.getPacketData(), packetOffset++);
+                                int hitpointsCurrent = DataOperations.getByte(packetToHandle.getPacketData(), packetOffset++);
+                                int hitpointsMax = DataOperations.getByte(packetToHandle.getPacketData(), packetOffset++);
                                 if (mob != null) {
                                     mob.damageSplatNumber = amountDamaged;
                                     mob.hitPointsCurrent = hitpointsCurrent;
@@ -5189,25 +5167,25 @@ public final class mudclient extends GameWindowMiddleMan {
 //                            //Appearence update
                             case 5:
                                 if (mob != null) {
-                                    mob.mobIntUnknown = PacketOperations.getShort(packetToHandle.getPacketData(), packetOffset);
+                                    mob.mobIntUnknown = DataOperations.getShort(packetToHandle.getPacketData(), packetOffset);
                                     packetOffset += 2;
-                                    mob.name = PacketOperations.getString(packetToHandle.getPacketData(), packetOffset, 20).trim();
+                                    mob.name = DataOperations.getString(packetToHandle.getPacketData(), packetOffset, 20).trim();
                                     packetOffset += 20;
-                                    int wornItemsCount = PacketOperations.getByte(packetToHandle.getPacketData(), packetOffset++);
+                                    int wornItemsCount = DataOperations.getByte(packetToHandle.getPacketData(), packetOffset++);
                                     for (int currentItem = 0; currentItem < 12; currentItem++) {
                                         if (currentItem < wornItemsCount) {
-                                            mob.animationCount[currentItem] = PacketOperations.getByte(packetToHandle.getPacketData(), packetOffset++);
+                                            mob.animationCount[currentItem] = DataOperations.getByte(packetToHandle.getPacketData(), packetOffset++);
                                         } else {
                                             mob.animationCount[currentItem] = 0;
                                         }
                                     }
-                                    mob.colourHairType = PacketOperations.getByte(packetToHandle.getPacketData(), packetOffset++);
-                                    mob.colourTopType = PacketOperations.getByte(packetToHandle.getPacketData(), packetOffset++);
-                                    mob.colourBottomType = PacketOperations.getByte(packetToHandle.getPacketData(), packetOffset++);
-                                    mob.colourSkinType = PacketOperations.getByte(packetToHandle.getPacketData(), packetOffset++);
-                                    mob.mobLevel = PacketOperations.getByte(packetToHandle.getPacketData(), packetOffset++);
-                                    mob.isSkulled = PacketOperations.getByte(packetToHandle.getPacketData(), packetOffset++);
-                                    mob.adminLevel = PacketOperations.getByte(packetToHandle.getPacketData(), packetOffset++);
+                                    mob.colourHairType = DataOperations.getByte(packetToHandle.getPacketData(), packetOffset++);
+                                    mob.colourTopType = DataOperations.getByte(packetToHandle.getPacketData(), packetOffset++);
+                                    mob.colourBottomType = DataOperations.getByte(packetToHandle.getPacketData(), packetOffset++);
+                                    mob.colourSkinType = DataOperations.getByte(packetToHandle.getPacketData(), packetOffset++);
+                                    mob.mobLevel = DataOperations.getByte(packetToHandle.getPacketData(), packetOffset++);
+                                    mob.isSkulled = DataOperations.getByte(packetToHandle.getPacketData(), packetOffset++);
+                                    mob.adminLevel = DataOperations.getByte(packetToHandle.getPacketData(), packetOffset++);
                                 }
                                 break;
 //                            //Private chat
@@ -5250,7 +5228,7 @@ public final class mudclient extends GameWindowMiddleMan {
                     return;
 
                 case 65:
-                    duelOpponentAccepted = (PacketOperations.getByte(packetToHandle.getPacketData(), 0) == 1);
+                    duelOpponentAccepted = (DataOperations.getByte(packetToHandle.getPacketData(), 0) == 1);
 
 //                case 77:
 //                    lastNpcCount = npcCount;
@@ -5332,7 +5310,7 @@ public final class mudclient extends GameWindowMiddleMan {
 //                    return;
 
                 case 92:
-                    tradeOtherAccepted = (PacketOperations.getByte(packetToHandle.getPacketData(), 0) == 1);
+                    tradeOtherAccepted = (DataOperations.getByte(packetToHandle.getPacketData(), 0) == 1);
 
 //                case 93:
 //                    showBank = true;
@@ -5482,9 +5460,9 @@ public final class mudclient extends GameWindowMiddleMan {
 
                 case 110:
                     int i = 0;
-                    serverStartTime = PacketOperations.getLong(packetToHandle.getPacketData(), i);
+                    serverStartTime = DataOperations.getLong(packetToHandle.getPacketData(), i);
                     i += 8;
-                    serverLocation = PacketOperations.getString(packetToHandle.getPacketData(), i, (packetToHandle.getPacketData().length - i));
+                    serverLocation = DataOperations.getString(packetToHandle.getPacketData(), i, (packetToHandle.getPacketData().length - i));
                     return;
 
 //                case 114:
@@ -5573,7 +5551,7 @@ public final class mudclient extends GameWindowMiddleMan {
 //                    return;
 
                 case 126:
-                    fatigue = PacketOperations.getShort(packetToHandle.getPacketData(), 1);
+                    fatigue = DataOperations.getShort(packetToHandle.getPacketData(), 1);
                     return;
 
                 case 127:
@@ -5587,15 +5565,15 @@ public final class mudclient extends GameWindowMiddleMan {
                 case 131:
                     notInWilderness = true;
                     hasWorldInfo = true;
-                    serverIndex = PacketOperations.getShort(packetToHandle.getPacketData(), packetOffset);
+                    serverIndex = DataOperations.getShort(packetToHandle.getPacketData(), packetOffset);
                     packetOffset += 2;
-                    wildX = PacketOperations.getShort(packetToHandle.getPacketData(), packetOffset);
+                    wildX = DataOperations.getShort(packetToHandle.getPacketData(), packetOffset);
                     packetOffset += 2;
-                    wildY = PacketOperations.getShort(packetToHandle.getPacketData(), packetOffset);
+                    wildY = DataOperations.getShort(packetToHandle.getPacketData(), packetOffset);
                     packetOffset += 2;
-                    wildYSubtract = PacketOperations.getShort(packetToHandle.getPacketData(), packetOffset);
+                    wildYSubtract = DataOperations.getShort(packetToHandle.getPacketData(), packetOffset);
                     packetOffset += 2;
-                    wildYMultiplier = PacketOperations.getShort(packetToHandle.getPacketData(), packetOffset);
+                    wildYMultiplier = DataOperations.getShort(packetToHandle.getPacketData(), packetOffset);
                     packetOffset += 2;
                     System.out.println("Server index: " + serverIndex);
                     wildY -= wildYSubtract * wildYMultiplier;
@@ -5633,11 +5611,11 @@ public final class mudclient extends GameWindowMiddleMan {
                     for (int k = 0; k < lastPlayerCount; k++) {
                         lastPlayerArray[k] = playerArray[k];
                     }
-                    sectionX = PacketOperations.getInt(packetToHandle.getPacketData(), packetOffset);
+                    sectionX = DataOperations.getInt(packetToHandle.getPacketData(), packetOffset);
                     packetOffset += 4;
-                    sectionY = PacketOperations.getInt(packetToHandle.getPacketData(), packetOffset);
+                    sectionY = DataOperations.getInt(packetToHandle.getPacketData(), packetOffset);
                     packetOffset += 4;
-                    int mobSprite = PacketOperations.getInt(packetToHandle.getPacketData(), packetOffset);
+                    int mobSprite = DataOperations.getInt(packetToHandle.getPacketData(), packetOffset);
                     packetOffset += 4;
                     boolean sectionLoaded = loadSection(sectionX, sectionY);
                     sectionX -= areaX;
@@ -5653,7 +5631,7 @@ public final class mudclient extends GameWindowMiddleMan {
                     playerCount = 0;
                     ourPlayer = makePlayer(serverIndex, mapEnterX, mapEnterY, mobSprite);
                     ourPlayer.nextSprite = 3;
-                    int newPlayerCount = PacketOperations.getInt(packetToHandle.getPacketData(), packetOffset);
+                    int newPlayerCount = DataOperations.getInt(packetToHandle.getPacketData(), packetOffset);
                     packetOffset += 4;
 //                    for (int currentNewPlayer = 0; currentNewPlayer < newPlayerCount; currentNewPlayer++) {
 //                        Mob lastMob = getLastPlayer(PacketOperations.getInt(packetToHandle.getPacketData(), packetOffset));
@@ -5792,7 +5770,7 @@ public final class mudclient extends GameWindowMiddleMan {
                     return;
 
                 case 172:
-                    systemUpdate = PacketOperations.getShort(packetToHandle.getPacketData(), 1) * 32;
+                    systemUpdate = DataOperations.getShort(packetToHandle.getPacketData(), 1) * 32;
                     return;
 
 //                case 177:
@@ -6169,7 +6147,7 @@ public final class mudclient extends GameWindowMiddleMan {
         gameGraphics.drawBox(byte0, byte1, 468, 16, 192);
         int i = 0x989898;
         gameGraphics.drawBoxAlpha(byte0, byte1 + 16, 468, 246, i, 160);
-        gameGraphics.drawText("Please confirm your trade with @yel@" + DataOperations.longToString(tradeConfirmOtherNameLong), byte0 + 234, byte1 + 12, 1, 0xffffff);
+        gameGraphics.drawText("Please confirm your trade with @yel@testing", byte0 + 234, byte1 + 12, 1, 0xffffff);
         gameGraphics.drawText("You are about to give:", byte0 + 117, byte1 + 30, 1, 0xffff00);
         for (int j = 0; j < tradeConfirmItemCount; j++) {
             String s = EntityHandler.getItemDef(tradeConfirmItems[j]).getName();
@@ -6692,7 +6670,7 @@ public final class mudclient extends GameWindowMiddleMan {
                 super.inputText = "";
                 super.enteredText = "";
                 inputBoxType = 0;
-                if (s.length() > 0 && DataOperations.stringLength12ToLong(s) != ourPlayer.nameLong) {
+                if (s.length() > 0 && !s.equals(ourPlayer.name)) {
                     addToFriendsList(s);
                 }
             }
@@ -6701,18 +6679,16 @@ public final class mudclient extends GameWindowMiddleMan {
             gameGraphics.drawBox(6, i, 500, 70, 0);
             gameGraphics.drawBoxEdge(6, i, 500, 70, 0xffffff);
             i += 20;
-            gameGraphics.drawText("Enter message to send to " + DataOperations.longToString(privateMessageTarget), 256, i, 4, 0xffffff);
+            gameGraphics.drawText("Enter message to send to " + privateMessageTarget, 256, i, 4, 0xffffff);
             i += 20;
             gameGraphics.drawText(super.inputMessage + "*", 256, i, 4, 0xffffff);
             if (super.enteredMessage.length() > 0) {
-                String s1 = super.enteredMessage;
+                String chatMessage = super.enteredMessage;
                 super.inputMessage = "";
                 super.enteredMessage = "";
                 inputBoxType = 0;
-                byte[] message = DataConversions.stringToByteArray(s1);
-                sendPrivateMessage(privateMessageTarget, message, message.length);
-                s1 = DataConversions.byteToString(message, 0, message.length);
-                handleServerMessage("@pri@You tell " + DataOperations.longToString(privateMessageTarget) + ": " + s1);
+                sendPrivateMessage(privateMessageTarget, chatMessage);
+                handleServerMessage("@pri@You tell " + privateMessageTarget + ": " + chatMessage);
             }
         }
         if (inputBoxType == 3) {
@@ -6727,7 +6703,7 @@ public final class mudclient extends GameWindowMiddleMan {
                 super.inputText = "";
                 super.enteredText = "";
                 inputBoxType = 0;
-                if (s2.length() > 0 && DataOperations.stringLength12ToLong(s2) != ourPlayer.nameLong) {
+                if (s2.length() > 0 && !s2.equals(ourPlayer.name)) {
                     addToIgnoreList(s2);
                 }
             }
@@ -6860,33 +6836,24 @@ public final class mudclient extends GameWindowMiddleMan {
             setPixelsAndAroundColour(i + c / 2 + i2, (36 + c2 / 2) - k3, 0xff0000);
         }
 
-        for (int k7 = 0; k7 < npcCount; k7++) {
-            Mob mob = npcArray[k7];
-            int j2 = ((mob.currentX - ourPlayer.currentX) * 3 * k) / 2048;
-            int l3 = ((mob.currentY - ourPlayer.currentY) * 3 * k) / 2048;
+        for (int currentNPC = 0; currentNPC < npcCount; currentNPC++) {
+            Mob currentMob = npcArray[currentNPC];
+            int j2 = ((currentMob.currentX - ourPlayer.currentX) * 3 * k) / 2048;
+            int l3 = ((currentMob.currentY - ourPlayer.currentY) * 3 * k) / 2048;
             int j6 = l3 * k4 + j2 * i5 >> 18;
             l3 = l3 * i5 - j2 * k4 >> 18;
             j2 = j6;
             setPixelsAndAroundColour(i + c / 2 + j2, (36 + c2 / 2) - l3, 0xffff00);
         }
 
-        for (int l7 = 0; l7 < playerCount; l7++) {
-            Mob mob_1 = playerArray[l7];
-            int k2 = ((mob_1.currentX - ourPlayer.currentX) * 3 * k) / 2048;
-            int i4 = ((mob_1.currentY - ourPlayer.currentY) * 3 * k) / 2048;
+        for (int currentPlayer = 0; currentPlayer < playerCount; currentPlayer++) {
+            Mob currentMob = playerArray[currentPlayer];
+            int k2 = ((currentMob.currentX - ourPlayer.currentX) * 3 * k) / 2048;
+            int i4 = ((currentMob.currentY - ourPlayer.currentY) * 3 * k) / 2048;
             int k6 = i4 * k4 + k2 * i5 >> 18;
             i4 = i4 * i5 - k2 * k4 >> 18;
             k2 = k6;
-            int j8 = 0xffffff;
-            for (int k8 = 0; k8 < super.friendsCount; k8++) {
-                if (mob_1.nameLong != super.friendsListLongs[k8] || super.friendsListOnlineStatus[k8] != 99) {
-                    continue;
-                }
-                j8 = 65280;
-                break;
-            }
-
-            setPixelsAndAroundColour(i + c / 2 + k2, (36 + c2 / 2) - i4, j8);
+            setPixelsAndAroundColour(i + c / 2 + k2, (36 + c2 / 2) - i4, ((super.friendList.contains(currentMob.name)) ? 65280 : 0xffffff));
         }
 
         gameGraphics.method212(i + c / 2, 36 + c2 / 2, 2, 0xffffff, 255);
@@ -7395,7 +7362,7 @@ public final class mudclient extends GameWindowMiddleMan {
     private Menu friendsMenu;
     int friendsMenuHandle;
     int anInt981;
-    long privateMessageTarget;
+    String privateMessageTarget;
     private long duelOpponentNameLong;
     private String tradeOtherPlayerName;
     private int anInt985;

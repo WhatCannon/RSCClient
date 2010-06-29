@@ -178,11 +178,14 @@ public class Model {
                 }
                 this.faceCount = modelReader.readShort();
                 faceArray = new int[faceCount][];
+                faceVertexCount = new int[faceCount];
                 unknownDataArrayOne = new int[faceCount];
                 unknownDataArrayTwo = new int[faceCount];
                 unknownDataArrayThree = new int[faceCount];
                 for (int currentFace = 0; currentFace < faceCount; currentFace++) {
-                    faceArray[currentFace] = new int[modelReader.read()];
+                    int currentFaceVertexCount = modelReader.read();
+                    faceArray[currentFace] = new int[currentFaceVertexCount];
+                    faceVertexCount[currentFace] = currentFaceVertexCount;
                     for (int currentVertex = 0; currentVertex < faceArray[currentFace].length; currentVertex++) {
                         faceArray[currentFace][currentVertex] = modelReader.readShort();
                     }

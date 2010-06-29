@@ -5,6 +5,8 @@ import client.util.Config;
 import java.awt.*;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.Collections;
+import java.util.LinkedList;
 
 public abstract class GameWindowMiddleMan extends GameWindow {
 
@@ -17,10 +19,6 @@ public abstract class GameWindowMiddleMan extends GameWindow {
             return;
         }
         try {
-            username = user;
-            user = DataOperations.addCharacters(user, 20);
-            password = pass;
-            pass = DataOperations.addCharacters(pass, 20);
             streamClass = new StreamClass(new Socket(Config.SERVER_IP, Config.SERVER_PORT), this);
             PacketBuilder currentPacket = new PacketBuilder(0);
             if (reconnecting) {
@@ -29,8 +27,8 @@ public abstract class GameWindowMiddleMan extends GameWindow {
                 currentPacket.writeByte(0);
             }
             currentPacket.writeShort(clientVersion);
-            currentPacket.writeString(user);
-            currentPacket.writeString(pass);
+            currentPacket.writeString(DataOperations.padString(user, 20));
+            currentPacket.writeString(DataOperations.padString(pass, 20));
             streamClass.writePacket(currentPacket.toByteArray());
             int loginResponse = streamClass.readByte();
             System.out.println("Login Response:" + loginResponse);
@@ -52,11 +50,9 @@ public abstract class GameWindowMiddleMan extends GameWindow {
                     loginScreenPrint("Error unable to login.", "Server timed out");
                     break;
                 case 0:
-                    reconnectTries = 0;
                     resetVars();
                     break;
                 case 1:
-                    reconnectTries = 0;
                     break;
                 case 2:
                     loginScreenPrint("Invalid username or password.", "Try again, or create a new account");
@@ -86,7 +82,6 @@ public abstract class GameWindowMiddleMan extends GameWindow {
                     loginScreenPrint("Server full!.", "Please try again later.");
                     break;
                 case 99:
-                    reconnectTries = 0;
                     resetVars();
                     break;
                 default:
@@ -103,8 +98,6 @@ public abstract class GameWindowMiddleMan extends GameWindow {
             PacketBuilder currentPacket = new PacketBuilder(39);
             streamClass.writePacket(currentPacket.toByteArray());
         }
-        username = "";
-        password = "";
         resetIntVars();
     }
 
@@ -129,7 +122,7 @@ public abstract class GameWindowMiddleMan extends GameWindow {
 
     protected final void readPacket() {
         try {
-            if((System.currentTimeMillis() - lastPing) >= 5000) {
+            if ((System.currentTimeMillis() - lastPing) >= 5000) {
                 streamClass.writePacket(new PacketBuilder(5).toByteArray());
                 lastPing = System.currentTimeMillis();
             }
@@ -143,61 +136,50 @@ public abstract class GameWindowMiddleMan extends GameWindow {
     }
 
     protected final void checkIncomingPacket(Packet packetToHandle) {
+        int packetOffset = 0;
         switch (packetToHandle.getHeader()) {
             case 2:
-                ignoreListCount = PacketOperations.getByte(packetToHandle.getPacketData(), 0);
-                for (int currentEntry = 0; currentEntry < ignoreListCount; currentEntry++) {
-                    ignoreList[currentEntry] = PacketOperations.getString(packetToHandle.getPacketData(), (currentEntry * 20), 20);
+                int ignoreListCount = DataOperations.getShort(packetToHandle.getPacketData(), packetOffset);
+                packetOffset += 2;
+                ignoreList.clear();
+                for(int currentEntry = 0; currentEntry < ignoreListCount; currentEntry++) {
+                    ignoreList.add(DataOperations.getString(packetToHandle.getPacketData(), packetOffset, 20).trim());
+                    packetOffset += 20;
                 }
+                Collections.sort(ignoreList, String.CASE_INSENSITIVE_ORDER);
                 break;
             case 25:
-                long friend = DataOperations.getUnsignedLong(packetData, 1);
-                int status = packetData[9] & 0xff;
-                for (int i2 = 0; i2 < friendsCount; i2++) {
-                    if (friendsListLongs[i2] == friend) {
-                        if (friendsListOnlineStatus[i2] == 0 && status != 0) {
-                            handleServerMessage("@pri@" + DataOperations.longToString(friend) + " has logged in");
-                        }
-                        if (friendsListOnlineStatus[i2] != 0 && status == 0) {
-                            handleServerMessage("@pri@" + DataOperations.longToString(friend) + " has logged out");
-                        }
-                        friendsListOnlineStatus[i2] = status;
-                        friendsListLongs[friendsCount] = friend;
-                        friendsListOnlineStatus[friendsCount] = status;
-                        friendsCount++;
-                        reOrderFriendsListByOnlineStatus();
-                        return;
-                    }
-                }
+                // TODO Friend login/logout update status.
                 break;
             case 48:
-                handleServerMessage(PacketOperations.getString(packetToHandle.getPacketData(), 0, packetToHandle.getPacketData().length));
+                handleServerMessage(DataOperations.getString(packetToHandle.getPacketData(), 0, packetToHandle.getPacketData().length));
                 break;
             case 136:
                 cantLogout();
                 break;
             case 158:
-                blockChatMessages = packetData[1];
-                blockPrivateMessages = packetData[2];
-                blockTradeRequests = packetData[3];
-                blockDuelRequests = packetData[4];
+                blockChatMessages = DataOperations.getBoolean(packetToHandle.getPacketData(), packetOffset++);
+                blockPrivateMessages = DataOperations.getBoolean(packetToHandle.getPacketData(), packetOffset++);
+                blockTradeRequests = DataOperations.getBoolean(packetToHandle.getPacketData(), packetOffset++);
+                blockDuelRequests = DataOperations.getBoolean(packetToHandle.getPacketData(), packetOffset++);
                 break;
             case 170:
-                String user = PacketOperations.getString(packetToHandle.getPacketData(), 0, 20).trim();
-                String message = PacketOperations.getString(packetToHandle.getPacketData(), 20, 30).trim();
+                String user = DataOperations.getString(packetToHandle.getPacketData(), 0, 20).trim();
+                String message = DataOperations.getString(packetToHandle.getPacketData(), 20, 30).trim();
                 handleServerMessage("@pri@" + user + " tells you: " + message);
                 break;
             case 222:
                 sendLogoutPacket();
                 break;
             case 249:
-                friendsCount = DataOperations.getUnsignedByte(packetData[1]);
-                for (int k = 0; k < friendsCount; k++) {
-                    friendsListLongs[k] = DataOperations.getUnsignedLong(packetData, 2 + k * 9);
-                    friendsListOnlineStatus[k] = DataOperations.getUnsignedByte(packetData[10 + k * 9]);
+                int friendListCount = DataOperations.getShort(packetToHandle.getPacketData(), packetOffset);
+                packetOffset += 2;
+                friendList.clear();
+                for(int currentEntry = 0; currentEntry < friendListCount; currentEntry++) {
+                    friendList.add(DataOperations.getString(packetToHandle.getPacketData(), packetOffset, 20).trim());
+                    packetOffset += 20;
                 }
-
-                reOrderFriendsListByOnlineStatus();
+                Collections.sort(friendList, String.CASE_INSENSITIVE_ORDER);
                 break;
             default:
                 handleIncomingPacket(packetToHandle);
@@ -205,113 +187,63 @@ public abstract class GameWindowMiddleMan extends GameWindow {
         }
     }
 
-    private final void reOrderFriendsListByOnlineStatus() {
-        boolean flag = true;
-        while (flag) {
-            flag = false;
-            for (int i = 0; i < friendsCount - 1; i++) {
-                if (friendsListOnlineStatus[i] < friendsListOnlineStatus[i + 1]) {
-                    int j = friendsListOnlineStatus[i];
-                    friendsListOnlineStatus[i] = friendsListOnlineStatus[i + 1];
-                    friendsListOnlineStatus[i + 1] = j;
-                    long l = friendsListLongs[i];
-                    friendsListLongs[i] = friendsListLongs[i + 1];
-                    friendsListLongs[i + 1] = l;
-                    flag = true;
-                }
-            }
-
-        }
-    }
-
-    protected final void sendUpdatedPrivacyInfo(int chatMessages, int privateMessages, int tradeRequests, int duelRequests) {
+    protected final void sendUpdatedPrivacyInfo(boolean chatMessages, boolean privateMessages, boolean tradeRequests, boolean duelRequests) {
         PacketBuilder currentPacket = new PacketBuilder(176);
-        currentPacket.writeByte(chatMessages);
-        currentPacket.writeByte(privateMessages);
-        currentPacket.writeByte(tradeRequests);
-        currentPacket.writeByte(duelRequests);
+        currentPacket.writeBoolean(chatMessages);
+        currentPacket.writeBoolean(privateMessages);
+        currentPacket.writeBoolean(tradeRequests);
+        currentPacket.writeBoolean(duelRequests);
         streamClass.writePacket(currentPacket.toByteArray());
     }
 
-    protected final void addToIgnoreList(String name) {
+    protected final void addToIgnoreList(String nameToAdd) {
+        if (!ignoreList.contains(nameToAdd)) {
+            ignoreList.add(nameToAdd);
+            Collections.sort(ignoreList, String.CASE_INSENSITIVE_ORDER);
+            handleServerMessage("@pri@" + nameToAdd + " has been added to your ignore list.");
+        }
         PacketBuilder currentPacket = new PacketBuilder(25);
-        currentPacket.writeString(name);
+        currentPacket.writeString(nameToAdd);
         streamClass.writePacket(currentPacket.toByteArray());
-        for (int i = 0; i < ignoreListCount; i++) {
-            if (ignoreList[i].equals(name)) {
-                return;
-            }
-        }
-
-        if (ignoreListCount >= ignoreList.length - 1) {
-            return;
-        } else {
-            ignoreList[ignoreListCount++] = name;
-            return;
-        }
     }
 
-    protected final void removeFromIgnoreList(String name) {
+    protected final void removeFromIgnoreList(String nameToRemove) {
+        if (ignoreList.contains(nameToRemove)) {
+            ignoreList.remove(nameToRemove);
+            Collections.sort(ignoreList, String.CASE_INSENSITIVE_ORDER);
+            handleServerMessage("@pri@" + nameToRemove + " has been removed from your ignore list.");
+        }
         PacketBuilder currentPacket = new PacketBuilder(108);
-        currentPacket.writeString(name);
+        currentPacket.writeString(nameToRemove);
         streamClass.writePacket(currentPacket.toByteArray());
-        for (int i = 0; i < ignoreListCount; i++) {
-            if (ignoreList[i].equals(name)) {
-                ignoreListCount--;
-                for (int j = i; j < ignoreListCount; j++) {
-                    ignoreList[j] = ignoreList[j + 1];
-                }
-
-                return;
-            }
-        }
     }
 
-    protected final void addToFriendsList(String name) {
+    protected final void addToFriendsList(String nameToAdd) {
+        if (!friendList.contains(nameToAdd)) {
+            friendList.add(nameToAdd);
+            Collections.sort(friendList, String.CASE_INSENSITIVE_ORDER);
+            handleServerMessage("@pri@" + nameToAdd + " has been added to your friends list.");
+        }
         PacketBuilder currentPacket = new PacketBuilder(168);
-        currentPacket.writeLong(DataOperations.stringLength12ToLong(name));
+        currentPacket.writeString(nameToAdd);
         streamClass.writePacket(currentPacket.toByteArray());
-        long l = DataOperations.stringLength12ToLong(name);
-        for (int i = 0; i < friendsCount; i++) {
-            if (friendsListLongs[i] == l) {
-                return;
-            }
-        }
-
-        if (friendsCount >= friendsListLongs.length - 1) {
-            return;
-        } else {
-            friendsListLongs[friendsCount] = l;
-            friendsListOnlineStatus[friendsCount] = 0;
-            friendsCount++;
-            return;
-        }
     }
 
-    protected final void removeFromFriends(long l) {
+    protected final void removeFromFriends(String nameToRemove) {
+        if (friendList.contains(nameToRemove)) {
+            friendList.remove(nameToRemove);
+            Collections.sort(friendList, String.CASE_INSENSITIVE_ORDER);
+            handleServerMessage("@pri@" + nameToRemove + " has been removed from your friends list.");
+        }
         PacketBuilder currentPacket = new PacketBuilder(52);
-        currentPacket.writeLong(l);
+        currentPacket.writeString(nameToRemove);
         streamClass.writePacket(currentPacket.toByteArray());
-        for (int i = 0; i < friendsCount; i++) {
-            if (friendsListLongs[i] != l) {
-                continue;
-            }
-            friendsCount--;
-            for (int j = i; j < friendsCount; j++) {
-                friendsListLongs[j] = friendsListLongs[j + 1];
-                friendsListOnlineStatus[j] = friendsListOnlineStatus[j + 1];
-            }
-
-            break;
-        }
-
-        handleServerMessage("@pri@" + DataOperations.longToString(l) + " has been removed from your friends list");
     }
 
-    protected final void sendPrivateMessage(long user, byte message[], int messageLength) {
+    protected final void sendPrivateMessage(String recipientOfMessage, String chatMessage) {
         PacketBuilder currentPacket = new PacketBuilder(254);
-        currentPacket.writeLong(user);
-        currentPacket.writeBytes(message, 0, messageLength);
+        currentPacket.writeString(recipientOfMessage);
+        currentPacket.writeString(chatMessage);
         streamClass.writePacket(currentPacket.toByteArray());
     }
 
@@ -340,30 +272,13 @@ public abstract class GameWindowMiddleMan extends GameWindow {
     protected abstract void handleIncomingPacket(Packet packetToHandle);
 
     protected abstract void handleServerMessage(String s);
-
-    public GameWindowMiddleMan() {
-        username = "";
-        password = "";
-        packetData = new byte[5000];
-        friendsListLongs = new long[400];
-        friendsListOnlineStatus = new int[400];
-        ignoreList = new String[200];
-    }
     public static int clientVersion = 1;
-    public static int maxPacketReadCount;
-    String username;
-    String password;
     protected StreamClass streamClass;
-    protected byte[] packetData;
-    int reconnectTries;
-    public int friendsCount;
-    public long[] friendsListLongs;
-    public int[] friendsListOnlineStatus;
-    public int ignoreListCount;
-    public String[] ignoreList;
-    public int blockChatMessages;
-    public int blockPrivateMessages;
-    public int blockTradeRequests;
-    public int blockDuelRequests;
+    public LinkedList<String> friendList = new LinkedList<String>();
+    public LinkedList<String> ignoreList = new LinkedList<String>();
+    public boolean blockChatMessages;
+    public boolean blockPrivateMessages;
+    public boolean blockTradeRequests;
+    public boolean blockDuelRequests;
     public int socketTimeout;
 }

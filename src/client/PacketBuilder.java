@@ -19,6 +19,10 @@ public class PacketBuilder {
         this.packetData = new byte[10000];
     }
 
+    public void writeBoolean(boolean booleanToAdd) {
+        writeByte(booleanToAdd ? 1 : 0);
+    }
+
     public void writeByte(int byteToAdd) {
         packetData[(currentPosition++)] = (byte) byteToAdd;
     }
@@ -47,6 +51,7 @@ public class PacketBuilder {
     }
 
     public void writeString(String stringToAdd) {
+        writeInt(stringToAdd.length());
         writeBytes(stringToAdd.getBytes());
     }
 
