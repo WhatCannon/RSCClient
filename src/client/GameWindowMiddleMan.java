@@ -26,9 +26,9 @@ public abstract class GameWindowMiddleMan extends GameWindow {
             } else {
                 currentPacket.writeByte(0);
             }
-            currentPacket.writeShort(clientVersion);
-            currentPacket.writeString(DataOperations.padString(user, 20));
-            currentPacket.writeString(DataOperations.padString(pass, 20));
+            currentPacket.writeInt(45);
+            currentPacket.writeString(user);
+            currentPacket.writeString(pass);
             streamClass.writePacket(currentPacket.toByteArray());
             int loginResponse = streamClass.readByte();
             System.out.println("Login Response:" + loginResponse);

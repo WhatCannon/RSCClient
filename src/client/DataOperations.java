@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package client;
-
 /**
  *
  * @author Sean
@@ -21,30 +20,30 @@ public class DataOperations {
 
     public static int getShort(byte[] data, int offset) {
         int returnShort = 0;
-        returnShort += data[offset];
-        returnShort += (data[(offset + 1)] << 8);
+        returnShort += data[offset++] << 8;
+        returnShort += data[offset++];
         return returnShort;
     }
 
     public static int getInt(byte[] data, int offset) {
         int returnInt = 0;
-        returnInt += data[offset];
-        returnInt += (data[(offset + 1)] << 8);
-        returnInt += (data[(offset + 2)] << 16);
-        returnInt += (data[(offset + 3)] << 24);
+        returnInt += data[offset++] << 24;
+        returnInt += data[offset++] << 16;
+        returnInt += data[offset++] << 8;
+        returnInt += data[offset++];
         return returnInt;
     }
 
     public static long getLong(byte[] data, int offset) {
         long returnLong = 0;
-        returnLong += data[offset];
-        returnLong += (data[(offset + 1)] << 8);
-        returnLong += (data[(offset + 2)] << 16);
-        returnLong += (data[(offset + 3)] << 24);
-        returnLong += (data[(offset + 4)] << 32);
-        returnLong += (data[(offset + 5)] << 40);
-        returnLong += (data[(offset + 6)] << 48);
-        returnLong += (data[(offset + 7)] << 56);
+        returnLong += data[offset++] << 56;
+        returnLong += data[offset++] << 48;
+        returnLong += data[offset++] << 40;
+        returnLong += data[offset++] << 32;
+        returnLong += data[offset++] << 24;
+        returnLong += data[offset++] << 16;
+        returnLong += data[offset++] << 8;
+        returnLong += data[offset++];
         return returnLong;
     }
 

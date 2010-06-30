@@ -28,26 +28,26 @@ public class PacketBuilder {
     }
 
     public void writeShort(int shortToAdd) {
-        packetData[(currentPosition++)] = (byte) shortToAdd;
         packetData[(currentPosition++)] = (byte) (shortToAdd >>> 8);
+        packetData[(currentPosition++)] = (byte) shortToAdd;
     }
 
     public void writeInt(int intToAdd) {
-        packetData[(currentPosition++)] = (byte) intToAdd;
-        packetData[(currentPosition++)] = (byte) (intToAdd >>> 8);
-        packetData[(currentPosition++)] = (byte) (intToAdd >>> 16);
         packetData[(currentPosition++)] = (byte) (intToAdd >>> 24);
+        packetData[(currentPosition++)] = (byte) (intToAdd >>> 16);
+        packetData[(currentPosition++)] = (byte) (intToAdd >>> 8);
+        packetData[(currentPosition++)] = (byte) intToAdd;
     }
 
     public void writeLong(long intToAdd) {
-        packetData[(currentPosition++)] = (byte) intToAdd;
-        packetData[(currentPosition++)] = (byte) (intToAdd >>> 8);
-        packetData[(currentPosition++)] = (byte) (intToAdd >>> 16);
-        packetData[(currentPosition++)] = (byte) (intToAdd >>> 24);
-        packetData[(currentPosition++)] = (byte) (intToAdd >>> 32);
-        packetData[(currentPosition++)] = (byte) (intToAdd >>> 40);
-        packetData[(currentPosition++)] = (byte) (intToAdd >>> 48);
         packetData[(currentPosition++)] = (byte) (intToAdd >>> 56);
+        packetData[(currentPosition++)] = (byte) (intToAdd >>> 48);
+        packetData[(currentPosition++)] = (byte) (intToAdd >>> 40);
+        packetData[(currentPosition++)] = (byte) (intToAdd >>> 32);
+        packetData[(currentPosition++)] = (byte) (intToAdd >>> 24);
+        packetData[(currentPosition++)] = (byte) (intToAdd >>> 16);
+        packetData[(currentPosition++)] = (byte) (intToAdd >>> 8);
+        packetData[(currentPosition++)] = (byte) intToAdd;
     }
 
     public void writeString(String stringToAdd) {
@@ -69,8 +69,8 @@ public class PacketBuilder {
 
     public byte[] toByteArray() {
         byte[] dataBuffer = new byte[(currentPosition + 3)];
-        dataBuffer[0] = (byte) currentPosition;
-        dataBuffer[1] = (byte) (currentPosition >>> 8);
+        dataBuffer[0] = (byte) (currentPosition >>> 8);
+        dataBuffer[1] = (byte) currentPosition;
         dataBuffer[2] = (byte) packetHeader;
         for (int currentOffset = 0; currentOffset < currentPosition; currentOffset++) {
             dataBuffer[(currentOffset + 3)] = packetData[currentOffset];
