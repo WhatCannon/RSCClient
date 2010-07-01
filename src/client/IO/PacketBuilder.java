@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package client;
+package client.IO;
 
 /**
  *
@@ -39,15 +39,15 @@ public class PacketBuilder {
         packetData[(currentPosition++)] = (byte) intToAdd;
     }
 
-    public void writeLong(long intToAdd) {
-        packetData[(currentPosition++)] = (byte) (intToAdd >>> 56);
-        packetData[(currentPosition++)] = (byte) (intToAdd >>> 48);
-        packetData[(currentPosition++)] = (byte) (intToAdd >>> 40);
-        packetData[(currentPosition++)] = (byte) (intToAdd >>> 32);
-        packetData[(currentPosition++)] = (byte) (intToAdd >>> 24);
-        packetData[(currentPosition++)] = (byte) (intToAdd >>> 16);
-        packetData[(currentPosition++)] = (byte) (intToAdd >>> 8);
-        packetData[(currentPosition++)] = (byte) intToAdd;
+    public void writeLong(long longToAdd) {
+        packetData[(currentPosition++)] = (byte) (longToAdd >>> 56);
+        packetData[(currentPosition++)] = (byte) (longToAdd >>> 48);
+        packetData[(currentPosition++)] = (byte) (longToAdd >>> 40);
+        packetData[(currentPosition++)] = (byte) (longToAdd >>> 32);
+        packetData[(currentPosition++)] = (byte) (longToAdd >>> 24);
+        packetData[(currentPosition++)] = (byte) (longToAdd >>> 16);
+        packetData[(currentPosition++)] = (byte) (longToAdd >>> 8);
+        packetData[(currentPosition++)] = (byte) longToAdd;
     }
 
     public void writeString(String stringToAdd) {

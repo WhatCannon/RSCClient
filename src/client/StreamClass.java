@@ -4,6 +4,7 @@
  */
 package client;
 
+import client.IO.Packet;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -78,30 +79,30 @@ public class StreamClass implements Runnable {
 
     public int readShort() throws IOException {
         int returnShort = 0;
+        returnShort += clientInputStream.read() << 8;
         returnShort += clientInputStream.read();
-        returnShort += (clientInputStream.read() << 8);
         return returnShort;
     }
 
     public int readInt() throws IOException {
         int returnInt = 0;
+        returnInt += clientInputStream.read() << 24;
+        returnInt += clientInputStream.read() << 16;
+        returnInt += clientInputStream.read() << 8;
         returnInt += clientInputStream.read();
-        returnInt += (clientInputStream.read() << 8);
-        returnInt += (clientInputStream.read() << 16);
-        returnInt += (clientInputStream.read() << 24);
         return returnInt;
     }
 
     public long readLong() throws IOException {
         long returnLong = 0;
+        returnLong += clientInputStream.read() << 56;
+        returnLong += clientInputStream.read() << 48;
+        returnLong += clientInputStream.read() << 40;
+        returnLong += clientInputStream.read() << 32;
+        returnLong += clientInputStream.read() << 24;
+        returnLong += clientInputStream.read() << 16;
+        returnLong += clientInputStream.read() << 8;
         returnLong += clientInputStream.read();
-        returnLong += (clientInputStream.read() << 8);
-        returnLong += (clientInputStream.read() << 16);
-        returnLong += (clientInputStream.read() << 24);
-        returnLong += (clientInputStream.read() << 32);
-        returnLong += (clientInputStream.read() << 40);
-        returnLong += (clientInputStream.read() << 48);
-        returnLong += (clientInputStream.read() << 56);
         return returnLong;
     }
 

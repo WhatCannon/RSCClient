@@ -1,5 +1,7 @@
 package client;
 
+import client.IO.Packet;
+import client.IO.PacketBuilder;
 import client.util.Config;
 
 import java.awt.*;
@@ -21,16 +23,11 @@ public abstract class GameWindowMiddleMan extends GameWindow {
         try {
             streamClass = new StreamClass(new Socket(Config.SERVER_IP, Config.SERVER_PORT), this);
             PacketBuilder currentPacket = new PacketBuilder(0);
-            if (reconnecting) {
-                currentPacket.writeByte(1);
-            } else {
-                currentPacket.writeByte(0);
-            }
             currentPacket.writeInt(45);
             currentPacket.writeString(user);
             currentPacket.writeString(pass);
             streamClass.writePacket(currentPacket.toByteArray());
-            int loginResponse = streamClass.readByte();
+            int loginResponse = streamClass.readInt();
             System.out.println("Login Response:" + loginResponse);
             // -1 = Couldn't connect to server.
             // 0 = Login was valid.
@@ -136,15 +133,12 @@ public abstract class GameWindowMiddleMan extends GameWindow {
     }
 
     protected final void checkIncomingPacket(Packet packetToHandle) {
-        int packetOffset = 0;
-        switch (packetToHandle.getHeader()) {
+        switch (packetToHandle.getPacketHeader()) {
             case 2:
-                int ignoreListCount = DataOperations.getShort(packetToHandle.getPacketData(), packetOffset);
-                packetOffset += 2;
+                int ignoreListCount = packetToHandle.getInt();
                 ignoreList.clear();
-                for(int currentEntry = 0; currentEntry < ignoreListCount; currentEntry++) {
-                    ignoreList.add(DataOperations.getString(packetToHandle.getPacketData(), packetOffset, 20).trim());
-                    packetOffset += 20;
+                for (int currentEntry = 0; currentEntry < ignoreListCount; currentEntry++) {
+                    ignoreList.add(packetToHandle.getString());
                 }
                 Collections.sort(ignoreList, String.CASE_INSENSITIVE_ORDER);
                 break;
@@ -152,32 +146,28 @@ public abstract class GameWindowMiddleMan extends GameWindow {
                 // TODO Friend login/logout update status.
                 break;
             case 48:
-                handleServerMessage(DataOperations.getString(packetToHandle.getPacketData(), 0, packetToHandle.getPacketData().length));
+                handleServerMessage(packetToHandle.getString());
                 break;
             case 136:
                 cantLogout();
                 break;
             case 158:
-                blockChatMessages = DataOperations.getBoolean(packetToHandle.getPacketData(), packetOffset++);
-                blockPrivateMessages = DataOperations.getBoolean(packetToHandle.getPacketData(), packetOffset++);
-                blockTradeRequests = DataOperations.getBoolean(packetToHandle.getPacketData(), packetOffset++);
-                blockDuelRequests = DataOperations.getBoolean(packetToHandle.getPacketData(), packetOffset++);
+                blockChatMessages = packetToHandle.getBoolean();
+                blockPrivateMessages = packetToHandle.getBoolean();
+                blockTradeRequests = packetToHandle.getBoolean();
+                blockDuelRequests = packetToHandle.getBoolean();
                 break;
             case 170:
-                String user = DataOperations.getString(packetToHandle.getPacketData(), 0, 20).trim();
-                String message = DataOperations.getString(packetToHandle.getPacketData(), 20, 30).trim();
-                handleServerMessage("@pri@" + user + " tells you: " + message);
+                handleServerMessage("@pri@" + packetToHandle.getString() + " tells you: " + packetToHandle.getString());
                 break;
             case 222:
                 sendLogoutPacket();
                 break;
             case 249:
-                int friendListCount = DataOperations.getShort(packetToHandle.getPacketData(), packetOffset);
-                packetOffset += 2;
+                int friendListCount = packetToHandle.getShort();
                 friendList.clear();
-                for(int currentEntry = 0; currentEntry < friendListCount; currentEntry++) {
-                    friendList.add(DataOperations.getString(packetToHandle.getPacketData(), packetOffset, 20).trim());
-                    packetOffset += 20;
+                for (int currentEntry = 0; currentEntry < friendListCount; currentEntry++) {
+                    friendList.add(packetToHandle.getString());
                 }
                 Collections.sort(friendList, String.CASE_INSENSITIVE_ORDER);
                 break;

@@ -1,5 +1,7 @@
 package client;
 
+import client.IO.Packet;
+import client.IO.PacketBuilder;
 import client.entityhandling.EntityHandler;
 import client.entityhandling.defs.ItemDef;
 import client.entityhandling.defs.NPCDef;
@@ -4964,14 +4966,13 @@ public final class mudclient extends GameWindowMiddleMan {
 
     protected final void handleIncomingPacket(Packet packetToHandle) {
         try {
-            int packetOffset = 0;
             int updateCount = 0;
             int idx = 0;
             int currentExp = 0;
-            switch (packetToHandle.getHeader()) {
+            switch (packetToHandle.getPacketHeader()) {
                 //Show trade window
                 case 4:
-                    int currentMob = DataOperations.getShort(packetToHandle.getPacketData(), packetOffset);
+                    int currentMob = packetToHandle.getShort();
                     if (mobArray[currentMob] != null) // todo: check what that mobArray is
                     {
                         tradeOtherPlayerName = mobArray[currentMob].name;
@@ -4984,7 +4985,7 @@ public final class mudclient extends GameWindowMiddleMan {
                     return;
 
                 case 18:
-                    tradeWeAccepted = (DataOperations.getByte(packetToHandle.getPacketData(), 0) == 1);
+                    tradeWeAccepted = packetToHandle.getBoolean();
                     return;
 //                case 23:
 //                    if (anInt892 < 50) {
@@ -5087,11 +5088,9 @@ public final class mudclient extends GameWindowMiddleMan {
 //                    return;
 
                 case 53:
-                    updateCount = DataOperations.getShort(packetToHandle.getPacketData(), packetOffset);
-                    packetOffset += 2;
+                    updateCount = packetToHandle.getShort();
                     for (int updateCounter = 0; updateCounter < updateCount; updateCounter++) {
-                        int currentServerIndex = DataOperations.getShort(packetToHandle.getPacketData(), packetOffset);
-                        packetOffset += 2;
+                        int currentServerIndex = packetToHandle.getShort();
                         if (currentServerIndex < 0 || currentServerIndex > mobArray.length) {
                             return;
                         }
@@ -5099,11 +5098,10 @@ public final class mudclient extends GameWindowMiddleMan {
                         if (mob == null) {
                             return;
                         }
-                        switch (DataOperations.getByte(packetToHandle.getPacketData(), packetOffset++)) {
+                        switch (packetToHandle.getByte()) {
                             //Item bubble
                             case 0:
-                                int itemID = DataOperations.getShort(packetToHandle.getPacketData(), packetOffset);
-                                packetOffset += 2;
+                                int itemID = packetToHandle.getShort();
                                 if (mob != null) {
                                     mob.itemBubbleTimeout = 150;
                                     mob.itemBubbleID = itemID;
@@ -5111,21 +5109,17 @@ public final class mudclient extends GameWindowMiddleMan {
                                 break;
                             //Player chat
                             case 1:
-                                int messageLength = DataOperations.getShort(packetToHandle.getPacketData(), packetOffset);
-                                packetOffset += 2;
                                 if (mob != null) {
-                                    String message = DataOperations.getString(packetToHandle.getPacketData(), packetOffset, messageLength);
                                     mob.lastMessageTimeout = 150;
-                                    mob.lastMessage = message;
+                                    mob.lastMessage = packetToHandle.getString();
                                     displayMessage(mob.name + ": " + mob.lastMessage, 2, mob.adminLevel);
                                 }
-                                packetOffset += messageLength;
                                 break;
                             //Damaged
                             case 2:
-                                int amountDamaged = DataOperations.getByte(packetToHandle.getPacketData(), packetOffset++);
-                                int hitpointsCurrent = DataOperations.getByte(packetToHandle.getPacketData(), packetOffset++);
-                                int hitpointsMax = DataOperations.getByte(packetToHandle.getPacketData(), packetOffset++);
+                                int amountDamaged = packetToHandle.getByte();
+                                int hitpointsCurrent = packetToHandle.getByte();
+                                int hitpointsMax = packetToHandle.getByte();
                                 if (mob != null) {
                                     mob.damageSplatNumber = amountDamaged;
                                     mob.hitPointsCurrent = hitpointsCurrent;
@@ -5167,25 +5161,23 @@ public final class mudclient extends GameWindowMiddleMan {
 //                            //Appearence update
                             case 5:
                                 if (mob != null) {
-                                    mob.mobIntUnknown = DataOperations.getShort(packetToHandle.getPacketData(), packetOffset);
-                                    packetOffset += 2;
-                                    mob.name = DataOperations.getString(packetToHandle.getPacketData(), packetOffset, 20).trim();
-                                    packetOffset += 20;
-                                    int wornItemsCount = DataOperations.getByte(packetToHandle.getPacketData(), packetOffset++);
+                                    mob.mobIntUnknown = packetToHandle.getShort();
+                                    mob.name = packetToHandle.getString();
+                                    int wornItemsCount = packetToHandle.getByte();
                                     for (int currentItem = 0; currentItem < 12; currentItem++) {
                                         if (currentItem < wornItemsCount) {
-                                            mob.animationCount[currentItem] = DataOperations.getByte(packetToHandle.getPacketData(), packetOffset++);
+                                            mob.animationCount[currentItem] = packetToHandle.getByte();
                                         } else {
                                             mob.animationCount[currentItem] = 0;
                                         }
                                     }
-                                    mob.colourHairType = DataOperations.getByte(packetToHandle.getPacketData(), packetOffset++);
-                                    mob.colourTopType = DataOperations.getByte(packetToHandle.getPacketData(), packetOffset++);
-                                    mob.colourBottomType = DataOperations.getByte(packetToHandle.getPacketData(), packetOffset++);
-                                    mob.colourSkinType = DataOperations.getByte(packetToHandle.getPacketData(), packetOffset++);
-                                    mob.mobLevel = DataOperations.getByte(packetToHandle.getPacketData(), packetOffset++);
-                                    mob.isSkulled = DataOperations.getByte(packetToHandle.getPacketData(), packetOffset++);
-                                    mob.adminLevel = DataOperations.getByte(packetToHandle.getPacketData(), packetOffset++);
+                                    mob.colourHairType = packetToHandle.getByte();
+                                    mob.colourTopType = packetToHandle.getByte();
+                                    mob.colourBottomType = packetToHandle.getByte();
+                                    mob.colourSkinType = packetToHandle.getByte();
+                                    mob.mobLevel = packetToHandle.getByte();
+                                    mob.isSkulled = packetToHandle.getByte();
+                                    mob.adminLevel = packetToHandle.getByte();
                                 }
                                 break;
 //                            //Private chat
@@ -5222,13 +5214,13 @@ public final class mudclient extends GameWindowMiddleMan {
 //                    return;
 
                 case 64:
-                    serverMessage = new String(packetToHandle.getPacketData(), 0, packetToHandle.getPacketData().length);
+                    serverMessage = packetToHandle.getString();
                     showServerMessageBox = true;
                     serverMessageBoxTop = true;
                     return;
 
                 case 65:
-                    duelOpponentAccepted = (DataOperations.getByte(packetToHandle.getPacketData(), 0) == 1);
+                    duelOpponentAccepted = packetToHandle.getBoolean();
 
 //                case 77:
 //                    lastNpcCount = npcCount;
@@ -5310,7 +5302,7 @@ public final class mudclient extends GameWindowMiddleMan {
 //                    return;
 
                 case 92:
-                    tradeOtherAccepted = (DataOperations.getByte(packetToHandle.getPacketData(), 0) == 1);
+                    tradeOtherAccepted = packetToHandle.getBoolean();
 
 //                case 93:
 //                    showBank = true;
@@ -5459,10 +5451,8 @@ public final class mudclient extends GameWindowMiddleMan {
 //                    return;
 
                 case 110:
-                    int i = 0;
-                    serverStartTime = DataOperations.getLong(packetToHandle.getPacketData(), i);
-                    i += 8;
-                    serverLocation = DataOperations.getString(packetToHandle.getPacketData(), i, (packetToHandle.getPacketData().length - i));
+                    serverStartTime = packetToHandle.getLong();
+                    serverLocation = packetToHandle.getString();
                     return;
 
 //                case 114:
@@ -5551,7 +5541,7 @@ public final class mudclient extends GameWindowMiddleMan {
 //                    return;
 
                 case 126:
-                    fatigue = DataOperations.getShort(packetToHandle.getPacketData(), 1);
+                    fatigue = packetToHandle.getShort();
                     return;
 
                 case 127:
@@ -5565,16 +5555,11 @@ public final class mudclient extends GameWindowMiddleMan {
                 case 131:
                     notInWilderness = true;
                     hasWorldInfo = true;
-                    serverIndex = DataOperations.getShort(packetToHandle.getPacketData(), packetOffset);
-                    packetOffset += 2;
-                    wildX = DataOperations.getShort(packetToHandle.getPacketData(), packetOffset);
-                    packetOffset += 2;
-                    wildY = DataOperations.getShort(packetToHandle.getPacketData(), packetOffset);
-                    packetOffset += 2;
-                    wildYSubtract = DataOperations.getShort(packetToHandle.getPacketData(), packetOffset);
-                    packetOffset += 2;
-                    wildYMultiplier = DataOperations.getShort(packetToHandle.getPacketData(), packetOffset);
-                    packetOffset += 2;
+                    serverIndex = packetToHandle.getShort();
+                    wildX = packetToHandle.getShort();
+                    wildY = packetToHandle.getShort();
+                    wildYSubtract = packetToHandle.getShort();
+                    wildYMultiplier = packetToHandle.getShort();
                     System.out.println("Server index: " + serverIndex);
                     wildY -= wildYSubtract * wildYMultiplier;
                     return;
@@ -5611,12 +5596,9 @@ public final class mudclient extends GameWindowMiddleMan {
                     for (int k = 0; k < lastPlayerCount; k++) {
                         lastPlayerArray[k] = playerArray[k];
                     }
-                    sectionX = DataOperations.getInt(packetToHandle.getPacketData(), packetOffset);
-                    packetOffset += 4;
-                    sectionY = DataOperations.getInt(packetToHandle.getPacketData(), packetOffset);
-                    packetOffset += 4;
-                    int mobSprite = DataOperations.getInt(packetToHandle.getPacketData(), packetOffset);
-                    packetOffset += 4;
+                    sectionX = packetToHandle.getInt();
+                    sectionY = packetToHandle.getInt();
+                    int mobSprite = packetToHandle.getInt();
                     boolean sectionLoaded = loadSection(sectionX, sectionY);
                     sectionX -= areaX;
                     sectionY -= areaY;
@@ -5625,14 +5607,13 @@ public final class mudclient extends GameWindowMiddleMan {
                     if (sectionLoaded) {
                         ourPlayer.waypointCurrent = 0;
                         ourPlayer.waypointEndSprite = 0;
-                        ourPlayer.currentX = ourPlayer.waypointsX[0] = mapEnterX;
-                        ourPlayer.currentY = ourPlayer.waypointsY[0] = mapEnterY;
+                        ourPlayer.currentX = (ourPlayer.waypointsX[0] = mapEnterX);
+                        ourPlayer.currentY = (ourPlayer.waypointsY[0] = mapEnterY);
                     }
                     playerCount = 0;
                     ourPlayer = makePlayer(serverIndex, mapEnterX, mapEnterY, mobSprite);
                     ourPlayer.nextSprite = 3;
-                    int newPlayerCount = DataOperations.getInt(packetToHandle.getPacketData(), packetOffset);
-                    packetOffset += 4;
+                    //int newPlayerCount = packetToHandle.getInt();
 //                    for (int currentNewPlayer = 0; currentNewPlayer < newPlayerCount; currentNewPlayer++) {
 //                        Mob lastMob = getLastPlayer(PacketOperations.getInt(packetToHandle.getPacketData(), packetOffset));
 //                        packetOffset += 4;
@@ -5770,7 +5751,7 @@ public final class mudclient extends GameWindowMiddleMan {
                     return;
 
                 case 172:
-                    systemUpdate = DataOperations.getShort(packetToHandle.getPacketData(), 1) * 32;
+                    systemUpdate = packetToHandle.getShort() * 32;
                     return;
 
 //                case 177:
